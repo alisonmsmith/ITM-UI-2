@@ -1,0 +1,27 @@
+@import "normalize";
+@import "colors";
+
+body {
+  padding: 10px;
+  background-color: $md-primary-hue2;
+}
+
+.topic-list {
+  //background-color: white;
+}
+
+.topic-list-item {
+  background-color: white;
+  &.selected {
+    background-color: $md-primary-hue3;
+  }
+}
+
+.topic-card {
+ // height: 70vh;
+}
+
+.topic-panel {
+  background-color: $md-primary-hue2;
+  height: 100vh;
+}

@@ -1,0 +1,13 @@
+<div layout="row">
+  <div flex="30" class="topic-list">
+    <md-list >
+      <md-subheader>{{topics.length}} topics</md-subheader>
+      <div ng-repeat="topic in topics">
+        <topic-list-item model="topic" select="select"></topic-list-item>
+      </div>
+    </md-list>
+  </div>
+  <div flex class="topic-panel">
+    <topic model="selectedTopic"></topic>
+  </div>
+</div>
