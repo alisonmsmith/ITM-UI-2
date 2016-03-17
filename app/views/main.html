@@ -1,13 +1,36 @@
-<div layout="row">
-  <div flex="30" class="topic-list">
-    <md-list >
-      <md-subheader>{{topics.length}} topics</md-subheader>
-      <div ng-repeat="topic in topics">
-        <topic-list-item model="topic" select="select"></topic-list-item>
+    <!-- TOOLBAR -->
+    <md-toolbar layout="row" class="md-whiteframe-z2">
+      <div class="md-toolbar-tools ">
+        <h2 flex>
+          <md-button class="title" aria-label="go to application home" href="/">ITM</md-button>
+        </h2>
+        <span flex></span>
       </div>
-    </md-list>
-  </div>
-  <div flex class="topic-panel">
-    <topic model="selectedTopic"></topic>
+    </md-toolbar>
+
+<div layout="row" flex>
+  <!-- SIDE NAV -->
+   <md-sidenav
+      layout="column"
+        class="md-sidenav-left topic-list md-whiteframe-z2"
+        md-component-id="left"
+        md-is-locked-open="true"
+        md-disable-backdrop
+        aria-label="topic list">
+        <md-toolbar class="md-hue-1">
+          <h3 class="topic-list-heading md-toolbar-tools">{{topics.length}} topics</h3>
+        </md-toolbar>
+        <md-content>
+          <md-list >
+            <topic-list-item ng-repeat="topic in topics" topic="topic" select="select"></topic-list-item>
+          </md-list>
+        </md-content>
+  </md-sidenav>
+  <div layout="column" flex>
+    <!-- CONTENT -->
+    <md-content layout="column" flex class="topic-panel md-padding">
+        <topic topic="selectedTopic" ng-show="selectedTopic"></topic>
+       <div flex></div>
+    </md-content>
   </div>
 </div>

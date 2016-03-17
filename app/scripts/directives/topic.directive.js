@@ -8,7 +8,7 @@ angular.module('itmUiApp').directive('topic', [ function() {
 	return {
 		restrict: 'E',
 		scope: {
-			model: '='
+			topic: '='
 		},
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {

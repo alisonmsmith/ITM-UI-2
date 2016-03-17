@@ -21,11 +21,12 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
-    </div>
+    <div layout="column" ng-view="" ng-cloak>
 
-    <div class="container">
-      <div ng-view=""></div>
+
+  <!--    <md-content class="app-content" flex md-scroll-y>
+        <div layout="column" layout-fill ng-view=""></div>
+      </md-content> -->
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -43,10 +44,8 @@
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
@@ -56,9 +55,10 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/services/topic.service.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/topic-list-item.directive.js"></script>
-        <script src="scripts/controllers/topic.directive.js"></script>
+        <script src="scripts/directives/topic-list-item.directive.js"></script>
+        <script src="scripts/directives/topic.directive.js"></script>
         <!-- endbuild -->
 </body>
 </html>

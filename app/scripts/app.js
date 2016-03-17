@@ -11,10 +11,8 @@
 angular
   .module('itmUiApp', [
     'ngAnimate',
-    'ngCookies',
     'ngResource',
     'ngRoute',
-    'ngSanitize',
     'ngMaterial'
   ])
   .config(function ($routeProvider, $mdThemingProvider) {

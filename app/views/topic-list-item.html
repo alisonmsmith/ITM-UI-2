@@ -1,3 +1,4 @@
-<md-list-item class="topic-list-item" ng-class="{selected:model.selected}" ng-click="select(model)"> 
-	<span>{{model.name}}</span>
+<md-list-item class="topic-list-item" ng-class="{selected:topic.selected}" ng-click="select(topic)"> 
+	<span class="topic-label">{{topic.topic}}</span>
+	<span class="topic-words">{{topic.displayWords}}</span>
 </md-list-item>

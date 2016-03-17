@@ -2,12 +2,29 @@
 @import "colors";
 
 body {
-  padding: 10px;
-  background-color: $md-primary-hue2;
+  color: $md-primary-text;
+}
+
+.ng-cloak {
+	display: none !important;
+}
+
+.title {
+  font-size: 24pt;
+}
+
+.app-content {
+//	display:inline-block; 
+}
+
+.topic-list-heading {
+	color: white;
+	text-align: center;
+	text-transform: uppercase;
 }
 
 .topic-list {
-  //background-color: white;
+ // background-color: $md-primary-hue2;
 }
 
 .topic-list-item {
@@ -15,6 +32,31 @@ body {
   &.selected {
     background-color: $md-primary-hue3;
   }
+
+  .topic-label {
+  	text-transform: uppercase;
+  	margin-right: 5px;
+  }
+
+  .topic-words {
+  	font-style: italic;
+  	margin-left: 5px;
+  	color: $md-primary-text;
+  }
+}
+
+.document-list-item {
+	.document-name {
+		cursor: pointer;
+		font-weight: 600;
+		&:hover {
+			color: $md-accent;
+		}
+	}
+	.document-snippet {
+		margin-left: 20px;
+		color: $md-primary-hue1;
+	}
 }
 
 .topic-card {
@@ -22,6 +64,6 @@ body {
 }
 
 .topic-panel {
-  background-color: $md-primary-hue2;
+  background-color: $md-primary-hue3;
   height: 100vh;
 }
