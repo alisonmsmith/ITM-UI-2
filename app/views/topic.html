@@ -6,13 +6,19 @@
 	</md-card-title>
 	<md-card-content>
 		<div class="word-holder">
-			<md-chips ng-if="topic" ng-model="topic.words"></md-chips>
+			<md-chips ng-if="topic" ng-model="topic.words" md-on-add="addWord($chip)" md-on-remove="removeWord($chip)">
+				<md-chip-template>
+		          <strong>{{$chip}}</strong>
+		         <!-- <em>({{$chip.weight}})</em> -->
+		        </md-chip-template>
+		</md-chips>
 		</div>
 		<div class="document-holder">
 			<md-list>
 				<md-list-item class="document-list-item" ng-repeat="document in topic.docs">
-					<div class="document-name">{{document.name}}</div>
+					<div class="document-name">{{document}}</div>
 					<span class="document-snippet">...this is where the document snippet text will go when we have it...</span>
+					<md-icon ng-click="removeDocument(document)" aria-label='remove document' class='md-secondary' md-font-icon='mdi mdi-window-close'></md-icon>
 					<md-divider></md-divider>
 				</md-list-item>
 			</md-list>

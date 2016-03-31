@@ -17,8 +17,14 @@
         md-is-locked-open="true"
         md-disable-backdrop
         aria-label="topic list">
-        <md-toolbar class="md-hue-1">
-          <h3 class="topic-list-heading md-toolbar-tools">{{topics.length}} topics</h3>
+        <md-toolbar class="md-hue-2">
+          <div class="md-toolbar-tools">
+            <h3><span class="topic-list-heading">{{topics.length}} topics</span></h3>
+            <span flex></span>
+            <md-button aria-label="save changes"  ng-show="isDirty" class="md-icon-button" ng-click="save()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon>
+            </md-button>
+          </div>
         </md-toolbar>
         <md-content>
           <md-list >
