@@ -19,10 +19,19 @@
         aria-label="topic list">
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
-            <h3><span class="topic-list-heading">{{topics.length}} topics</span></h3>
+            <h3>
+              <span ng-if="!mode" class="topic-list-heading">{{topics.length}} topics</span>
+              <span ng-if="mode === 'merge'" class="topic-list-heading merge-info">select additional topics for merge</span>
+            </h3>
             <span flex></span>
-            <md-button aria-label="save changes"  ng-show="isDirty" class="md-icon-button" ng-click="save()">
+            <md-button ng-if="!mode" aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
               <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon>
+            </md-button>
+            <md-button ng-if="mode === 'merge'" aria-label="cancel merge" class="md-icon-button" ng-click="cancelMerge()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+            </md-button>
+            <md-button ng-if="mode === 'merge'" aria-label="accept merge" class="md-icon-button" ng-click="acceptMerge()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
           </div>
         </md-toolbar>

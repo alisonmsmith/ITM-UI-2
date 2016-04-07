@@ -16,6 +16,11 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 				// emit event that the current topic has been selected
 				scope.$emit("select", topic);
 			}
+
+			scope.merge = function(topic) {
+				// emit event that the user wishes to merge this topic
+				scope.$emit("merge", topic);
+			}
 		}
 	};
 }]);
