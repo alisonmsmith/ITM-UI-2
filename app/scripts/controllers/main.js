@@ -25,19 +25,25 @@ angular.module('itmUiApp')
       $scope.topics = data.topics;
 
       // determine the display words for each topic
-      _.each($scope.topics, function(topic) {
+      _.each($scope.topics, function(topic, index) {
+        // set the topic id based on its index
+        topic.id = index;
+
+        // choose the topic label as the first three words of the topic
         var display = '';
         display += topic.words[0].word + ' ' + topic.words[1].word + ' ' + topic.words[2].word;
         topic.displayWords = display;
 
+        // retain the weighted words (term, weight)
         topic.weightedWords = topic.words;
 
+        // store only the list of terms
         var words = [];
         _.each(topic.words, function(word) {
           words.push(word.word);
         });
         topic.words = words; 
-        });
+      });
     }
 
     /**
