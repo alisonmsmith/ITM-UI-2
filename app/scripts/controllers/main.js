@@ -14,13 +14,15 @@ angular.module('itmUiApp')
     $scope.topics = [];
     $scope.refinements = [];
     $scope.isDirty = false;
-    //$scope.vocabulary = [];
 
     TopicService.loadModel().then(function(data) {
+      console.log("the initial model!")
       console.log(data.data);
-    //  $scope.documents = data.data.documents;
-      $scope.topics = data.data.topics;
-    //  $scope.vocabulary = data.data.vocabulary;
+      processModel(data.data);
+    });
+
+    function processModel(data) {
+      $scope.topics = data.topics;
 
       // determine the display words for each topic
       _.each($scope.topics, function(topic) {
@@ -35,32 +37,24 @@ angular.module('itmUiApp')
           words.push(word.word);
         });
         topic.words = words; 
-
-     /*   var docs = [];
-        _.each(topic.docs, function(doc) {
-          // TODO: this doesn't actually work because the document ids do not correspond with the
-          // array indices
-          if ($scope.documents[parseInt(doc)]) {
-            docs.push($scope.documents[parseInt(doc)]);
-          }
-          
         });
-        topic.docs = docs; */
-      });
-    });
+    }
 
     /**
     * Method to save the refined model. 
     */
     $scope.save = function() {
       // save the refinements
-    /*  TopicService.save($scope.refinements).then(function(data) {
+      TopicService.save($scope.refinements).then(function(data) {
         // TODO: display the updated model
+        console.log("the model has been udpated!")
+        console.log(data.data);
+        processModel(data.data);
 
         // clear the refinement list
         $scope.refinements = [];
         $scope.isDirty = false;
-      }); */
+      }); 
 
         // clear the refinement list
         $scope.refinements = [];

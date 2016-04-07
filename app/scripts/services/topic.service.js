@@ -11,32 +11,36 @@
 'use strict';
 
 angular.module('itmUiApp').service('TopicService', function($http) {
-	this.loadModel = function() {
-		return $http.get('data/model2.json');
+	var iterationCount = 0;
 
-	/*	return $http({
-			method: 'POST',
-			url:'/itm-backend/rest/initialmodel',
+	this.loadModel = function() {
+		//return $http.get('data/model2.json');
+
+		return $http({
+			method: 'GET',
+			url:'http://localhost:8080/itm-backend/rest/initialmodel',
 			params: {
-				corpus: 'synthetic',
+				corpus: 'test',
 				userId: 'test',
 				topicNums: 5,
-				modelId: 0
-			}); */
+				modelId: iterationCount
+			}
+		}); 
 	}
 
 	this.save = function(refinements) {
+		iterationCount += 1;
 		var data = {'feedback':refinements};
-	/*	return $http({
+		return $http({
 			method: 'POST',
-			url: '/itm-backend/rest/updatemodel',
+			url: 'http://localhost:8080/itm-backend/rest/updatemodel',
 			params: {
-				corpus: 'synthetic',
+				corpus: 'test',
 				userId: 'test',
 				topicNums: 5,
-				modelId: 1
+				modelId: iterationCount
 			},
 			data:data
-		}); */
+		}); 
 	}
 });
