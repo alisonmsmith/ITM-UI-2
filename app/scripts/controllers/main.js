@@ -91,7 +91,7 @@ angular.module('itmUiApp')
     $scope.$on('remove-word', function(event, word) {
       var refinement = {
         'type':'RemoveWord',
-        'TopicId':$scope.selectedTopic.id,
+        'topicId':$scope.selectedTopic.id,
         'word':word
       };
       $scope.refinements.push(refinement);
@@ -104,7 +104,7 @@ angular.module('itmUiApp')
     $scope.$on('add-word', function(event, word) {
       var refinement = {
         'type':'AddWord',
-        'TopicId':$scope.selectedTopic.id,
+        'topicId':$scope.selectedTopic.id,
         'word':word
       };
       $scope.refinements.push(refinement);
@@ -117,8 +117,8 @@ angular.module('itmUiApp')
     $scope.$on('remove-doc', function(event, doc) {
       var refinement = {
         'type':'RemoveDocument',
-        'TopicId':$scope.selectedTopic.id,
-        'DocumentId':doc
+        'topicId':$scope.selectedTopic.id,
+        'documentId':doc
       };
       $scope.refinements.push(refinement);
       $scope.isDirty = true;
