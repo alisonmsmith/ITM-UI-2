@@ -33,7 +33,7 @@
 		<div class="document-holder">
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
-					<div class="document-name">{{document.id}}</div>
+					<div class="document-name">{{document.name}}</div>
 					<span class="document-snippet">{{document.snippet}}</span>
 					<md-icon ng-if="document.status === 'unevaluated'" ng-click="removeDocument(document)" aria-label='remove document' class='md-secondary' md-font-icon='mdi mdi-window-close'>
 						<md-tooltip>remove document from topic</md-tooltip>

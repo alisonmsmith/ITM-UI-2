@@ -62,14 +62,14 @@ angular.module('itmUiApp').directive('topic', [ function() {
 				doc.status = 'removed';
 
 				// emit a refinement
-				scope.$emit('remove-doc', doc.id);
+				scope.$emit('remove-doc', doc.docid);
 			}
 
 			scope.undoRemove = function(doc) {
 				doc.status = 'unevaluated';
 
 				// emit an undo refinement
-				scope.$emit('undo-remove-doc', doc.id);
+				scope.$emit('undo-remove-doc', doc.docid);
 			}
 
 			scope.transform = function(chip) {

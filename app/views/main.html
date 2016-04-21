@@ -37,7 +37,11 @@
         </md-toolbar>
         <md-content>
           <md-list >
-            <topic-list-item ng-repeat="topic in topics" topic="topic" select="select"></topic-list-item>
+            <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
+            <div class="topic-merge-pair" ng-model="pair" ng-repeat="pair in merged">
+              <span class="merge-information">to be merged</span>
+              <topic-list-item ng-repeat="t in pair" topic="t" select="select"></topic-list-item>
+            </div>
           </md-list>
         </md-content>
   </md-sidenav>

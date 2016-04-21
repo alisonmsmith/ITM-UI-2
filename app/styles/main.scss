@@ -55,7 +55,28 @@ body {
   }
 }
 
-.document-list-item {
+.topic-merge-pair {
+  margin-top: 5px;
+  margin-bottom: 5px;
+ padding:10px;
+ background-color: $md-accent;
+// border-left: 20px solid $md-accent;
+  .merge-information {
+    display:inline-block;
+    padding-bottom:5px;
+    padding-left: 10px;
+  //  padding: 5px;
+   // background-color: $md-accent;
+    color: white;
+    //text-align: center;
+    width: 100%;
+    font-weight: 600;
+    //font-style:italic;
+  }
+}
+
+md-list-item.document-list-item {
+  padding: 5px;
 	.document-name {
 		cursor: pointer;
 		font-weight: 600;
@@ -64,6 +85,8 @@ body {
 		}
 	}
 	.document-snippet {
+    line-height: 1.2em;
+    width: 85%;
 		margin-left: 20px;
 		color: $md-primary-hue1;
 	}

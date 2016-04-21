@@ -14,22 +14,29 @@ angular.module('itmUiApp')
     $scope.topics = [];
     $scope.refinements = [];
     $scope.mode = undefined;
+    $scope.merged = [];
 
     // Load the intial model
     TopicService.loadModel().then(function(data) {
-      console.log("the initial model!")
+      console.log("loaded the initial model!")
       console.log(data.data);
-      processModel(data.data);
+      TopicService.getDocuments().then(function(docs) {
+        console.log("loaded the initial document assignment");
+        console.log(docs.data);
+        processModel(data.data, docs.data);
 
-      // Select to display the first topic in the list
-      $scope.selectedTopic = $scope.topics[0];
-      $scope.topics[0].selected = true;
+
+        // Select to display the first topic in the list
+        $scope.selectedTopic = $scope.topics[0];
+        $scope.topics[0].selected = true;
+      });
     });
 
     /**
     * Method to process the model returned from the server 
     */
-    function processModel(data) {
+    function processModel(data, docs) {
+      $scope.documents = docs.documents;
       $scope.topics = data.topics;
 
       // determine the display words for each topic
@@ -42,16 +49,25 @@ angular.module('itmUiApp')
         display += topic.words[0].word + ' ' + topic.words[1].word + ' ' + topic.words[2].word;
         topic.displayWords = display;
 
-        // create objects for the documents
-        var docs = [];
+        // set the documents
+        // AS (4/14): this asserts that the indices match up
+        topic.docs = docs.documents[index].docs;
+
         _.each(topic.docs, function(doc) {
+          doc.status = 'unevaluated';
+          doc.snippet = doc.text.substring(0,250) + "...";
+        });
+
+        // create objects for the documents
+     /*   var docs = [];
+        _.each(docs.documents, function(doc) {
           docs.push({
             "id":doc,
             'status':'unevaluated',
             "snippet":"...this is where the document snippet will go when we have it..."
           });
         });
-        topic.docs = docs;
+        topic.docs = docs;*/
 
         // retain the weighted words (term, weight)
        // topic.weightedWords = topic.words;
@@ -94,12 +110,20 @@ angular.module('itmUiApp')
 
       // determine selected topics to merge
       var topics = [];
+      var pair = [];
       _.each($scope.topics, function(topic) {
         if (topic.merge) {
           topics.push(topic.id);
+          pair.push(topic);
           topic.merge = false;
+
+          // merged status is for display in the topic list
+          topic.merged = true;
         }
       });
+
+      // add the topics as a merge pair
+      $scope.merged.push(pair);
 
       var refinement = {
         'type': 'mergeTopics',
