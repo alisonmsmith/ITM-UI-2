@@ -93,15 +93,18 @@ angular.module('itmUiApp')
       TopicService.save($scope.refinements).then(function(data) {
         console.log("the model has been updated!")
         console.log(data.data);
-        processModel(data.data);
+        TopicService.getDocuments().then(function(docs) {
+          processModel(data.data, docs.data);
 
-        // Select the first topic in the list
-        $scope.selectedTopic = $scope.topics[0];
-        $scope.topics[0].selected = true;
+          // Select the first topic in the list
+          $scope.selectedTopic = $scope.topics[0];
+          $scope.topics[0].selected = true;
 
-        // clear the refinement list
-        $scope.refinements = [];
-        $scope.isDirty = false;
+          // clear the refinement list
+          $scope.refinements = [];
+          $scope.isDirty = false;
+        });
+
       });
     };
 
@@ -139,6 +142,50 @@ angular.module('itmUiApp')
         topic.merge = false;
       });
     }
+
+    $scope.undoMerge = function(pair) {
+      // remove the merged status from the topics
+      _.each(pair, function(p) {
+        p.merged = false;
+      });
+
+      // remove the topics as a merged pair
+      var indexToRemove = -1;
+      _.each($scope.merged, function(m, index) {
+        if (_.isEqual(m, pair)) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.merged.splice(indexToRemove, 1);
+      }
+
+      // remove the refinement
+      var topics = [];
+      _.each(pair, function(p) {
+        topics.push(p.id);
+      });
+
+      indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'mergeTopics' && _.isEqual(refinement.topics,topics)) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+    }
+
+    /**
+    * Method to go into split 'mode' for the selected topic
+    */
+    $scope.$on("split", function(event, topic) {
+      topic.splitting = true;
+      topic.wordscopy = topic.words;
+      topic.subwords = [];
+    });
 
     /**
     * Method to go into merge 'mode' for the selected topic
@@ -200,6 +247,38 @@ angular.module('itmUiApp')
     });
 
     /**
+    * Listen for event to re-order the word in the currently selected topic
+    */
+    $scope.$on('reorder-word', function(event, word, to, from) {
+      var refinement ={
+        'type': 'changeWordOrder',
+        'word': word,
+        'originalPosition': from,
+        'newPosition': to
+      };
+      $scope.refinements.push(refinement);
+    });
+
+    /**
+    * Listen for event to undo previously re-ordered word in the topic
+    */
+    $scope.$on('undo-reorder-word', function(event, word, to, from) {
+      var indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'changeWordOrder' 
+          && refinement.originalPosition === from
+          && refinement.newPosition === to
+          && refinement.word === word) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+    });
+
+    /**
      * Listen for event to add a word to the currently selected topic
      */
     $scope.$on('add-word', function(event, word) {
@@ -247,7 +326,7 @@ angular.module('itmUiApp')
       $scope.refinements.push(refinement);
     });
 
-        /**
+    /**
     * Listen for event to undo a previously removed word for the currently selected topic
     */
     $scope.$on('undo-remove-doc', function(event, doc) {

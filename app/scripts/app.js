@@ -13,7 +13,8 @@ angular
     'ngAnimate',
     'ngResource',
     'ngRoute',
-    'ngMaterial'
+    'ngMaterial',
+    'mdChipDraggable'
   ])
   .config(function ($routeProvider, $mdThemingProvider) {
     $routeProvider

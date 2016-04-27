@@ -9,6 +9,25 @@ body {
 	display: none !important;
 }
 
+// Uncomment to use a topic list with width based on parent div
+// for responsive design (messes up the shadowing, though)
+/*md-sidenav, 
+md-sidenav.md-locked-open, 
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 0px !important;
+    width: auto !important;
+    max-width: none !important;
+}*/
+
+// Set the width of the topic list here
+md-sidenav, 
+md-sidenav.md-locked-open, 
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 200px !important;
+    width: 85vw !important;
+    max-width: 500px !important;
+} 
+
 .title {
   font-size: 24pt;
 }
@@ -58,21 +77,20 @@ body {
 .topic-merge-pair {
   margin-top: 5px;
   margin-bottom: 5px;
- padding:10px;
- background-color: $md-accent;
-// border-left: 20px solid $md-accent;
-  .merge-information {
-    display:inline-block;
-    padding-bottom:5px;
-    padding-left: 10px;
-  //  padding: 5px;
-   // background-color: $md-accent;
-    color: white;
-    //text-align: center;
-    width: 100%;
-    font-weight: 600;
-    //font-style:italic;
+ //padding-left:5px;
+ //background-color: $md-accent;
+ border-left: 20px solid $md-accent;
+// position:relative;
+ .undo-merge {
+  position:absolute;
+  float:right;
+  margin-top: -10px;
+  margin-left: -20px;
+  font-size: 16pt;
+  .md-icon {
+    font-size:16pt;
   }
+ }
 }
 
 md-list-item.document-list-item {
@@ -96,12 +114,18 @@ md-list-item.document-list-item {
 }
 
 .topic-card {
- // height: 70vh;
+ md-card-title {
+  padding: 0;
+ }
 }
 
 .topic-panel {
   background-color: $md-primary-hue3;
   height: 100vh;
+}
+
+.topic-toolbar {
+  margin-bottom: 20px;
 }
 
 md-chip-template{
@@ -112,6 +136,9 @@ md-chip-template{
   &.removed {
    // color: $alizarin;
     text-decoration: line-through;
+  }
+  &.reordered {
+    font-style: italic;
   }
 }
 
@@ -151,4 +178,18 @@ button.topic-chip-remove {
 
 md-chip-template {
   padding-right: 5px;
+}
+
+md-chip.dropping:before {
+  content: "↓";
+  position: absolute;
+  top: -20px;
+}
+
+md-chip.dropping--before:before {
+  left: -9px;
+}
+
+md-chip.dropping--after:before {
+  right: -9px;
 }

@@ -1,6 +1,13 @@
-<md-list-item class="topic-list-item" ng-class="{selected:topic.selected, merge:topic.merge}" ng-click="select(topic)"> 
-	<span class="topic-label">{{topic.topic}}</span>
-	<span class="topic-words">{{topic.displayWords}}</span>
-	<md-icon ng-if="topic.selected && !topic.merged" class="topic-icon md-secondary" aria-label="merge topic" ng-click="merge(topic)" md-font-icon="mdi mdi-call-merge"><md-tooltip>merge topic</md-tooltip></md-icon>
-	<!--<md-icon class="md-secondary" ng-click="splitTopic(topic)" md-font-icon="mdi mdi-call-split"></md-icon>-->
+<md-list-item class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge}" ng-click="select(topic)"> 
+	<p>
+		<span class="topic-label">{{topic.topic}}</span>
+		<span class="topic-words">{{topic.displayWords}}</span>
+	</p>
+	<md-icon ng-if="topic.selected && !topic.merged && !topic.split" class="topic-icon md-secondary" aria-label="merge topic" ng-click="merge(topic)" md-font-icon="mdi mdi-call-merge">
+		<md-tooltip>merge topic</md-tooltip>
+	</md-icon>
+	<md-icon ng-if="topic.selected && !topic.merged && !topic.split" class="topic-icon md-secondary" ng-click="split(topic)" md-font-icon="mdi mdi-call-split">
+		<md-tooltip>split topic</md-tooltip>
+	</md-icon>
 </md-list-item>
+

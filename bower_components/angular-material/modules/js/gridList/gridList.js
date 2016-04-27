@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.6
+ * v1.1.0-rc4
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -113,6 +113,8 @@ function GridListDirective($interpolate, $mdConstant, $mdGridLayout, $mdMedia) {
   };
 
   function postLink(scope, element, attrs, ctrl) {
+    element.addClass('_md');     // private md component indicator for styling
+    
     // Apply semantics
     element.attr('role', 'list');
 
@@ -391,6 +393,10 @@ function GridListDirective($interpolate, $mdConstant, $mdGridLayout, $mdMedia) {
 
     function getRowHeight() {
       var rowHeight = $mdMedia.getResponsiveAttribute(attrs, 'md-row-height');
+      if (!rowHeight) {
+        throw 'md-grid-list: md-row-height attribute was not found';
+      }
+
       switch (getRowMode()) {
         case 'fixed':
           return applyDefaultUnit(rowHeight);
@@ -404,6 +410,10 @@ function GridListDirective($interpolate, $mdConstant, $mdGridLayout, $mdMedia) {
 
     function getRowMode() {
       var rowHeight = $mdMedia.getResponsiveAttribute(attrs, 'md-row-height');
+      if (!rowHeight) {
+        throw 'md-grid-list: md-row-height attribute was not found';
+      }
+
       if (rowHeight == 'fit') {
         return 'fit';
       } else if (rowHeight.indexOf(':') !== -1) {

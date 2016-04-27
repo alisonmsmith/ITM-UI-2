@@ -10,6 +10,7 @@
 
 <div layout="row" flex>
   <!-- SIDE NAV -->
+  <!--<div flex="30">-->
    <md-sidenav
       layout="column"
         class="md-sidenav-left topic-list md-whiteframe-z2"
@@ -39,12 +40,16 @@
           <md-list >
             <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
             <div class="topic-merge-pair" ng-model="pair" ng-repeat="pair in merged">
-              <span class="merge-information">to be merged</span>
+                <md-button aria-label="undo merge" class="undo-merge md-fab md-mini md-accent" ng-click="undoMerge(pair)">
+                  <md-tooltip>undo merge</md-tooltip>
+                  <md-icon md-font-icon="mdi mdi-undo"></md-icon>
+                </md-button>
               <topic-list-item ng-repeat="t in pair" topic="t" select="select"></topic-list-item>
             </div>
           </md-list>
         </md-content>
   </md-sidenav>
+<!--</div>-->
   <div layout="column" flex>
     <!-- CONTENT -->
     <md-content layout="column" flex class="topic-panel md-padding">

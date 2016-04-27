@@ -21,6 +21,11 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 				// emit event that the user wishes to merge this topic
 				scope.$emit("merge", topic);
 			}
+
+			scope.split = function(topic) {
+				// emit event that the user wishes to split this topic
+				scope.$emit("split", topic);
+			};
 		}
 	};
 }]);

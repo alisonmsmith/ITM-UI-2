@@ -1,17 +1,26 @@
 <md-card class="topic-card">
 	<md-card-title>
 		<md-card-title-text>
-		<!--			<div class="trash-can" ng-show="trash">
-			<md-button ng-click="trashWord()" aria-label="trash word" class="md-icon-button">
-				<md-tooltip>add selected word to stop words list</md-tooltip>
-				<md-icon md-font-icon="mdi mdi-delete"></md-icon>
-			</md-button>
-		</div> -->
+				<md-toolbar class="md-hue-2 topic-toolbar" ng-if="topic.splitting">
+		<div class="md-toolbar-tools">
+			<h3 class="topic-list-heading">Drag words between the sub topics to split the topic.</h3>
+			<span flex></span>
+			<md-button aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+            </md-button>
+            <md-button aria-label="accept split" class="md-icon-button" ng-click="acceptSplit()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+            </md-button>
+        </div>
+        </md-toolbar>
 		</md-card-title-text>
 	</md-card-title>
 	<md-card-content>
 
-		<div class="word-holder">
+
+		<div class="word-holder" layout="row">
+			<span class="topic-a" flex>
+				<span class="sub-topic-name" ng-if="topic.splitting">SUB TOPIC A</span>
 			<md-chips 
 				ng-if="topic" 
 				secondary-placeholder="add new word..." 
@@ -21,7 +30,7 @@
 				md-on-remove="removeWord($chip, $index)" 
 				md-transform-chip="transform($chip)">
 				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
-		          <strong>{{$chip.word}}</strong>
+		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
 		        </md-chip-template>
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
@@ -29,6 +38,27 @@
 			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
 			      </button>
 			</md-chips>
+		</span>
+		<span class="topic-b" ng-if="topic.splitting" flex="50">
+			<span class="sub-topic-name">SUB TOPIC B</span>
+			<md-chips 
+				placeholder="add new word.."
+				secondary-placeholder="add new word..." 
+				ng-model="topic.subwords" 
+				md-on-select="selectWord($chip) " 
+				md-on-add="addWord($chip)" 
+				md-on-remove="removeWord($chip, $index)" 
+				md-transform-chip="transform($chip)">
+				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
+		          <strong md-chip-draggable>{{$chip.word}}</strong>
+		         <!-- <em>({{$chip.weight}})</em> -->
+		        </md-chip-template>
+		          <button md-chip-remove class="topic-chip-remove md-icon-button">
+		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo"></md-icon>
+			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
+			      </button>
+			</md-chips>
+		</span>
 		</div>
 		<div class="document-holder">
 			<md-list>
