@@ -100,6 +100,9 @@ angular.module('itmUiApp')
           $scope.selectedTopic = $scope.topics[0];
           $scope.topics[0].selected = true;
 
+          // reset the merged list
+          $scope.merged = [];
+
           // clear the refinement list
           $scope.refinements = [];
           $scope.isDirty = false;
