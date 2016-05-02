@@ -18,12 +18,17 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	//var backend_head = "http://localhost:8080";
 
 	// default user and corpus
-	var user = "alison1";
+	var user = "default";
 	//var corpus = "test";
 	var corpus = "news";
 
-	this.setUser = function(user) {
-		user = user;
+	this.setUser = function(u) {
+		console.log("user set to: " + u);
+		user = u;
+	}
+
+	this.getUser = function() {
+		return user;
 	}
 
 	this.setCorpus = function(corpus) {

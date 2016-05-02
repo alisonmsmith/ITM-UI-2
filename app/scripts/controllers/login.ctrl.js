@@ -11,8 +11,6 @@ angular.module('itmUiApp')
   .controller('LoginCtrl', function($scope, $state, TopicService) {
   	$scope.submit = function(user) {
   		TopicService.setUser(user);
-            $state.go('topics', {
-              'user':user
-            });
+  		$state.go('topics');    
   	}
   });

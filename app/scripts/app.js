@@ -27,7 +27,7 @@ angular
         controller: 'LoginCtrl'
       })
       .state('topics', {
-        url: '/topics?user&corpus',
+        url: '/topics?corpus',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'

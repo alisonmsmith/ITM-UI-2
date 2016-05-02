@@ -16,6 +16,7 @@ angular.module('itmUiApp')
     $scope.mode = undefined;
     $scope.merged = [];
     $scope.loading = true;
+    $scope.user = TopicService.getUser();
 
     // Load the intial model
     TopicService.loadModel().then(function(data) {
