@@ -15,12 +15,19 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	var iterationCount = 0;
 
 	var backend_head = "http://dna.cs.umd.edu:8080";
+	//var backend_head = "http://localhost:8080";
 
-	// default user
+	// default user and corpus
 	var user = "alison1";
+	//var corpus = "test";
+	var corpus = "news";
 
 	this.setUser = function(user) {
 		user = user;
+	}
+
+	this.setCorpus = function(corpus) {
+		corpus = corpus;
 	}
 
 	this.loadModel = function() {
@@ -30,7 +37,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/initialmodel',
 			params: {
-				corpus: 'news',
+				corpus: corpus,
 				userId: user,
 				topicNums: 5,
 				modelId: iterationCount
@@ -43,7 +50,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/getdocuments',
 			params: {
-				corpus: 'news',
+				corpus: corpus,
 				userId: user,
 				topicNums: 5,
 				modelId: iterationCount
@@ -59,7 +66,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			method: 'POST',
 			url: backend_head + '/itm-backend/rest/updatemodel',
 			params: {
-				corpus: 'news',
+				corpus: corpus,
 				userId: user,
 				topicNums: 5,
 				modelId: iterationCount
