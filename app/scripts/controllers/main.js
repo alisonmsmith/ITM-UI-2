@@ -15,6 +15,7 @@ angular.module('itmUiApp')
     $scope.refinements = [];
     $scope.mode = undefined;
     $scope.merged = [];
+    $scope.loading = true;
 
     // Load the intial model
     TopicService.loadModel().then(function(data) {
@@ -83,12 +84,15 @@ angular.module('itmUiApp')
         // set the merge status to false
         topic.merge = false;
       });
+
+      $scope.loading = false;
     }
 
     /**
      * Method to save the refined model. 
      */
     $scope.save = function() {
+      $scope.loading = true;
       // save the refinements
       TopicService.save($scope.refinements).then(function(data) {
         console.log("the model has been updated!")

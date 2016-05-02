@@ -14,7 +14,8 @@ angular
     'ngResource',
     'ui.router',
     'ngMaterial',
-    'mdChipDraggable'
+    'mdChipDraggable',
+    'angularSpinners'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $urlRouterProvider.otherwise('/');
