@@ -1,10 +1,10 @@
 /**
-*/
+ */
 
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('topic', [ function() {
+angular.module('itmUiApp').directive('topic', [function() {
 	return {
 		restrict: 'E',
 		scope: {
@@ -35,9 +35,15 @@ angular.module('itmUiApp').directive('topic', [ function() {
 				scope.topic.subwords = undefined;
 			};
 
-			scope.acceptmerge = function() {
-				$scope.$emit('accept-merge', topic);
+			scope.acceptSplit = function() {
+				scope.topic.splitting = false;
+				scope.topic.split = true;
+				scope.$emit('accept-split', scope.topic);
 			};
+
+			/*scope.acceptmerge = function() {
+				scope.$emit('accept-merge', topic);
+			};*/
 
 			scope.addWord = function(chip) {
 				// emit a refinement
@@ -47,14 +53,35 @@ angular.module('itmUiApp').directive('topic', [ function() {
 			// Listen for event that a chip has been dragged within the word list
 			scope.$on('mdChipDraggable:change', function(event, data) {
 				console.log(data);
-				var chip = data.item;
-				// set the status of the word to reordered and store the original index
-				chip.status = 'reordered';
-				chip.originalIndex = data.from;
+				if (data.fromCollection === data.toCollection && !scope.topic.splitting) {
+					// Move within the same chip list
+					var chip = data.item;
+					// set the status of the word to reordered and store the original index
+					chip.status = 'reordered';
+					chip.originalIndex = data.from;
 
-				// emit a refinement
-				scope.$emit('reorder-word', chip.word, data.to, data.from);
+					// emit a refinement
+					scope.$emit('reorder-word', chip.word, data.to, data.from);
+				} else if (data.fromCollection !== data.toCollection) {
+					// Move from one chip list to another
+					if (data.fromCollection === 'topicA') {
+						var chip = scope.topic.words.splice(data.from, 1)[0];
+						chip.status = 'split';
+						chip.orginalIndex = data.from;
+						chip.originalTopic = data.fromCollection;
+						scope.topic.subwords.splice(data.to, 0, chip);
+						
+					} else {
+						var chip = scope.topic.subwords.splice(data.from, 1)[0];
+						chip.status = 'split';
+						chip.orginalIndex = data.from;
+						chip.originalTopic = data.fromCollection;
+						scope.topic.words.splice(data.to, 0, chip);
+					}
+				}
+
 			});
+
 
 			scope.removeWord = function(chip, index) {
 				// if this a previously added word, then this is an undo add refinement

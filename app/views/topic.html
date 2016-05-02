@@ -20,15 +20,17 @@
 
 		<div class="word-holder" layout="row">
 			<span class="topic-a" flex>
-				<span class="sub-topic-name" ng-if="topic.splitting">SUB TOPIC A</span>
+				<span class="sub-topic-name" ng-if="topic.splitting || topic.split">SUB TOPIC A</span>
 			<md-chips 
+				id="topicA"
 				ng-if="topic" 
 				secondary-placeholder="add new word..." 
 				ng-model="topic.words" 
-				md-on-select="selectWord($chip) " 
+				md-on-select="selectWord($chip)" 
 				md-on-add="addWord($chip)" 
 				md-on-remove="removeWord($chip, $index)" 
-				md-transform-chip="transform($chip)">
+				md-transform-chip="transform($chip)"
+				readonly="topic.splitting">
 				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
@@ -39,16 +41,18 @@
 			      </button>
 			</md-chips>
 		</span>
-		<span class="topic-b" ng-if="topic.splitting" flex="50">
+		<span class="topic-b" ng-if="topic.splitting || topic.split" flex="50">
 			<span class="sub-topic-name">SUB TOPIC B</span>
 			<md-chips 
+				id="topicB"
 				placeholder="add new word.."
 				secondary-placeholder="add new word..." 
 				ng-model="topic.subwords" 
-				md-on-select="selectWord($chip) " 
+				md-on-select="selectWord($chip)" 
 				md-on-add="addWord($chip)" 
 				md-on-remove="removeWord($chip, $index)" 
-				md-transform-chip="transform($chip)">
+				md-transform-chip="transform($chip)"
+				readonly="topic.splitting">
 				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->

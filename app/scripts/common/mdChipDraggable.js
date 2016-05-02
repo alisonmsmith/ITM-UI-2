@@ -31,6 +31,7 @@ angular.module('mdChipDraggable', [])
             this.splice(to, 0, this.splice(from, 1)[0]);
           };
 
+
           // set the closest chip as the current element
           $element = angular.element($element[0].closest('md-chip'));
 
@@ -60,7 +61,8 @@ angular.module('mdChipDraggable', [])
             //  dataTransfer.effectAllowed = 'move';
               dataTransfer.effectAllwed= 'copyMove';
               dataTransfer.dropEffect = 'move';
-              dataTransfer.setData('text/plain', $scope.$parent.$mdChipsCtrl.items.indexOf($scope.$parent.$chip));
+              var data = $scope.$parent.$mdChipsCtrl.$element.attr('id') + '?' + $scope.$parent.$mdChipsCtrl.items.indexOf($scope.$parent.$chip);
+              dataTransfer.setData('text/plain', data);
             }
           });
 
@@ -107,9 +109,13 @@ angular.module('mdChipDraggable', [])
             console.log("dropped!");
             event.preventDefault();
 
-            var droppedItemIndex = parseInt((event.dataTransfer || event.originalEvent.dataTransfer).getData('text/plain'), 10);
+            var droppedData = (event.dataTransfer || event.originalEvent.dataTransfer).getData('text/plain').split('?');
+            // previous index
+            var droppedItemIndex = parseInt(droppedData[1], 10);
             var currentIndex = $scope.$parent.$mdChipsCtrl.items.indexOf($scope.$parent.$chip);
             var newIndex = null;
+
+            console.log("current index: " + currentIndex);
 
             if (dropPosition === 'before') {
               if (droppedItemIndex < currentIndex) {
@@ -130,11 +136,14 @@ angular.module('mdChipDraggable', [])
             dropTimeout = $timeout(function () {
               dropPosition = null;
 
-              move.apply($scope.$parent.$mdChipsCtrl.items, [droppedItemIndex, newIndex]);
+              if ($scope.$parent.$mdChipsCtrl.$element.attr('id') === droppedData[0]) {
+                move.apply($scope.$parent.$mdChipsCtrl.items, [droppedItemIndex, newIndex]);
+              }
 
               $scope.$apply(function () {
                 $scope.$emit('mdChipDraggable:change', {
-                  collection: $scope.$parent.$mdChipsCtrl.items,
+                  fromCollection: droppedData[0],
+                  toCollection: $scope.$parent.$mdChipsCtrl.$element.attr('id'),
                   item: $scope.$parent.$mdChipsCtrl.items[newIndex],
                   from: droppedItemIndex,
                   to: newIndex

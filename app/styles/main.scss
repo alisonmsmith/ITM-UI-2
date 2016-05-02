@@ -125,6 +125,11 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
     background-color: $md-accent;
   }
 
+  &.split {
+    margin-top: 5px;
+    border-left: 25px solid $md-accent;
+  }
+
   .topic-label {
   	text-transform: uppercase;
   	margin-right: 5px;
@@ -137,6 +142,9 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
   }
   .topic-icon {
     font-size: 16pt;
+    &.highlight {
+      color: $md-accent;
+    }
   }
 }
 
@@ -145,19 +153,32 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
   margin-bottom: 5px;
  //padding-left:5px;
  //background-color: $md-accent;
- border-left: 20px solid $md-accent;
+ border-left: 25px solid $md-accent;
 // position:relative;
  .undo-merge {
   position:absolute;
   float:right;
   margin-top: -10px;
-  margin-left: -20px;
+  margin-left: -25px;
   font-size: 16pt;
   .md-icon {
     font-size:16pt;
   }
  }
 }
+
+.undo-split {
+    position:absolute;
+  float:right;
+  margin-top: -15px;
+  margin-left: -5px;
+  font-size: 16pt;
+  .md-icon {
+    font-size:16pt;
+  }
+}
+
+
 
 md-list-item.document-list-item {
   padding: 5px;
@@ -258,4 +279,12 @@ md-chip.dropping--before:before {
 
 md-chip.dropping--after:before {
   right: -9px;
+}
+
+.stop-words {
+  font-size: 24pt;
+  margin-left: 10px;
+  &:hover {
+    font-size: 32pt;
+  }
 }

@@ -26,6 +26,10 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 				// emit event that the user wishes to split this topic
 				scope.$emit("split", topic);
 			};
+
+			scope.undoSplit = function(topic) {
+				scope.$emit("undo-split", topic);
+			};
 		}
 	};
 }]);

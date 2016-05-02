@@ -18,6 +18,21 @@ angular.module('itmUiApp')
     $scope.loading = true;
     $scope.user = TopicService.getUser();
 
+
+    // METHODS REQUIRED FOR DROPPABLE TRASH CAN
+    angular.element(document).find('.stop-words').on('dragover', dragOverHandler);
+    angular.element(document).find('.stop-words').on('drop', dropHandler);
+
+    function dragOverHandler(ev) {
+      console.log("dragged over!");
+      ev.preventDefault();
+    }
+
+    function dropHandler(ev) {
+      ev.preventDefault();
+      console.log(ev);
+    }
+
     // Load the intial model
     TopicService.loadModel().then(function(data) {
       console.log("loaded the initial model!")
@@ -116,6 +131,36 @@ angular.module('itmUiApp')
       });
     };
 
+    $scope.$on('accept-split', function(event, topic) {
+      var refinement = {
+        'type': 'splitTopic',
+        'topicId': $scope.selectedTopic.id,
+        'seedWords': _.pluck(topic.words, 'word')
+      };
+      $scope.refinements.push(refinement);
+    });
+
+    $scope.$on('undo-split', function(event, topic) {
+      topic.words = topic.wordscopy;
+      topic.wordscopy = undefined;
+      topic.subwords = undefined;
+      topic.split = false;
+
+      // remove the refinement
+      var indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'splitTopic' 
+          && refinement.topicId === topic.id 
+          && refinement.seedWords === topic.words) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+    });
+
     $scope.acceptMerge = function() {
       $scope.mode = undefined;
 
@@ -192,7 +237,8 @@ angular.module('itmUiApp')
     $scope.$on("split", function(event, topic) {
       topic.splitting = true;
       topic.wordscopy = topic.words;
-      topic.subwords = [];
+      //topic.subwords = [];
+      topic.subwords = [{"status":"hidden"}];
     });
 
     /**
@@ -257,12 +303,16 @@ angular.module('itmUiApp')
     /**
     * Listen for event to re-order the word in the currently selected topic
     */
+    // AS (5/2/16): the order indices are updated in the UI after the refinement, so if
+    // two re-orderings are performed, the indices of the latter refinement will not make sense
+    // based on the indices prior to the former refinement - this is an issue for undo in particular
     $scope.$on('reorder-word', function(event, word, to, from) {
       var refinement ={
         'type': 'changeWordOrder',
         'word': word,
         'originalPosition': from,
-        'newPosition': to
+        'newPosition': to,
+        'topicId': $scope.selectedTopic.id
       };
       $scope.refinements.push(refinement);
     });
@@ -277,7 +327,8 @@ angular.module('itmUiApp')
         if (refinement.type === 'changeWordOrder' 
           && refinement.originalPosition === from
           && refinement.newPosition === to
-          && refinement.word === word) {
+          && refinement.word === word
+          && refinement.topicId === $scope.selectedTopic.id) {
           indexToRemove = index;
         }
       });
@@ -350,5 +401,7 @@ angular.module('itmUiApp')
       if (indexToRemove !== -1) {
         $scope.refinements.splice(indexToRemove, 1);
       }
-    })
+    });
+
+
   });
