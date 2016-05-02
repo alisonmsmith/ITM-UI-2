@@ -12,19 +12,24 @@ angular
   .module('itmUiApp', [
     'ngAnimate',
     'ngResource',
-    'ngRoute',
+    'ui.router',
     'ngMaterial',
     'mdChipDraggable'
   ])
-  .config(function ($routeProvider, $mdThemingProvider) {
-    $routeProvider
-      .when('/', {
+  .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+      .state('login', {
+        url: '/',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .state('topics', {
+        url: '/topics?user&corpus',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
 
     $mdThemingProvider.theme('default')

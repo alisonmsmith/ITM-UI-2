@@ -23,7 +23,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div layout="column" ng-view="" ng-cloak>
+    <div layout="column" ui-view ng-cloak>
 
 
   <!--    <md-content class="app-content" flex md-scroll-y>
@@ -47,7 +47,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
@@ -59,6 +59,8 @@
         <script src="scripts/common/mdChipDraggable.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/services/topic.service.js"></script>
+                <script src="scripts/controllers/login.ctrl.js"></script>
+
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/topic-list-item.directive.js"></script>
         <script src="scripts/directives/topic.directive.js"></script>

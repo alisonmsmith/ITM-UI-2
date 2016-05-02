@@ -1,0 +1,21 @@
+<!-- TOOLBAR -->
+    <md-toolbar layout="row" class="md-whiteframe-z2">
+      <div class="md-toolbar-tools ">
+        <h2 flex>
+          <md-button class="title" aria-label="go to application home" href="/">ITM</md-button>
+        </h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+<md-whiteframe class="login-panel md-whiteframe-2dp">
+<div class="header">
+	<div class="mdi mdi-account-circle"></div>
+	<div class="text">Login</div>
+</div>
+<form class="login-form" ng-submit="submit(user)" flex>
+    <md-input-container class="user-input" md-no-float>
+        <input ng-model="user" placeholder="enter user name"/>  
+    </md-input-container>
+    <md-button class="md-raised md-primary submit-button" type="submit" aria-label="submit">SUBMIT</md-button>
+</form>
+</md-whiteframe>
