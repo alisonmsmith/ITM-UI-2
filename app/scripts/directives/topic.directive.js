@@ -57,11 +57,16 @@ angular.module('itmUiApp').directive('topic', [function() {
 					// Move within the same chip list
 					var chip = data.item;
 					// set the status of the word to reordered and store the original index
-					chip.status = 'reordered';
-					chip.originalIndex = data.from;
-
-					// emit a refinement
-					scope.$emit('reorder-word', chip.word, data.to, data.from);
+					// but only if this chip has not been re-ordered before
+					if (chip.status === 'reordered') {
+						// if the chip has been re-ordered before, we need to update the final position
+						scope.$emit('update-reorder-word', chip.word, data.to, chip.originalIndex);
+					} else {
+						chip.status = 'reordered';
+						chip.originalIndex = data.from;
+						scope.$emit('reorder-word', chip.word, data.to, data.from);
+					}
+					
 				} else if (data.fromCollection !== data.toCollection) {
 					// Move from one chip list to another
 					if (data.fromCollection === 'topicA') {
@@ -112,21 +117,20 @@ angular.module('itmUiApp').directive('topic', [function() {
 			};
 
 			scope.removeDocument = function(doc) {
-				// remove the document from the list
-				//scope.topic.docs = _.without(scope.topic.docs, doc);
+				if (doc.status === 'removed') {
+					doc.status = 'unevaluated';
+					scope.$emit('undo-remove-doc', doc.docid);
+				} else {
+					// remove the document from the list
+					//scope.topic.docs = _.without(scope.topic.docs, doc);
 
-				// gray out the document in the list
-				doc.status = 'removed';
+					// gray out the document in the list
+					doc.status = 'removed';
 
-				// emit a refinement
-				scope.$emit('remove-doc', doc.docid);
-			}
+					// emit a refinement
+					scope.$emit('remove-doc', doc.docid);
+				}
 
-			scope.undoRemove = function(doc) {
-				doc.status = 'unevaluated';
-
-				// emit an undo refinement
-				scope.$emit('undo-remove-doc', doc.docid);
 			}
 
 			scope.transform = function(chip) {

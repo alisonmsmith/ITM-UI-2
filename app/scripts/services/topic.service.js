@@ -22,6 +22,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	//var corpus = "test";
 	var corpus = "news";
 
+	var topicNums = 10;
+
 	this.setUser = function(u) {
 		console.log("user set to: " + u);
 		user = u;
@@ -44,7 +46,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: 5,
+				topicNums: topicNums,
 				modelId: iterationCount
 			}
 		}); 
@@ -57,7 +59,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: 5,
+				topicNums: topicNums,
 				modelId: iterationCount
 			}
 		}); 
@@ -73,7 +75,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: 5,
+				topicNums: topicNums,
 				modelId: iterationCount
 			},
 			data:data

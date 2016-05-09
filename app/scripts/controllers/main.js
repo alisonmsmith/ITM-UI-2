@@ -12,6 +12,7 @@ angular.module('itmUiApp')
 
     $scope.documents = [];
     $scope.topics = [];
+    $scope.topicsCopy = [];
     $scope.refinements = [];
     $scope.mode = undefined;
     $scope.merged = [];
@@ -45,6 +46,7 @@ angular.module('itmUiApp')
 
         // Select to display the first topic in the list
         $scope.selectedTopic = $scope.topics[0];
+        $scope.topicsCopy = angular.copy($scope.topics);
         $scope.topics[0].selected = true;
       });
     });
@@ -105,6 +107,19 @@ angular.module('itmUiApp')
     }
 
     /**
+    * Method to clear refinements
+    */
+    $scope.clearRefinements = function() {
+      // undo all refinements
+      $scope.topics = $scope.topicsCopy;
+      $scope.selectedTopic = $scope.topics[0];
+      $scope.topics[0].selected = true;
+      $scope.merged = [];
+      $scope.refinements = [];
+      $scope.isDirty = false;
+    }
+
+    /**
      * Method to save the refined model. 
      */
     $scope.save = function() {
@@ -118,6 +133,7 @@ angular.module('itmUiApp')
 
           // Select the first topic in the list
           $scope.selectedTopic = $scope.topics[0];
+          $scope.topicsCopy = anugular.copy($scope.topics);
           $scope.topics[0].selected = true;
 
           // reset the merged list
@@ -305,7 +321,8 @@ angular.module('itmUiApp')
     */
     // AS (5/2/16): the order indices are updated in the UI after the refinement, so if
     // two re-orderings are performed, the indices of the latter refinement will not make sense
-    // based on the indices prior to the former refinement - this is an issue for undo in particular
+    // based on the indices prior to the former refinement - this should only affect the backend if 
+    // refinements are not applied in order
     $scope.$on('reorder-word', function(event, word, to, from) {
       var refinement ={
         'type': 'changeWordOrder',
@@ -315,7 +332,24 @@ angular.module('itmUiApp')
         'topicId': $scope.selectedTopic.id
       };
       $scope.refinements.push(refinement);
+      console.log($scope.refinements);
     });
+
+    /**
+    * Listen for event to update the reorder word refinement for the given word and original position
+    */
+    $scope.$on('update-reorder-word', function(event, word, to, from) {
+      _.each($scope.refinements, function(refinement) {
+        if (refinement.type === 'changeWordOrder'
+          && refinement.topicId === $scope.selectedTopic.id
+          && refinement.word === word
+          && refinement.originalPosition === from) {
+          // update the to location
+          refinement.newPosition = to;
+        }
+      });
+      console.log($scope.refinements);
+    })
 
     /**
     * Listen for event to undo previously re-ordered word in the topic
@@ -335,6 +369,7 @@ angular.module('itmUiApp')
       if (indexToRemove !== -1) {
         $scope.refinements.splice(indexToRemove, 1);
       }
+      console.log($scope.refinements);
     });
 
     /**

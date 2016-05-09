@@ -19,12 +19,16 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 
 			scope.merge = function(topic) {
 				// emit event that the user wishes to merge this topic
-				scope.$emit("merge", topic);
+				if (!topic.merged) {
+					scope.$emit("merge", topic);
+				}
 			}
 
 			scope.split = function(topic) {
 				// emit event that the user wishes to split this topic
-				scope.$emit("split", topic);
+				if (!topic.split) {
+					scope.$emit("split", topic);
+				}
 			};
 
 			scope.undoSplit = function(topic) {

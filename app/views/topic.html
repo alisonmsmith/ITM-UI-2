@@ -1,14 +1,17 @@
 <md-card class="topic-card">
 	<md-card-title>
 		<md-card-title-text>
-				<md-toolbar class="md-hue-2 topic-toolbar" ng-if="topic.splitting">
+				<md-toolbar class="topic-toolbar" ng-if="topic.splitting || topic.split">
 		<div class="md-toolbar-tools">
-			<h3 class="topic-list-heading">Drag words between the sub topics to split the topic.</h3>
+			<h3 ng-if="topic.splitting">Drag words between the sub topics to split the topic.</h3>
+			<h3 ng-if="topic.split">
+				Unable to make topic-level changes with outstanding split refinement. Please save refinements to continue refining this topic.
+			</h3>
 			<span flex></span>
-			<md-button aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
+			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
               <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
             </md-button>
-            <md-button aria-label="accept split" class="md-icon-button" ng-click="acceptSplit()">
+            <md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button" ng-click="acceptSplit()">
               <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
         </div>
@@ -30,7 +33,7 @@
 				md-on-add="addWord($chip)" 
 				md-on-remove="removeWord($chip, $index)" 
 				md-transform-chip="transform($chip)"
-				readonly="topic.splitting">
+				readonly="topic.splitting || topic.split">
 				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
@@ -52,7 +55,7 @@
 				md-on-add="addWord($chip)" 
 				md-on-remove="removeWord($chip, $index)" 
 				md-transform-chip="transform($chip)"
-				readonly="topic.splitting">
+				readonly="topic.splitting || topic.split">
 				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
@@ -69,12 +72,14 @@
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<div class="document-name">{{document.name}}</div>
 					<span class="document-snippet">{{document.snippet}}</span>
-					<md-icon ng-if="document.status === 'unevaluated'" ng-click="removeDocument(document)" aria-label='remove document' class='md-secondary' md-font-icon='mdi mdi-window-close'>
-						<md-tooltip>remove document from topic</md-tooltip>
-					</md-icon>
-					<md-icon ng-if="document.status === 'removed'"ng-click="undoRemove(document)" aria-label='undo remove document' class='md-secondary' md-font-icon='mdi mdi-undo'>
-						<md-tooltip>undo remove document from topic</md-tooltip>
-					</md-icon>
+					<button ng-if="!topic.splitting && !topic.split"class="doc-remove md-secondary" ng-click="removeDocument(document)">
+						<md-icon ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-window-close'>
+							<md-tooltip>remove document from topic</md-tooltip>
+						</md-icon>
+						<md-icon ng-if="document.status === 'removed'" aria-label='undo remove document' md-font-icon='mdi mdi-undo'>
+							<md-tooltip>undo remove document from topic</md-tooltip>
+						</md-icon>
+					</button>
 					<md-divider></md-divider>
 				</md-list-item>
 			</md-list>

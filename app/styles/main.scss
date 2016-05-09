@@ -25,7 +25,7 @@ md-sidenav,
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
     min-width: 200px !important;
-    width: 85vw !important;
+    width: 45vw !important;
     max-width: 500px !important;
 } 
 
@@ -107,6 +107,19 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
 	text-transform: uppercase;
 }
 
+md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
+  background-color: $md-primary-hue3;
+  font-style: italic;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: $md-accent;
+  text-align: center;
+  md-icon {
+    color: $md-accent;
+  }
+}
+
+
 .save-icon {
   font-size: 16pt;
 }
@@ -183,20 +196,24 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
 md-list-item.document-list-item {
   padding: 5px;
 	.document-name {
-		cursor: pointer;
+		//cursor: pointer;
 		font-weight: 600;
-		&:hover {
+		/*&:hover {
 			color: $md-accent;
-		}
+		}*/
 	}
 	.document-snippet {
     line-height: 1.2em;
     width: 85%;
 		margin-left: 20px;
-		color: $md-primary-hue1;
+		color: lighten(black, 20%);
 	}
   &.removed {
     text-decoration:line-through;
+    color: $md-primary-hue1;
+    .document-snippet {
+      color: $md-primary-hue1;
+    }
   }
 }
 
@@ -223,13 +240,14 @@ md-chip-template{
   &.removed {
    // color: $alizarin;
     text-decoration: line-through;
+    color: $md-primary-hue1;
   }
   &.reordered {
     font-style: italic;
   }
 }
 
-button.topic-chip-remove {
+button.topic-chip-remove, button.doc-remove {
       width: 24px;
       line-height: 30px;
       text-align: center;
@@ -261,6 +279,11 @@ button.topic-chip-remove {
       &:hover, &:focus {
         background: rgba(255, 0, 0, 0.8);
       }
+}
+
+button.doc-remove {
+  top: 15px;
+  right: 2px;
 }
 
 md-chip-template {

@@ -24,21 +24,34 @@
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
             <h3>
-              <span ng-if="!mode" class="topic-list-heading">{{topics.length}} topics</span>
-              <span ng-if="mode === 'merge'" class="topic-list-heading merge-info">select additional topics for merge</span>
+              <span class="topic-list-heading">{{topics.length}} topics</span>
             </h3>
             <span flex></span>
-            <md-button ng-if="!mode" aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
+            <md-button aria-label="clear changes" ng-show="refinements.length > 0"
+              class="md-icon-button" ng-click="clearRefinements()">
+              <md-tooltip> clear {{refinements.length}} outstanding refinements</md-tooltip>
+              <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+            </md-button>
+            <md-button aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
+              <md-tooltip>save {{refinements.length}} outstanding refinements</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon>
-            </md-button>
-            <md-button ng-if="mode === 'merge'" aria-label="cancel merge" class="md-icon-button" ng-click="cancelMerge()">
-              <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
-            </md-button>
-            <md-button ng-if="mode === 'merge'" aria-label="accept merge" class="md-icon-button" ng-click="acceptMerge()">
-              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
           </div>
         </md-toolbar>
+        <md-toolbar ng-if="mode === 'merge'" class="merge-toolbar">
+          <div class="md-toolbar-tools">
+            <h3>
+              <span class="merge-info">select additional topics for merge</span>
+            </h3>
+            <span flex></span>
+            <md-button aria-label="cancel merge" class="md-icon-button" ng-click="cancelMerge()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+            </md-button>
+            <md-button aria-label="accept merge" class="md-icon-button" ng-click="acceptMerge()">
+              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+            </md-button>
+          </div>
+      </md-toolbar>
         <md-content>
           <md-list >
             <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
