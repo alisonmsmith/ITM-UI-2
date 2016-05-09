@@ -15,8 +15,8 @@ angular.module('itmUiApp').directive('topic', [function() {
 
 			scope.selectWord = function(chip) {
 				// show the trash can and store the selected word
-				scope.trash = true;
-				scope.selected = chip.word;
+				//scope.trash = true;
+				scope.selected = chip;
 			};
 
 			scope.trashWord = function() {
@@ -49,6 +49,15 @@ angular.module('itmUiApp').directive('topic', [function() {
 				// emit a refinement
 				scope.$emit('add-word', chip.word);
 			};
+
+			scope.$on('topic-stop-word', function(event) {
+				if (scope.selected) {
+					scope.$emit('add-stop-word', scope.selected.word);
+					// strikethrough the selected word
+					scope.selected.status = 'trashed';
+					scope.selected = undefined;
+				} 
+			});
 
 			// Listen for event that a chip has been dragged within the word list
 			scope.$on('mdChipDraggable:change', function(event, data) {

@@ -237,7 +237,7 @@ md-chip-template{
    // color: $emerald;
    text-decoration: underline;
   }
-  &.removed {
+  &.removed, &.trashed {
    // color: $alizarin;
     text-decoration: line-through;
     color: $md-primary-hue1;

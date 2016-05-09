@@ -177,6 +177,10 @@ angular.module('itmUiApp')
       }
     });
 
+    $scope.addStopWord = function() {
+      $scope.$broadcast('topic-stop-word');
+    };
+
     $scope.acceptMerge = function() {
       $scope.mode = undefined;
 
@@ -284,6 +288,14 @@ angular.module('itmUiApp')
         $scope.selectedTopic = topic;
       }
 
+    });
+
+    $scope.$on('add-stop-word', function(event, word) {
+      var refinement = {
+        'type': 'trash',
+        'word': word
+      };
+      $scope.refinements.push(refinement);
     });
 
     /**
