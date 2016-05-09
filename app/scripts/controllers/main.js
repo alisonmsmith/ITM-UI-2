@@ -110,6 +110,7 @@ angular.module('itmUiApp')
     * Method to clear refinements
     */
     $scope.clearRefinements = function() {
+      console.log($scope.refinements);
       // undo all refinements
       $scope.topics = $scope.topicsCopy;
       $scope.selectedTopic = $scope.topics[0];
@@ -167,8 +168,7 @@ angular.module('itmUiApp')
       _.each($scope.refinements, function(refinement, index) {
         // find the match
         if (refinement.type === 'splitTopic' 
-          && refinement.topicId === topic.id 
-          && refinement.seedWords === topic.words) {
+          && refinement.topicId === topic.id) {
           indexToRemove = index;
         }
       });
@@ -276,7 +276,10 @@ angular.module('itmUiApp')
     $scope.$on("select", function(event, topic) {
       // if we're in merge mode, toggle the merge status
       if ($scope.mode === 'merge') {
-        topic.merge = !topic.merge;
+        // only allow selection of an unmerged or unsplit topic
+        if (!topic.split && !topic.merged) {
+          topic.merge = !topic.merge;
+        }
       } else {
         // deselect other topics
         _.each($scope.topics, function(topic) {
