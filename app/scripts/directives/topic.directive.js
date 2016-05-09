@@ -19,14 +19,6 @@ angular.module('itmUiApp').directive('topic', [function() {
 				scope.selected = chip;
 			};
 
-			scope.trashWord = function() {
-				scope.$emit('trash-word', scope.selected);
-
-				scope.trash = false;
-				// remove the selected word from the chips list
-				//scope.topic.words = _.without(scope.topic.words, scope.selected);
-				scope.selected = undefined;
-			};
 
 			scope.cancelSplit = function() {
 				scope.topic.splitting = false;
@@ -115,6 +107,12 @@ angular.module('itmUiApp').directive('topic', [function() {
 					// need to add the chip back into the same position with an unevaluated status
 					chip.status = 'unevaluated';
 					scope.topic.words.splice(chip.originalIndex, 0, chip);
+				} else if (chip.status === "trashed") {
+					// else if this is a previously trashed word, then this is an undo trash refinement
+					scope.$emit('undo-stop-word', chip.word);
+
+					chip.status = 'unevaluated';
+					scope.topic.words.splice(index, 0, chip);
 				} else {
 					// emit a refinement
 					scope.$emit('remove-word', chip.word);

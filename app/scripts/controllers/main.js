@@ -301,6 +301,20 @@ angular.module('itmUiApp')
       $scope.refinements.push(refinement);
     });
 
+    $scope.$on('undo-stop-word', function(event, word) {
+      var indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'trash' 
+          && refinement.word === word) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+    });
+
     /**
      * Listen for event to remove a word to the currently selected topic
      */
