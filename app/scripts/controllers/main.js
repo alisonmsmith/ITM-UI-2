@@ -134,7 +134,7 @@ angular.module('itmUiApp')
 
           // Select the first topic in the list
           $scope.selectedTopic = $scope.topics[0];
-          $scope.topicsCopy = anugular.copy($scope.topics);
+          $scope.topicsCopy = angular.copy($scope.topics);
           $scope.topics[0].selected = true;
 
           // reset the merged list
