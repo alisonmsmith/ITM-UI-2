@@ -18,7 +18,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	//var backend_head = "http://localhost:8080";
 
 	// default user and corpus
-	var user = "default";
+	var user = null;
 	//var corpus = "test";
 	var corpus = "news";
 

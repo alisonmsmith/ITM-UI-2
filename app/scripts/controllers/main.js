@@ -8,7 +8,13 @@
  * Controller of the itmUiApp
  */
 angular.module('itmUiApp')
-  .controller('MainCtrl', function($scope, $http, TopicService) {
+  .controller('MainCtrl', function($scope, $state, $http, TopicService) {
+
+    $scope.user = TopicService.getUser();
+    
+    if (!$scope.user) {
+      $state.go('login'); 
+    }
 
     $scope.documents = [];
     $scope.topics = [];
@@ -17,8 +23,7 @@ angular.module('itmUiApp')
     $scope.mode = undefined;
     $scope.merged = [];
     $scope.loading = true;
-    $scope.user = TopicService.getUser();
-
+    
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
     angular.element(document).find('.stop-words').on('dragover', dragOverHandler);
