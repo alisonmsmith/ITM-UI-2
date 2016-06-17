@@ -105,6 +105,7 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
 .topic-list-heading {
 	text-align: center;
 	text-transform: uppercase;
+  font-size: 12pt;
 }
 
 md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
@@ -119,6 +120,14 @@ md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
   }
 }
 
+// fix an issue with the dialog box not extending the full amount
+md-dialog {
+  max-width: 100%;
+}
+
+.configure-icon {
+  //float: right;
+}
 
 .save-icon {
   font-size: 16pt;

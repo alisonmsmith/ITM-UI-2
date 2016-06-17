@@ -1,0 +1,38 @@
+<md-dialog aria-label="Configure Model" ng-cloak>
+<form>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>CONFIGURE MODEL</h2>
+			<span flex></span>
+        	<md-button class="md-icon-button" ng-click="cancel()">
+          		<md-icon md-font-icon="mdi mdi-close" aria-label="Close dialog"></md-icon>
+        	</md-button>
+      	</div>
+  	</md-toolbar>
+  	<md-dialog-content>
+  		<div class="md-dialog-content">
+  			<p>
+  	 	<md-input-container class="md-block" flex-gt-sm>
+            <label>Corpus</label>
+            <md-select ng-model="corpus">
+              <md-option ng-repeat="corpus in corpora" value="{{corpus}}">
+                {{corpus}}
+              </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container class="md-block">
+        	<label>Number of Topics</label>
+  			<input type="number" ng-model="topicNums" />
+  		</md-input-container>
+  	</p>
+  	</div>
+  	</md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+       	Cancel
+      </md-button>
+      <md-button ng-click="submit(corpus,topicNums)" style="margin-right:20px;">
+        Update
+      </md-button>
+    </md-dialog-actions>

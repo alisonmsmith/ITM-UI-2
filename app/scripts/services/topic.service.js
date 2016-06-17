@@ -19,10 +19,6 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 
 	// default user and corpus
 	var user = null;
-	//var corpus = "test";
-	var corpus = "news";
-
-	var topicNums = 10;
 
 	this.setUser = function(u) {
 		console.log("user set to: " + u);
@@ -33,11 +29,14 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		return user;
 	}
 
-	this.setCorpus = function(corpus) {
-		corpus = corpus;
+	this.getCorpora = function() {
+		return $http({
+			method: 'GET',
+			url: backend_head + '/itm-backend/rest/getcorpora'
+		}); 
 	}
 
-	this.loadModel = function() {
+	this.loadModel = function(corpus, topics) {
 		//return $http.get('data/model2.json');
 
 		return $http({
@@ -46,26 +45,26 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: topicNums,
+				topicNums: topics,
 				modelId: iterationCount
 			}
 		}); 
 	}
 
-	this.getDocuments = function () {
+	this.getDocuments = function (corpus, topics) {
 		return $http({
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/getdocuments',
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: topicNums,
+				topicNums: topics,
 				modelId: iterationCount
 			}
 		}); 
 	}
 
-	this.save = function(refinements) {
+	this.save = function(refinements, corpus, topics) {
 		// update the iteration count
 		iterationCount += 1;
 		var data = {'feedback':refinements};
@@ -75,7 +74,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			params: {
 				corpus: corpus,
 				userId: user,
-				topicNums: topicNums,
+				topicNums: topics,
 				modelId: iterationCount
 			},
 			data:data

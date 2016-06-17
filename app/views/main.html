@@ -26,7 +26,11 @@
         <md-toolbar class="md-hue-2">
           <div class="md-toolbar-tools">
             <h3>
-              <span class="topic-list-heading">{{topics.length}} topics</span>
+              <md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
+                <md-tooltip>configure model</md-tooltip>
+                <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
+              </md-button>
+              <span class="topic-list-heading">{{topicNums}} topics from "{{corpus}}"</span>
             </h3>
             <span flex></span>
             <md-button aria-label="clear changes" ng-show="refinements.length > 0"

@@ -8,13 +8,13 @@
  * Controller of the itmUiApp
  */
 angular.module('itmUiApp')
-  .controller('MainCtrl', function($scope, $state, $http, TopicService) {
+  .controller('MainCtrl', function($scope, $state, $http, TopicService, $mdDialog) {
 
     $scope.user = TopicService.getUser();
     
     if (!$scope.user) {
       $state.go('login'); 
-    }
+    } else {
 
     $scope.documents = [];
     $scope.topics = [];
@@ -23,6 +23,10 @@ angular.module('itmUiApp')
     $scope.mode = undefined;
     $scope.merged = [];
     $scope.loading = true;
+
+    // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
+    $scope.corpus = "news";
+    $scope.topicNums = 10;
     
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
@@ -39,22 +43,73 @@ angular.module('itmUiApp')
       console.log(ev);
     }
 
-    // Load the intial model
-    TopicService.loadModel().then(function(data) {
-      console.log("loaded the initial model!")
-      console.log(data.data);
-      TopicService.getDocuments().then(function(docs) {
-        console.log("loaded the initial document assignment");
-        console.log(docs.data);
-        processModel(data.data, docs.data);
-
-
-        // Select to display the first topic in the list
-        $scope.selectedTopic = $scope.topics[0];
-        $scope.topicsCopy = angular.copy($scope.topics);
-        $scope.topics[0].selected = true;
-      });
+    // Get all corpora
+    TopicService.getCorpora().then(function(data) {
+      $scope.corpora = data.data.corpus;
     });
+
+    // Load the intial model
+    loadModel();
+
+    function loadModel() {
+      TopicService.loadModel($scope.corpus, $scope.topicNums).then(function(data) {
+        console.log("loaded the initial model!")
+        console.log(data.data);
+        TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
+          console.log("loaded the initial document assignment");
+          console.log(docs.data);
+          processModel(data.data, docs.data);
+
+
+          // Select to display the first topic in the list
+          $scope.selectedTopic = $scope.topics[0];
+          $scope.topicsCopy = angular.copy($scope.topics);
+          $scope.topics[0].selected = true;
+        });
+      });
+    }
+
+    /**
+    * Dialog box to allow the user to set the corpus and number of topics for the interface.
+    */
+    $scope.configureModel = function(ev) {
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'views/configure-model.tmpl.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          locals: {
+            corpus: $scope.corpus,
+            number: $scope.topicNums,
+            corpora: $scope.corpora
+          }
+        })
+        .then(function(data) {
+          $scope.corpus = data.corpus;
+          $scope.topicNums = data.number;
+          loadModel();
+        }, function() {
+          console.log('You cancelled the dialog.');
+        });
+    };
+
+    function DialogController($scope, $mdDialog, corpus, number, corpora) {
+      $scope.corpus = corpus;
+      $scope.number = number;
+      $scope.corpora = corpora;
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.submit = function(corpus, number) {
+        var data = {corpus: corpus, 
+                    number: number};
+        $mdDialog.hide(data);
+      };
+    };
 
     /**
     * Method to process the model returned from the server 
@@ -64,9 +119,9 @@ angular.module('itmUiApp')
       $scope.topics = data.topics;
 
       // determine the display words for each topic
-      _.each($scope.topics, function(topic, index) {
+      _.each($scope.topics, function(topic) {
         // set the topic id based on its index
-        topic.id = index;
+        topic.id = topic.topicindex;
 
         // choose the topic label as the first three words of the topic
         var display = '';
@@ -75,6 +130,7 @@ angular.module('itmUiApp')
 
         // set the documents
         // AS (4/14): this asserts that the indices match up
+        var index = topic.topicindex;
         topic.docs = docs.documents[index].docs;
 
         _.each(topic.docs, function(doc) {
@@ -108,6 +164,9 @@ angular.module('itmUiApp')
         topic.merge = false;
       });
 
+      // sort the list by topic index
+      $scope.topics = _.sortBy($scope.topics, "topicindex");
+
       $scope.loading = false;
     }
 
@@ -131,10 +190,10 @@ angular.module('itmUiApp')
     $scope.save = function() {
       $scope.loading = true;
       // save the refinements
-      TopicService.save($scope.refinements).then(function(data) {
+      TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
         console.log("the model has been updated!")
         console.log(data.data);
-        TopicService.getDocuments().then(function(docs) {
+        TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
           processModel(data.data, docs.data);
 
           // Select the first topic in the list
@@ -471,6 +530,6 @@ angular.module('itmUiApp')
         $scope.refinements.splice(indexToRemove, 1);
       }
     });
-
+}
 
   });
