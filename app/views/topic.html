@@ -72,10 +72,12 @@
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<div class="document-name">{{document.name}}</div>
 					<span class="document-snippet">
-						<span ng-if="!document.more">{{document.snippet}}</span>
-						<span ng-if="document.more">{{document.text}}</span>
-						<span class="toggle-doc" ng-if="!document.more" ng-click="document.more=true">show more</span>
-						<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
+						<span ng-if="document.hasMore && !document.more">{{document.snippet}}</span>
+						<span ng-if="!document.hasMore || document.more">{{document.text}}</span>
+						<span ng-if="document.hasMore">
+							<span class="toggle-doc" ng-if="!document.more" ng-click="document.more=true">show more</span>
+							<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
+						</span>
 					</span>
 					<button ng-if="!topic.splitting && !topic.split"class="doc-remove md-secondary" ng-click="removeDocument(document)">
 						<md-icon ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-window-close'>

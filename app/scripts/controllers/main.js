@@ -136,7 +136,14 @@ angular.module('itmUiApp')
 
         _.each(topic.docs, function(doc) {
           doc.status = 'unevaluated';
-          doc.snippet = doc.text.substring(0,250) + "...";
+          if (doc.text.length <= 350) {
+            doc.hasMore = false;
+            doc.snippet = doc.text;
+          } else {
+            doc.hasMore = true;
+            doc.snippet = doc.text.substring(0,350) + "...";
+          }
+          
           doc.more = false;
         });
 
