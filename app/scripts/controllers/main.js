@@ -25,8 +25,8 @@ angular.module('itmUiApp')
     $scope.loading = true;
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
-    $scope.corpus = "news";
-    $scope.topicNums = 10;
+    $scope.corpus = "newsgroup";
+    $scope.topicNums = 20;
     
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
@@ -52,6 +52,7 @@ angular.module('itmUiApp')
     loadModel();
 
     function loadModel() {
+      $scope.loading = true;
       TopicService.loadModel($scope.corpus, $scope.topicNums).then(function(data) {
         console.log("loaded the initial model!")
         console.log(data.data);
