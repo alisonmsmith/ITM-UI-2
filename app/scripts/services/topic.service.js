@@ -29,6 +29,9 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		return user;
 	}
 
+	/**
+	* Method to get the list of all available corpora. 
+	*/
 	this.getCorpora = function() {
 		return $http({
 			method: 'GET',
@@ -36,8 +39,30 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		}); 
 	}
 
+	/**
+	* Method to add a message to the current log file on the server. 
+	*/
+	this.log = function(corpus, topics, message) {
+		return $http({
+			method: 'POST',
+			url: backend_head + '/itm-backend/rest/logger',
+			params: {
+				corpus: corpus,
+				userId: user,
+				topicNums: topics,
+				modelId: iterationCount
+			},
+			data: message
+		}); 
+	}
+
+	/**
+	* Method to load the model for the current user given the corpus and number of topics.
+	* The iteration count should always be at 0 for initial load.
+	*/
 	this.loadModel = function(corpus, topics) {
-		//return $http.get('data/model2.json');
+		// ensure iteration count is at 0
+		iterationCount = 0;
 
 		return $http({
 			method: 'GET',
@@ -51,6 +76,9 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		}); 
 	}
 
+	/**
+	* Method to load the documents for the current user given the corpus and number of topics.
+	*/
 	this.getDocuments = function (corpus, topics) {
 		return $http({
 			method: 'GET',

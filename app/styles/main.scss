@@ -217,6 +217,14 @@ md-list-item.document-list-item {
 		margin-left: 20px;
 		color: lighten(black, 20%);
 	}
+  .toggle-doc {
+    font-weight: 600;
+    cursor: pointer;
+    //font-style: italic;
+    &:hover {
+      color: $md-accent;
+    }
+  }
   &.removed {
     text-decoration:line-through;
     color: $md-primary-hue1;

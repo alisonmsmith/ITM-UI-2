@@ -136,6 +136,7 @@ angular.module('itmUiApp')
         _.each(topic.docs, function(doc) {
           doc.status = 'unevaluated';
           doc.snippet = doc.text.substring(0,250) + "...";
+          doc.more = false;
         });
 
         // create objects for the documents
