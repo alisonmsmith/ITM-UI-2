@@ -70,7 +70,10 @@
 		<div class="document-holder">
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
-					<div class="document-name">{{document.name}}</div>
+					<div class="document-name">
+						{{document.name}} 
+						<span class="document-category">{{document.category}}</span>
+						</div>
 					<span class="document-snippet">
 						<span ng-if="document.hasMore && !document.more">{{document.snippet}}</span>
 						<span ng-if="!document.hasMore || document.more">{{document.text}}</span>

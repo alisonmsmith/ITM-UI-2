@@ -205,11 +205,26 @@ md-dialog {
 md-list-item.document-list-item {
   padding: 5px;
 	.document-name {
+    width: 10%;
 		//cursor: pointer;
 		font-weight: 600;
+    text-align: center;
 		/*&:hover {
 			color: $md-accent;
 		}*/
+    .document-category {
+      font-weight: 600;
+      font-style: italic;
+      font-size: 10pt;
+      //background-color: $md-primary-hue1;
+      color: $md-primary-hue1;
+      //color: white;
+      border-radius: 5px;
+      padding: 5px;
+      display: block;
+      word-wrap: break-word;
+      text-align: center;
+    }
 	}
 	.document-snippet {
     line-height: 1.2em;
