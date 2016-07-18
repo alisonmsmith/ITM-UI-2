@@ -4,7 +4,7 @@
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('topic', [function() {
+angular.module('itmUiApp').directive('topic', ['$sce', function($sce) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -32,6 +32,23 @@ angular.module('itmUiApp').directive('topic', [function() {
 				scope.topic.split = true;
 				scope.$emit('accept-split', scope.topic);
 			};
+
+			scope.hoverWord = function(chip) {
+				// highlight the word in the documents
+				scope.filterWord = chip.word;
+			};
+
+			scope.unhoverWord = function(chip) {
+				scope.filterWord = null;
+			};
+
+			scope.highlight = function (text, search) {
+				if (!search) {
+					return $sce.trustAsHtml(text);
+				} else {
+					return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>'));
+				}
+			}
 
 			/*scope.acceptmerge = function() {
 				scope.$emit('accept-merge', topic);

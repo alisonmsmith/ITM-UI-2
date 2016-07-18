@@ -279,6 +279,25 @@ md-chip-template{
   }
 }
 
+.md-chips md-chip:after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: -10px;
+  top: 0;
+  font-size: 20pt;
+  content: ",";
+  color: $md-primary-hue2;
+}
+
+
+// highlighted word in the topic text
+.highlightedText {
+    //background: $md-accent;
+    color: $md-accent;
+    //border-radius:1px;
+}
+
 button.topic-chip-remove, button.doc-remove {
       width: 24px;
       line-height: 30px;

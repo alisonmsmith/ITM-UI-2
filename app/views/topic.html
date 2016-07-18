@@ -34,10 +34,13 @@
 				md-on-remove="removeWord($chip, $index)" 
 				md-transform-chip="transform($chip)"
 				readonly="topic.splitting || topic.split">
-				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
+				<md-chip-template ng-class="$chip.status"
+					ng-mouseenter="hoverWord($chip)"
+					ng-mouseleave="unhoverWord($chip)"
+				 	class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
-		        </md-chip-template>
+		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo"></md-icon>
 			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
@@ -56,10 +59,14 @@
 				md-on-remove="removeWord($chip, $index)" 
 				md-transform-chip="transform($chip)"
 				readonly="topic.splitting || topic.split">
-				<md-chip-template ng-class="$chip.status" class="topic-chip-template">
+				<md-chip-template 
+					ng-mouseenter="hoverWord($chip)"
+					ng-mouseleave="unhoverWord($chip)"
+					ng-class="$chip.status" 
+					class="topic-chip-template">
 		          <strong md-chip-draggable>{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
-		        </md-chip-template>
+		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo"></md-icon>
 			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
@@ -71,12 +78,12 @@
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<div class="document-name">
-						{{document.name}} 
-						<span class="document-category">{{document.category}}</span>
+						{{document.docid}} 
+						<!--<span class="document-category">{{document.category}}</span>-->
 						</div>
 					<span class="document-snippet">
-						<span ng-if="document.hasMore && !document.more">{{document.snippet}}</span>
-						<span ng-if="!document.hasMore || document.more">{{document.text}}</span>
+						<span ng-if="document.hasMore && !document.more"  ng-bind-html="highlight(document.snippet, filterWord)"></span>
+						<span ng-if="!document.hasMore || document.more"  ng-bind-html="highlight(document.text, filterWord)"></span>
 						<span ng-if="document.hasMore">
 							<span class="toggle-doc" ng-if="!document.more" ng-click="document.more=true">show more</span>
 							<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
