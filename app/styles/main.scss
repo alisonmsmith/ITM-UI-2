@@ -274,12 +274,49 @@ md-chip-template{
     text-decoration: line-through;
     color: $md-primary-hue1;
   }
+  &.trashed {
+     text-decoration: none;
+      position: relative;
+      color: $md-primary-hue1;
+&::before, &::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+&::before {
+    border-bottom: 2px solid $md-primary-hue1;
+    -webkit-transform: skewY(-10deg);
+    transform: skewY(-10deg);
+}
+&::after {
+    border-bottom: 2px solid $md-primary-hue1;
+    -webkit-transform: skewY(10deg);
+    transform: skewY(10deg);
+}
+  }
   &.reordered {
     font-style: italic;
   }
 }
 
-.md-chips md-chip:after {
+.md-chips md-chip {
+  //padding: 2px;
+ // margin: 2px;
+ // background-color: white;
+
+  &:hover, &:focus, &.md-focused {
+  //  background-color: white;
+    //color: $md-primary;
+    ._md-chip-content {
+     // color: $md-accent;
+    //  text-decoration: underline;
+    }
+  }
+}
+
+/*.md-chips md-chip:after {
   position: absolute;
   width: 10px;
   height: 10px;
@@ -288,7 +325,7 @@ md-chip-template{
   font-size: 20pt;
   content: ",";
   color: $md-primary-hue2;
-}
+}*/
 
 
 // highlighted word in the topic text

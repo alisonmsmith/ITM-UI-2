@@ -8,7 +8,7 @@
  * Controller of the itmUiApp
  */
 angular.module('itmUiApp')
-  .controller('MainCtrl', function($scope, $state, $http, TopicService, $mdDialog) {
+  .controller('MainCtrl',  function($scope, $state, $http, TopicService, $mdDialog) {
 
     $scope.user = TopicService.getUser();
     
@@ -16,7 +16,7 @@ angular.module('itmUiApp')
       $state.go('login'); 
     } else {
 
-    $scope.documents = [];
+   // $scope.documents = [];
     $scope.topics = [];
     $scope.topicsCopy = [];
     $scope.refinements = [];
@@ -56,17 +56,18 @@ angular.module('itmUiApp')
       TopicService.loadModel($scope.corpus, $scope.topicNums).then(function(data) {
         console.log("loaded the initial model!")
         console.log(data.data);
-        TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
-          console.log("loaded the initial document assignment");
-          console.log(docs.data);
-          processModel(data.data, docs.data);
+        processModel(data.data);
+       // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
+       //   console.log("loaded the initial document assignment");
+       //   console.log(docs.data);
+       //   processModel(data.data, docs.data);
 
 
           // Select to display the first topic in the list
           $scope.selectedTopic = $scope.topics[0];
           $scope.topicsCopy = angular.copy($scope.topics);
           $scope.topics[0].selected = true;
-        });
+       // });
       });
     }
 
@@ -115,8 +116,7 @@ angular.module('itmUiApp')
     /**
     * Method to process the model returned from the server 
     */
-    function processModel(data, docs) {
-      $scope.documents = docs.documents;
+    function processModel(data) {
       $scope.topics = data.topics;
 
       // determine the display words for each topic
@@ -129,11 +129,7 @@ angular.module('itmUiApp')
         display += topic.words[0].word + ' ' + topic.words[1].word + ' ' + topic.words[2].word;
         topic.displayWords = display;
 
-        // set the documents
-        // AS (4/14): this asserts that the indices match up
-        var index = topic.topicindex;
-        topic.docs = docs.documents[index].docs;
-
+        // set document to unevalauted and compute snippet
         _.each(topic.docs, function(doc) {
           doc.status = 'unevaluated';
           if (doc.text.length <= 350) {
@@ -147,30 +143,31 @@ angular.module('itmUiApp')
           doc.more = false;
         });
 
-        // create objects for the documents
-     /*   var docs = [];
-        _.each(docs.documents, function(doc) {
-          docs.push({
-            "id":doc,
-            'status':'unevaluated',
-            "snippet":"...this is where the document snippet will go when we have it..."
-          });
-        });
-        topic.docs = docs;*/
-
-        // retain the weighted words (term, weight)
-       // topic.weightedWords = topic.words;
-
-        // store only the list of terms
-     //  var words = [];
+        // set the status of each word to unevalauted
+        var weights = [];
         _.each(topic.words, function(word) {
           word.status = 'unevaluated';
-          //words.push(word.word);
+          weights.push(word.weight);
         });
-       // topic.words = words; */
 
-        // set the merge status to false
+        // AS (7/28): we should only have 20 words, not 21
+        topic.words.pop();
+
+        // set the topic merge status to false
         topic.merge = false;
+
+        // determine the topic word font size
+        var scale = d3.scaleLinear();
+
+        scale.range([10,28]);
+        scale.domain([d3.min(weights), d3.max(weights)]);
+
+        _.each(topic.words, function(word) {
+          word.style = "{'font-size':'" + Math.round(scale(word.weight)) + "pt'}";
+        });
+
+        console.log(topic.words);
+
       });
 
       // sort the list by topic index
@@ -202,8 +199,9 @@ angular.module('itmUiApp')
       TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
         console.log("the model has been updated!")
         console.log(data.data);
-        TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
-          processModel(data.data, docs.data);
+        processModel(data.data);
+       // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
+      //    processModel(data.data, docs.data);
 
           // Select the first topic in the list
           $scope.selectedTopic = $scope.topics[0];
@@ -216,7 +214,7 @@ angular.module('itmUiApp')
           // clear the refinement list
           $scope.refinements = [];
           $scope.isDirty = false;
-        });
+      //  });
 
       });
     };

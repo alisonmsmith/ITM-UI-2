@@ -38,7 +38,8 @@
 					ng-mouseenter="hoverWord($chip)"
 					ng-mouseleave="unhoverWord($chip)"
 				 	class="topic-chip-template">
-		          <strong md-chip-draggable>{{$chip.word}}</strong>
+		          <strong md-chip-draggable
+		          	ng-style="{{$chip.style}}">{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
 		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
@@ -64,7 +65,7 @@
 					ng-mouseleave="unhoverWord($chip)"
 					ng-class="$chip.status" 
 					class="topic-chip-template">
-		          <strong md-chip-draggable>{{$chip.word}}</strong>
+		          <strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
 		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
@@ -77,10 +78,10 @@
 		<div class="document-holder">
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
-					<div class="document-name">
-						{{document.docid}} 
-						<!--<span class="document-category">{{document.category}}</span>-->
-						</div>
+					<!--<div class="document-name">
+						{{document.docid}} ({{document.prob}})
+						<span class="document-category">{{document.category}}</span>
+						</div>-->
 					<span class="document-snippet">
 						<span ng-if="document.hasMore && !document.more"  ng-bind-html="highlight(document.snippet, filterWord)"></span>
 						<span ng-if="!document.hasMore || document.more"  ng-bind-html="highlight(document.text, filterWord)"></span>

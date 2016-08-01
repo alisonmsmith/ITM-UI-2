@@ -29,6 +29,7 @@ module.exports = function(config) {
       'bower_components/angular-material/angular-material.js',
       'bower_components/underscore/underscore.js',
       'bower_components/angular-spinners/dist/angular-spinners.min.js',
+      'bower_components/d3/d3.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
