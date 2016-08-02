@@ -109,14 +109,14 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
 }
 
 md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
-  background-color: $md-primary-hue3;
+  background-color: $md-accent;
   font-style: italic;
   padding-top: 10px;
   padding-bottom: 10px;
-  color: $md-accent;
+  color: white;
   text-align: center;
   md-icon {
-    color: $md-accent;
+    color: white;
   }
 }
 
@@ -278,23 +278,23 @@ md-chip-template{
      text-decoration: none;
       position: relative;
       color: $md-primary-hue1;
-&::before, &::after {
-    content: '';
-    width: 100%;
-    position: absolute;
-    right: 0;
-    top: 50%;
-}
-&::before {
-    border-bottom: 2px solid $md-primary-hue1;
-    -webkit-transform: skewY(-10deg);
-    transform: skewY(-10deg);
-}
-&::after {
-    border-bottom: 2px solid $md-primary-hue1;
-    -webkit-transform: skewY(10deg);
-    transform: skewY(10deg);
-}
+    &::before, &::after {
+        content: '';
+        width: 100%;
+        position: absolute;
+        right: 0;
+        top: 50%;
+    }
+    &::before {
+        border-bottom: 2px solid $md-primary-hue1;
+        -webkit-transform: skewY(-10deg);
+        transform: skewY(-10deg);
+    }
+    &::after {
+        border-bottom: 2px solid $md-primary-hue1;
+        -webkit-transform: skewY(10deg);
+        transform: skewY(10deg);
+    }
   }
   &.reordered {
     font-style: italic;
@@ -330,9 +330,7 @@ md-chip-template{
 
 // highlighted word in the topic text
 .highlightedText {
-    //background: $md-accent;
     color: $md-accent;
-    //border-radius:1px;
 }
 
 button.topic-chip-remove, button.doc-remove {

@@ -4,7 +4,7 @@
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('topic', ['$sce', function($sce) {
+angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sce, $mdDialog) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -13,9 +13,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', function($sce) {
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
 
+			scope.selected = null;
+
 			scope.selectWord = function(chip) {
-				// show the trash can and store the selected word
-				//scope.trash = true;
+				// store the selected word for the trash can
 				scope.selected = chip;
 			};
 
@@ -28,6 +29,17 @@ angular.module('itmUiApp').directive('topic', ['$sce', function($sce) {
 			};
 
 			scope.acceptSplit = function() {
+				// only allow the user to split if the subwords have been modified
+				if (scope.topic.subwords.length === 1 && scope.topic.subwords[0].status === 'hidden') {
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('please drag words between the sub topics before confirming or press cancel if you woudl like to cancel the split operation')
+                  .ariaLabel('split topic dialog')
+                  .ok('Got it!')
+              );					return;
+				}
 				scope.topic.splitting = false;
 				scope.topic.split = true;
 				scope.$emit('accept-split', scope.topic);
@@ -65,7 +77,16 @@ angular.module('itmUiApp').directive('topic', ['$sce', function($sce) {
 					// strikethrough the selected word
 					scope.selected.status = 'trashed';
 					scope.selected = undefined;
-				} 
+				} else {
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('please first click to select one of the topic words to add to the stop words list.')
+                  .ariaLabel('stop words dialog')
+                  .ok('Got it!')
+              );
+				}
 			});
 
 			// Listen for event that a chip has been dragged within the word list

@@ -150,9 +150,6 @@ angular.module('itmUiApp')
           weights.push(word.weight);
         });
 
-        // AS (7/28): we should only have 20 words, not 21
-        topic.words.pop();
-
         // set the topic merge status to false
         topic.merge = false;
 
@@ -165,9 +162,6 @@ angular.module('itmUiApp')
         _.each(topic.words, function(word) {
           word.style = "{'font-size':'" + Math.round(scale(word.weight)) + "pt'}";
         });
-
-        console.log(topic.words);
-
       });
 
       // sort the list by topic index
@@ -269,6 +263,19 @@ angular.module('itmUiApp')
         }
       });
 
+      // IF we do not have more than one topic
+      if (topics.length <= 1) {
+                      $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('please select at least one additional topic to merge')
+                  .ariaLabel('merge alert')
+                  .ok('Got it!')
+              );
+        return;
+      }
+
       // add the topics as a merge pair
       $scope.merged.push(pair);
 
@@ -328,7 +335,9 @@ angular.module('itmUiApp')
     $scope.$on("split", function(event, topic) {
       topic.splitting = true;
       topic.wordscopy = topic.words;
-      //topic.subwords = [];
+
+      // AS (8/2): due to the way that the md-chips-draggable directive works
+      // add a single 'empty' sub word to support dragging into sub topic B
       topic.subwords = [{"status":"hidden"}];
     });
 
@@ -348,10 +357,29 @@ angular.module('itmUiApp')
       // if we're in merge mode, toggle the merge status
       if ($scope.mode === 'merge') {
         // only allow selection of an unmerged or unsplit topic
-        if (!topic.split && !topic.merged) {
+        if (!topic.split && !topic.merged && !topic.selected) {
           topic.merge = !topic.merge;
+        } else {
+          console.log("unable to merge with split or merged topic");
         }
       } else {
+        // if the current topic is being split, don't let the user move away
+        var splitting = _.filter($scope.topics, function(topic) {
+          return topic.splitting;
+        });
+
+        if (splitting.length > 0) {
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('please confirm or cancel your split topic modifications')
+                  .ariaLabel('Alert Dialog Demo')
+                  .ok('Got it!')
+              );
+          return;
+        } 
+
         // deselect other topics
         _.each($scope.topics, function(topic) {
           topic.selected = false;

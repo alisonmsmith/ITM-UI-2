@@ -1,12 +1,12 @@
 <md-card class="topic-card">
 	<md-card-title>
 		<md-card-title-text>
-				<md-toolbar class="topic-toolbar" ng-if="topic.splitting || topic.split">
+				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split">
 		<div class="md-toolbar-tools">
-			<h3 ng-if="topic.splitting">Drag words between the sub topics to split the topic.</h3>
-			<h3 ng-if="topic.split">
+			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
+			<span ng-if="topic.split">
 				Unable to make topic-level changes with outstanding split refinement. Please save refinements to continue refining this topic.
-			</h3>
+			</span>
 			<span flex></span>
 			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
               <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
