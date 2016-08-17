@@ -2,11 +2,20 @@
 	<md-tooltip>undo split</md-tooltip>
     <md-icon md-font-icon="mdi mdi-undo"></md-icon>
 </md-button>
-<md-list-item class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge, split:topic.split}" ng-click="select(topic)"> 
+<md-list-item ng-if="renaming">
+	<md-input-container md-no-float class="md-block">
+    	<input class="topic-name-input" ng-model="topic.topic" placeholder="Topic Name">
+     </md-input-container>	
+</md-list-item>
+<md-list-item ng-if="!renaming" class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge, split:topic.split}" ng-click="select(topic)"> 
+
 	<p>
 		<span class="topic-label">{{topic.topic}}</span>
 		<span class="topic-words">{{topic.displayWords}}</span>
 	</p>
+<!--	<md-icon class="topic-icon md-secondary" ng-if="topic.selected" aria-label="rename topic" ng-click="rename(topic)" md-font-icon="mdi mdi-pencil">
+		<md-tooltip>rename topic</md-tooltip>
+	</md-icon> -->
 	<md-icon ng-if="(topic.selected && !topic.split) || topic.merged" ng-class="{highlight:topic.merged}" class="topic-icon md-secondary" aria-label="merge topic" ng-click="merge(topic)" md-font-icon="mdi mdi-call-merge">
 		<md-tooltip>merge topic</md-tooltip>
 	</md-icon>

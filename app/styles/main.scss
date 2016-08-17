@@ -264,6 +264,13 @@ md-list-item.document-list-item {
   margin-bottom: 20px;
 }
 
+input.topic-name-input {
+  text-transform: uppercase;
+ // color: white;
+  border-bottom: none;
+ // padding-left: 20px;
+}
+
 md-chip-template{
   &.added {
    // color: $emerald;
@@ -330,7 +337,8 @@ md-chip-template{
 
 // highlighted word in the topic text
 .highlightedText {
-    color: $md-accent;
+    background-color: lighten($md-accent, 20%);
+ //   color: white;
 }
 
 button.topic-chip-remove, button.doc-remove {

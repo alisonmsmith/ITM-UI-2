@@ -13,12 +13,30 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
 
-			scope.selected = null;
+
+			// initialize the view when a new topic is selected
+			scope.$watch("topic", function() {
+				scope.hoveredWord = null;
+				scope.selectedWord = null;
+				scope.selected = null;
+			});
+
+			scope.$watch('topic.topic', function () {
+				scope.$emit("rename", scope.topic);
+				//console.log(scope.topic.topic);
+			});
 
 			scope.selectWord = function(chip) {
 				// store the selected word for the trash can
 				scope.selected = chip;
+
+				// highlight the word in the documents
+				scope.selectedWord = chip.word;
 			};
+
+			scope.blur = function() {
+				console.log("blur!");
+			}
 
 
 			scope.cancelSplit = function() {
@@ -47,18 +65,26 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 
 			scope.hoverWord = function(chip) {
 				// highlight the word in the documents
-				scope.filterWord = chip.word;
+				scope.hoveredWord = chip.word;
+					
 			};
 
 			scope.unhoverWord = function(chip) {
-				scope.filterWord = null;
+				// unhighlight the word unless it has been clicked
+				scope.hoveredWord = null;
+				
 			};
 
-			scope.highlight = function (text, search) {
-				if (!search) {
+			scope.highlight = function (text, search, search2) {
+				if (!search && !search2) {
 					return $sce.trustAsHtml(text);
-				} else {
+				} else if (!search2) {
 					return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>'));
+				} else if (!search) {
+					return $sce.trustAsHtml(text.replace(new RegExp(search2, 'gi'), '<span class="highlightedText">$&</span>'));
+				} else {
+					var text2 = text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>')
+					return $sce.trustAsHtml(text2.replace(new RegExp(search2, 'gi'), '<span class="highlightedText">$&</span>'));
 				}
 			}
 

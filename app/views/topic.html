@@ -1,6 +1,7 @@
 <md-card class="topic-card">
 	<md-card-title>
 		<md-card-title-text>
+
 				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split">
 		<div class="md-toolbar-tools">
 			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
@@ -9,9 +10,11 @@
 			</span>
 			<span flex></span>
 			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
+				<md-tooltip>cancel splitting; all changes will be discarded</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
             </md-button>
             <md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button" ng-click="acceptSplit()">
+            	<md-tooltip>save the split topic</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
         </div>
@@ -83,8 +86,8 @@
 						<span class="document-category">{{document.category}}</span>
 						</div>-->
 					<span class="document-snippet">
-						<span ng-if="document.hasMore && !document.more"  ng-bind-html="highlight(document.snippet, filterWord)"></span>
-						<span ng-if="!document.hasMore || document.more"  ng-bind-html="highlight(document.text, filterWord)"></span>
+						<span ng-if="document.hasMore && !document.more"  ng-bind-html="highlight(document.snippet, hoveredWord, selectedWord)"></span>
+						<span ng-if="!document.hasMore || document.more"  ng-bind-html="highlight(document.text, hoveredWord, selectedWord)"></span>
 						<span ng-if="document.hasMore">
 							<span class="toggle-doc" ng-if="!document.more" ng-click="document.more=true">show more</span>
 							<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>

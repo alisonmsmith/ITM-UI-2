@@ -198,9 +198,9 @@ angular.module('itmUiApp')
       //    processModel(data.data, docs.data);
 
           // Select the first topic in the list
-          $scope.selectedTopic = $scope.topics[0];
+          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.topicsCopy = angular.copy($scope.topics);
-          $scope.topics[0].selected = true;
+          $scope.topics[$scope.selectedIndex].selected = true;
 
           // reset the merged list
           $scope.merged = [];
@@ -388,6 +388,11 @@ angular.module('itmUiApp')
         // select the current topic
         topic.selected = true;
         $scope.selectedTopic = topic;
+
+        // remember this id
+        $scope.selectedIndex = topic.topicindex;
+
+        $scope.$broadcast("select-topic", topic);
       }
 
     });
