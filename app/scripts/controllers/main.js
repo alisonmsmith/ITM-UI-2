@@ -11,9 +11,9 @@ angular.module('itmUiApp')
   .controller('MainCtrl',  function($scope, $state, $http, TopicService, $mdDialog) {
 
     $scope.user = TopicService.getUser();
-    
+
     if (!$scope.user) {
-      $state.go('login'); 
+      $state.go('login');
     } else {
 
    // $scope.documents = [];
@@ -23,11 +23,12 @@ angular.module('itmUiApp')
     $scope.mode = undefined;
     $scope.merged = [];
     $scope.loading = true;
+    $scope.stops = [];
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
     $scope.corpus = "newsgroup";
     $scope.topicNums = 20;
-    
+
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
     angular.element(document).find('.stop-words').on('dragover', dragOverHandler);
@@ -107,14 +108,14 @@ angular.module('itmUiApp')
         $mdDialog.cancel();
       };
       $scope.submit = function(corpus, number) {
-        var data = {corpus: corpus, 
+        var data = {corpus: corpus,
                     number: number};
         $mdDialog.hide(data);
       };
     };
 
     /**
-    * Method to process the model returned from the server 
+    * Method to process the model returned from the server
     */
     function processModel(data) {
       $scope.topics = data.topics;
@@ -139,7 +140,7 @@ angular.module('itmUiApp')
             doc.hasMore = true;
             doc.snippet = doc.text.substring(0,350) + "...";
           }
-          
+
           doc.more = false;
         });
 
@@ -182,10 +183,11 @@ angular.module('itmUiApp')
       $scope.merged = [];
       $scope.refinements = [];
       $scope.isDirty = false;
+      $scope.stops = [];
     }
 
     /**
-     * Method to save the refined model. 
+     * Method to save the refined model.
      */
     $scope.save = function() {
       $scope.loading = true;
@@ -208,6 +210,7 @@ angular.module('itmUiApp')
           // clear the refinement list
           $scope.refinements = [];
           $scope.isDirty = false;
+          $scope.stops = [];
       //  });
 
       });
@@ -232,7 +235,7 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'splitTopic' 
+        if (refinement.type === 'splitTopic'
           && refinement.topicId === topic.id) {
           indexToRemove = index;
         }
@@ -378,7 +381,7 @@ angular.module('itmUiApp')
                   .ok('Got it!')
               );
           return;
-        } 
+        }
 
         // deselect other topics
         _.each($scope.topics, function(topic) {
@@ -398,6 +401,10 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('add-stop-word', function(event, word) {
+      // store the stop word
+      $scope.stops.push(word);
+
+      // create the refinement
       var refinement = {
         'type': 'trash',
         'word': word
@@ -406,10 +413,13 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('undo-stop-word', function(event, word) {
+      // remove the stop word
+      $scope.stops = _.without($scope.stops, word);
+
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'trash' 
+        if (refinement.type === 'trash'
           && refinement.word === word) {
           indexToRemove = index;
         }
@@ -438,8 +448,8 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'removeWord' 
-          && refinement.topicId === $scope.selectedTopic.id 
+        if (refinement.type === 'removeWord'
+          && refinement.topicId === $scope.selectedTopic.id
           && refinement.word === word) {
           indexToRemove = index;
         }
@@ -454,7 +464,7 @@ angular.module('itmUiApp')
     */
     // AS (5/2/16): the order indices are updated in the UI after the refinement, so if
     // two re-orderings are performed, the indices of the latter refinement will not make sense
-    // based on the indices prior to the former refinement - this should only affect the backend if 
+    // based on the indices prior to the former refinement - this should only affect the backend if
     // refinements are not applied in order
     $scope.$on('reorder-word', function(event, word, to, from) {
       var refinement ={
@@ -491,7 +501,7 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'changeWordOrder' 
+        if (refinement.type === 'changeWordOrder'
           && refinement.originalPosition === from
           && refinement.newPosition === to
           && refinement.word === word
@@ -525,8 +535,8 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'addWord' 
-          && refinement.topicId === $scope.selectedTopic.id 
+        if (refinement.type === 'addWord'
+          && refinement.topicId === $scope.selectedTopic.id
           && refinement.word === word) {
           indexToRemove = index;
         }
@@ -560,8 +570,8 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'removeDocument' 
-          && refinement.topicId === $scope.selectedTopic.id 
+        if (refinement.type === 'removeDocument'
+          && refinement.topicId === $scope.selectedTopic.id
           && refinement.documentId === doc) {
           indexToRemove = index;
         }

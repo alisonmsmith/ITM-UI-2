@@ -27,14 +27,14 @@
 		<div class="word-holder" layout="row">
 			<span class="topic-a" flex>
 				<span class="sub-topic-name" ng-if="topic.splitting || topic.split">SUB TOPIC A</span>
-			<md-chips 
+			<md-chips
 				id="topicA"
-				ng-if="topic" 
-				secondary-placeholder="add new word..." 
-				ng-model="topic.words" 
-				md-on-select="selectWord($chip)" 
-				md-on-add="addWord($chip)" 
-				md-on-remove="removeWord($chip, $index)" 
+				ng-if="topic"
+				secondary-placeholder="add new word..."
+				ng-model="topic.words"
+				md-on-select="selectWord($chip)"
+				md-on-add="addWord($chip)"
+				md-on-remove="removeWord($chip, $index)"
 				md-transform-chip="transform($chip)"
 				readonly="topic.splitting || topic.split">
 				<md-chip-template ng-class="$chip.status"
@@ -53,20 +53,20 @@
 		</span>
 		<span class="topic-b" ng-if="topic.splitting || topic.split" flex="50">
 			<span class="sub-topic-name">SUB TOPIC B</span>
-			<md-chips 
+			<md-chips
 				id="topicB"
 				placeholder="add new word.."
-				secondary-placeholder="add new word..." 
-				ng-model="topic.subwords" 
-				md-on-select="selectWord($chip)" 
-				md-on-add="addWord($chip)" 
-				md-on-remove="removeWord($chip, $index)" 
+				secondary-placeholder="add new word..."
+				ng-model="topic.subwords"
+				md-on-select="selectWord($chip)"
+				md-on-add="addWord($chip)"
+				md-on-remove="removeWord($chip, $index)"
 				md-transform-chip="transform($chip)"
 				readonly="topic.splitting || topic.split">
-				<md-chip-template 
+				<md-chip-template
 					ng-mouseenter="hoverWord($chip)"
 					ng-mouseleave="unhoverWord($chip)"
-					ng-class="$chip.status" 
+					ng-class="$chip.status"
 					class="topic-chip-template">
 		          <strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
 		         <!-- <em>({{$chip.weight}})</em> -->
@@ -103,6 +103,7 @@
 					</button>
 					<md-divider></md-divider>
 				</md-list-item>
+		<!--		<md-list-item class="more-documents" ng-click="moreDocuments()">show more documents</md-list-item> -->
 			</md-list>
 		</div>
 	</md-card-content>

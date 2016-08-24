@@ -30,17 +30,17 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	}
 
 	/**
-	* Method to get the list of all available corpora. 
+	* Method to get the list of all available corpora.
 	*/
 	this.getCorpora = function() {
 		return $http({
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/getcorpora'
-		}); 
+		});
 	}
 
 	/**
-	* Method to add a message to the current log file on the server. 
+	* Method to add a message to the current log file on the server.
 	*/
 	this.log = function(corpus, topics, message) {
 		return $http({
@@ -53,7 +53,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				modelId: iterationCount
 			},
 			data: message
-		}); 
+		});
 	}
 
 	/**
@@ -64,6 +64,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		// ensure iteration count is at 0
 		iterationCount = 0;
 
+		var numDocs = 40;
+
 		return $http({
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/initialmodel',
@@ -71,9 +73,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				corpus: corpus,
 				userId: user,
 				topicNums: topics,
-				modelId: iterationCount
+				modelId: iterationCount,
+				numDocs: numDocs
 			}
-		}); 
+		});
 	}
 
 	/**
@@ -89,7 +92,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				topicNums: topics,
 				modelId: iterationCount
 			}
-		}); 
+		});
 	}
 
 	this.save = function(refinements, corpus, topics) {
@@ -106,6 +109,6 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				modelId: iterationCount
 			},
 			data:data
-		}); 
+		});
 	}
 });

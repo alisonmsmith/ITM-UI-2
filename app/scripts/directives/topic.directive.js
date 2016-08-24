@@ -8,23 +8,38 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 	return {
 		restrict: 'E',
 		scope: {
-			topic: '='
+			topic: '=',
+			stops: '='
 		},
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
 
-
 			// initialize the view when a new topic is selected
 			scope.$watch("topic", function() {
+				if (!scope.topic) {
+					return;
+				}
 				scope.hoveredWord = null;
 				scope.selectedWord = null;
 				scope.selected = null;
+				scope.numDocs = 20;
+
+				// ensure that we have struckthrough any stop words
+				_.each(scope.topic.words, function(word) {
+					if (scope.stops.indexOf(word.word) !== -1) {
+						word.status = 'trashed';
+					}
+				})
 			});
 
-			scope.$watch('topic.topic', function () {
+			scope.$watchCollection('stops', function (value) {
+				scope.stops = value;
+			});
+
+			/*scope.$watch('topic.topic', function () {
 				scope.$emit("rename", scope.topic);
 				//console.log(scope.topic.topic);
-			});
+			});*/
 
 			scope.selectWord = function(chip) {
 				// store the selected word for the trash can
@@ -66,13 +81,13 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 			scope.hoverWord = function(chip) {
 				// highlight the word in the documents
 				scope.hoveredWord = chip.word;
-					
+
 			};
 
 			scope.unhoverWord = function(chip) {
 				// unhighlight the word unless it has been clicked
 				scope.hoveredWord = null;
-				
+
 			};
 
 			scope.highlight = function (text, search, search2) {
@@ -131,7 +146,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 						chip.originalIndex = data.from;
 						scope.$emit('reorder-word', chip.word, data.to, data.from);
 					}
-					
+
 				} else if (data.fromCollection !== data.toCollection) {
 					// Move from one chip list to another
 					if (data.fromCollection === 'topicA') {
@@ -140,7 +155,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 						chip.orginalIndex = data.from;
 						chip.originalTopic = data.fromCollection;
 						scope.topic.subwords.splice(data.to, 0, chip);
-						
+
 					} else {
 						var chip = scope.topic.subwords.splice(data.from, 1)[0];
 						chip.status = 'split';
@@ -201,6 +216,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					// emit a refinement
 					scope.$emit('remove-doc', doc.docid);
 				}
+
+			}
+
+			scope.moreDocuments = function() {
+				// up the doc country by 20
+				scope.numDocs += 20;
 
 			}
 
