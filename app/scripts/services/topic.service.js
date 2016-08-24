@@ -20,6 +20,11 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// default user and corpus
 	var user = null;
 
+	// default the number of documents to 40
+	// TODO: we might want to let the user choose this when he is choosing the number
+	// of topics; alternatively, this could be treated as 'show more' button on each topic
+	var docNums = 40;
+
 	this.setUser = function(u) {
 		console.log("user set to: " + u);
 		user = u;
@@ -64,8 +69,6 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		// ensure iteration count is at 0
 		iterationCount = 0;
 
-		var numDocs = 40;
-
 		return $http({
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/initialmodel',
@@ -74,7 +77,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				userId: user,
 				topicNums: topics,
 				modelId: iterationCount,
-				numDocs: numDocs
+				docNums: docNums
 			}
 		});
 	}
@@ -106,7 +109,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				corpus: corpus,
 				userId: user,
 				topicNums: topics,
-				modelId: iterationCount
+				modelId: iterationCount,
+				docNums: docNums
 			},
 			data:data
 		});

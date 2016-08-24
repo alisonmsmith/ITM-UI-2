@@ -65,11 +65,15 @@ angular.module('itmUiApp')
 
 
           // Select to display the first topic in the list
-          $scope.selectedTopic = $scope.topics[0];
+          $scope.selectedIndex = 0;
+          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.topicsCopy = angular.copy($scope.topics);
           $scope.topics[0].selected = true;
        // });
-      });
+     }, function() {
+       // on error
+       console.log("error loading initial model");
+     });
     }
 
     /**
@@ -131,6 +135,7 @@ angular.module('itmUiApp')
         topic.displayWords = display;
 
         // set document to unevalauted and compute snippet
+        console.log("num docs: " + topic.docs.length);
         _.each(topic.docs, function(doc) {
           doc.status = 'unevaluated';
           if (doc.text.length <= 350) {
@@ -157,7 +162,7 @@ angular.module('itmUiApp')
         // determine the topic word font size
         var scale = d3.scaleLinear();
 
-        scale.range([10,28]);
+        scale.range([8,32]);
         scale.domain([d3.min(weights), d3.max(weights)]);
 
         _.each(topic.words, function(word) {
@@ -199,7 +204,7 @@ angular.module('itmUiApp')
        // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
       //    processModel(data.data, docs.data);
 
-          // Select the first topic in the list
+          // Select the previously selected topic in the list
           $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.topicsCopy = angular.copy($scope.topics);
           $scope.topics[$scope.selectedIndex].selected = true;
@@ -213,7 +218,15 @@ angular.module('itmUiApp')
           $scope.stops = [];
       //  });
 
-      });
+    }, function() {
+      // error saving model
+      alert('error saving model - reverting to model prior to save');
+      $scope.refinements = [];
+      $scope.isDirty = false;
+      $scope.stops = [];
+      $scope.merged = [];
+
+    });
     };
 
     $scope.$on('accept-split', function(event, topic) {
