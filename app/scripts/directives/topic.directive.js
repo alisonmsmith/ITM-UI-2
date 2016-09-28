@@ -150,14 +150,26 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				} else if (data.fromCollection !== data.toCollection) {
 					// Move from one chip list to another
 					if (data.fromCollection === 'topicA') {
+						// moving from A to B
 						var chip = scope.topic.words.splice(data.from, 1)[0];
 						chip.status = 'split';
 						chip.orginalIndex = data.from;
 						chip.originalTopic = data.fromCollection;
-						scope.topic.subwords.splice(data.to, 0, chip);
+						// if this is the first chip to be dragged into B, we can remove the hidden chip
+						if (scope.topic.subwords.length === 1 && scope.topic.subwords[0].status === 'hidden') {
+							scope.topic.subwords = [chip];
+						} else {
+							// otherwise insert the chip appropriately
+							scope.topic.subwords.splice(data.to, 0, chip);
+						}
 
 					} else {
+						// moving from B to A
 						var chip = scope.topic.subwords.splice(data.from, 1)[0];
+						// if B is now empty, we need to add back in the hidden chip
+						if (scope.topic.subwords.length === 0) {
+							scope.topic.subwords = [{'status':'hidden'}];
+						}
 						chip.status = 'split';
 						chip.orginalIndex = data.from;
 						chip.originalTopic = data.fromCollection;

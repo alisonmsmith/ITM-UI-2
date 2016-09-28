@@ -12,8 +12,8 @@ body {
 
 // Uncomment to use a topic list with width based on parent div
 // for responsive design (messes up the shadowing, though)
-/*md-sidenav, 
-md-sidenav.md-locked-open, 
+/*md-sidenav,
+md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
     min-width: 0px !important;
     width: auto !important;
@@ -21,13 +21,13 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }*/
 
 // Set the width of the topic list here
-md-sidenav, 
-md-sidenav.md-locked-open, 
+md-sidenav,
+md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
     min-width: 200px !important;
     width: 45vw !important;
     max-width: 500px !important;
-} 
+}
 
 .login-panel {
   width: 450px;
@@ -99,7 +99,7 @@ color: $md-primary-hue1;   // color: $md-primary-hue3;
 }
 
 .app-content {
-//	display:inline-block; 
+//	display:inline-block;
 }
 
 .topic-list-heading {
@@ -306,6 +306,9 @@ md-chip-template{
   &.reordered {
     font-style: italic;
   }
+  &.hidden {
+    padding: 150px;
+  }
 }
 
 .md-chips md-chip {
@@ -352,13 +355,13 @@ button.topic-chip-remove, button.doc-remove {
       padding: 0;
       margin: 0;
       transition: background 0.15s linear;
-      display: block; 
+      display: block;
 
           position: absolute;
     right: 4px;
     top: 4px;
     margin-right: 0;
-    height: 24px; 
+    height: 24px;
 
       md-icon {
         font-size:18pt;
@@ -367,7 +370,7 @@ button.topic-chip-remove, button.doc-remove {
         left: 50%;
         transform: translate3d(-50%, -50%, 0) scale(0.7);
         color: white;
-        fill: white; 
+        fill: white;
       }
 
       &:hover, &:focus {

@@ -48,6 +48,25 @@ angular.module('mdChipDraggable', [])
           });
 
           $element.on('dragstart', function (event) {
+            // set the sibling input element (if the chip container is not readonly) to be non-droppable
+            var input = $element.parent().children("_md-chip-input-container").children("div").children("input");
+            angular.element(input).off('drop');
+            angular.element(input).on('drop', function(event) {
+              event.preventDefault();
+            });
+
+          //  var mdchips = $element.parent().parent();
+      /*    var mdchips = $document.find('md-chips-wrap');
+          console.log(mdchips);
+          angular.forEach(mdchips, function(chips) {
+            angular.element(chips).off('drop');
+            angular.element(chips).on('drop', function(event) {
+              // if the  mdchips is empty, I still want to support dropping
+              console.log(chips);
+            });
+          }); */
+
+
             if (preventDrag) {
               event.preventDefault();
 
@@ -73,6 +92,7 @@ angular.module('mdChipDraggable', [])
           });
 
           var dragOverHandler = function (event) {
+
             if (dragging) {
               return;
             }
@@ -159,7 +179,6 @@ angular.module('mdChipDraggable', [])
           };
 
           $element.on('dragenter', function () {
-            console.log('valid drop location');
             if (dragging) {
               return;
             }
