@@ -94,12 +94,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				if (!search && !search2) {
 					return $sce.trustAsHtml(text);
 				} else if (!search2) {
-					return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>'));
+					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+search +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				} else if (!search) {
-					return $sce.trustAsHtml(text.replace(new RegExp(search2, 'gi'), '<span class="highlightedText">$&</span>'));
+					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+search2+'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				} else {
 					var text2 = text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>')
-					return $sce.trustAsHtml(text2.replace(new RegExp(search2, 'gi'), '<span class="highlightedText">$&</span>'));
+					return $sce.trustAsHtml(text2.replace(new RegExp('\\b'+search2+'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				}
 			}
 

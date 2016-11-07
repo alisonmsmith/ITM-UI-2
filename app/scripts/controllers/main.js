@@ -26,8 +26,8 @@ angular.module('itmUiApp')
     $scope.stops = [];
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
-    $scope.corpus = "newsgroup";
-    $scope.topicNums = 20;
+    $scope.corpus = "twitter";
+    $scope.topicNums = 10;
 
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
