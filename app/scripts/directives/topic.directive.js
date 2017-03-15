@@ -42,6 +42,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 			});*/
 
 			scope.selectWord = function(chip) {
+				// TODO: looks like the chip is autoselected but for some reason the chip object is not passed through to the select method; this is a hacky fix, but might want to figure out what's really going on at some point
+				if (!chip) {
+					return;
+				}
 				// store the selected word for the trash can
 				scope.selected = chip;
 
@@ -53,6 +57,17 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				console.log("blur!");
 			}
 
+			scope.cancelCreate = function() {
+				// remove this topic from the list
+				scope.$emit('remove-topic', scope.topic);
+			}
+
+			scope.acceptCreate = function() {
+				scope.topic.creating = false;
+				scope.topic.created = true;
+				scope.topic.displayWords = _.pluck(scope.topic.words.slice(0,3), "word").join(" ");
+				scope.$emit('accept-create', scope.topic);
+			}
 
 			scope.cancelSplit = function() {
 				scope.topic.splitting = false;
@@ -108,6 +123,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 			};*/
 
 			scope.addWord = function(chip) {
+				console.log(chip);
 				// emit a refinement
 				scope.$emit('add-word', chip.word);
 			};

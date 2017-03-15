@@ -5,6 +5,9 @@
           <md-button class="title" aria-label="go to application home" href="/">ITM</md-button>
         </h2>
         <span flex></span>
+        <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
+        <timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
+        <md-button class="md-raised" ng-click="">FINISH</md-button>
         <div class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to stop words</md-tooltip>
         </div>
@@ -68,7 +71,16 @@
                 </md-button>
               <topic-list-item ng-repeat="t in pair" topic="t" select="select"></topic-list-item>
             </div>
+
           </md-list>
+          <div layout="row" layout-align="center center">
+          <md-button
+            class="md-fab"
+            ng-click="createNewTopic()">
+            <md-tooltip>create new topic</md-tooltip>
+            <md-icon md-font-icon="mdi mdi-plus"></mdi-icon>
+            </md-button>
+          </div>
         </md-content>
   </md-sidenav>
 <!--</div>-->

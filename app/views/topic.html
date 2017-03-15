@@ -2,11 +2,17 @@
 	<md-card-title>
 		<md-card-title-text>
 
-				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split">
+				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
 		<div class="md-toolbar-tools">
 			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
 			<span ng-if="topic.split">
-				Unable to make topic-level changes with outstanding split refinement. Please save refinements to continue refining this topic.
+				Unable to make topic-level changes with outstanding "split" refinement. Please save refinements to continue refining this topic.
+			</span>
+			<span ng-if="topic.creating">
+				Add words to your new topic.
+			</span>
+			<span ng-if="topic.created">
+				Unable to make topic-level changes with outstanding "create topic" refinement. Please save refinements to continue refining this topic.
 			</span>
 			<span flex></span>
 			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
@@ -17,6 +23,14 @@
             	<md-tooltip>save the split topic</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
+						<md-button ng-if="topic.creating" aria-label="delete new topic" class="md-icon-button" ng-click="cancelCreate()">
+							<md-tooltip>cancel create topic; all changes will be discarded</md-tooltip>
+										<md-icon class="save-icon" md-font-icon="mdi mdi-close"></md-icon>
+									</md-button>
+									<md-button ng-disabled="topic.words.length === 0" ng-if="topic.creating" aria-label="accept created topic" class="md-icon-button" ng-click="acceptCreate()">
+										<md-tooltip>save the created topic after adding some words</md-tooltip>
+										<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+									</md-button>
         </div>
         </md-toolbar>
 		</md-card-title-text>
@@ -30,6 +44,7 @@
 			<md-chips
 				id="topicA"
 				ng-if="topic"
+				placeholder="add new word..."
 				secondary-placeholder="add new word..."
 				ng-model="topic.words"
 				md-on-select="selectWord($chip)"
@@ -47,7 +62,7 @@
 		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo"></md-icon>
-			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
+			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-close"></md-icon>
 			      </button>
 			</md-chips>
 		</span>
@@ -73,7 +88,7 @@
 		        </md-chip-template>,
 		          <button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo"></md-icon>
-			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-window-close"></md-icon>
+			        <md-icon ng-if="$chip.status === 'unevaluated'" md-font-icon="mdi mdi-close"></md-icon>
 			      </button>
 			</md-chips>
 		</span>
@@ -94,7 +109,7 @@
 						</span>
 					</span>
 					<button ng-if="!topic.splitting && !topic.split"class="doc-remove md-secondary" ng-click="removeDocument(document)">
-						<md-icon ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-window-close'>
+						<md-icon ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-close'>
 							<md-tooltip>remove document from topic</md-tooltip>
 						</md-icon>
 						<md-icon ng-if="document.status === 'removed'" aria-label='undo remove document' md-font-icon='mdi mdi-undo'>

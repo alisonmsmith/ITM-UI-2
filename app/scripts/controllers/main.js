@@ -229,6 +229,76 @@ angular.module('itmUiApp')
     });
     };
 
+    /**
+    * Method to create a new topic
+    */
+    $scope.createNewTopic = function() {
+      // deselect other topics
+      _.each($scope.topics, function(topic) {
+        topic.selected = false;
+      });
+
+      var index = $scope.topics.length
+      var topic = {
+        "id": index,
+        "words":[],
+        "docs":[],
+        "merge":false,
+        "selected": true,
+        'topic': 'topic ' + (index+1),
+        'topicindex': index,
+        'creating': true
+      };
+
+      $scope.topics.push(topic);
+      $scope.selectedIndex = index;
+      $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+
+      $scope.$broadcast('select-topic', topic);
+    }
+
+    $scope.$on('remove-topic', function(event, topic) {
+      // only able to remove topics that were in the process of being created
+      $scope.topics = _.without($scope.topics, topic);
+
+      // select the first topic in the list
+      $scope.selectedIndex = 0;
+      $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+      $scope.selectedTopic.selected = true;
+    });
+
+    $scope.$on('accept-create', function(event, topic) {
+      var refinement = {
+        'type': 'createTopic',
+        'topicId': topic.id,
+        'seedWords': _.pluck(topic.words, 'word')
+      };
+      $scope.refinements.push(refinement);
+    });
+
+    $scope.$on('undo-create', function(event, topic) {
+      // remove the topic
+      $scope.topics = _.without($scope.topics, topic);
+
+      // select the first topic in the list
+      $scope.selectedIndex = 0;
+      $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+      $scope.selectedTopic.selected = true;
+
+      // remove the refinement
+      var indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'createTopic'
+          && refinement.topicId === topic.id) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+    });
+
     $scope.$on('accept-split', function(event, topic) {
       var refinement = {
         'type': 'splitTopic',

@@ -14,7 +14,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// initially set the iteration count to 0
 	var iterationCount = 0;
 
-	var backend_head = "http://dna.cs.umd.edu:8080";
+	//var backend_head = "http://dna.cs.umd.edu:8080";
+	var backend_head = "http://itm.cs.umd.edu:8080";
 	//var backend_head = "http://localhost:8080";
 
 	// default user and corpus
