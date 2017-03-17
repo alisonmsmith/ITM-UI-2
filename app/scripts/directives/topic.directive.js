@@ -123,7 +123,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 			};*/
 
 			scope.addWord = function(chip) {
-				console.log(chip);
+				// if we're in create topic mode, don't add a word
+				if (scope.topic.creating) {
+					return;
+				}
 				// emit a refinement
 				scope.$emit('add-word', chip.word);
 			};

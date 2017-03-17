@@ -9,7 +9,7 @@
 				Unable to make topic-level changes with outstanding "split" refinement. Please save refinements to continue refining this topic.
 			</span>
 			<span ng-if="topic.creating">
-				Add words to your new topic.
+				Add words to your new topic:
 			</span>
 			<span ng-if="topic.created">
 				Unable to make topic-level changes with outstanding "create topic" refinement. Please save refinements to continue refining this topic.
@@ -51,7 +51,7 @@
 				md-on-add="addWord($chip)"
 				md-on-remove="removeWord($chip, $index)"
 				md-transform-chip="transform($chip)"
-				readonly="topic.splitting || topic.split">
+				readonly="topic.splitting || topic.split || topic.created">
 				<md-chip-template ng-class="$chip.status"
 					ng-mouseenter="hoverWord($chip)"
 					ng-mouseleave="unhoverWord($chip)"

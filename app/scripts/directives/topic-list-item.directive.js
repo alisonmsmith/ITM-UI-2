@@ -43,9 +43,13 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 				scope.$emit("undo-split", topic);
 			};
 
+			scope.undoCreateNew = function(topic) {
+				scope.$emit("undo-create", topic);
+			}
+
 			scope.rename = function(topic) {
 				scope.renaming = true;
-			}; 
+			};
 
 		/*	scope.toggleChangeName = function() {
 				scope.changeName = !scope.changeName;
