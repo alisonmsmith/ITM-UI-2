@@ -10,8 +10,10 @@
 angular.module('itmUiApp')
   .controller('MainCtrl',  function($scope, $state, $http, TopicService, $mdDialog) {
 
+    // get the current user
     $scope.user = TopicService.getUser();
 
+    // if we don't have a user, go to the login page
     if (!$scope.user) {
       $state.go('login');
     } else {
@@ -24,6 +26,7 @@ angular.module('itmUiApp')
     $scope.merged = [];
     $scope.loading = true;
     $scope.stops = [];
+    $scope.vocab = [];
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
     $scope.corpus = "twitter";
@@ -73,6 +76,12 @@ angular.module('itmUiApp')
      }, function() {
        // on error
        console.log("error loading initial model");
+     });
+
+     // get the vocabulary
+     TopicService.getVocab($scope.corpus).then(function(response) {
+       console.log('loaded the vocabulary');
+       $scope.vocab = response.data;
      });
     }
 
@@ -442,8 +451,8 @@ angular.module('itmUiApp')
     $scope.$on("select", function(event, topic) {
       // if we're in merge mode, toggle the merge status
       if ($scope.mode === 'merge') {
-        // only allow selection of an unmerged or unsplit topic
-        if (!topic.split && !topic.merged && !topic.selected) {
+        // only allow selection of an unmerged or unsplit topic or uncreated topic
+        if (!topic.split && !topic.merged && !topic.selected && !topic.creating && !topic.created) {
           topic.merge = !topic.merge;
         } else {
           console.log("unable to merge with split or merged topic");
@@ -459,7 +468,7 @@ angular.module('itmUiApp')
                 $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('please confirm or cancel your split topic modifications')
+                  .textContent('please confirm or cancel your split topic modifications using the x or check buttons.')
                   .ariaLabel('Alert Dialog Demo')
                   .ok('Got it!')
               );

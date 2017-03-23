@@ -46,6 +46,14 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	}
 
 	/**
+	* Method to get the vocabulary for the current corpus (used by autocomplete)
+	*/
+	this.getVocab = function(corpus) {
+		console.log('retrieiving vocab for ' + corpus);
+		return $http.get(backend_head + '/itm-backend/rest/getvocab?corpus=' + corpus);
+	}
+
+	/**
 	* Method to add a message to the current log file on the server.
 	*/
 	this.log = function(corpus, topics, message) {

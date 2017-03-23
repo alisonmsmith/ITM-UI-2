@@ -44,15 +44,25 @@
 			<md-chips
 				id="topicA"
 				ng-if="topic"
-				placeholder="add new word..."
-				secondary-placeholder="add new word..."
 				ng-model="topic.words"
+				md-autocomplete-snap
+				md-require-match="true"
 				md-on-select="selectWord($chip)"
 				md-on-add="addWord($chip)"
 				md-on-remove="removeWord($chip, $index)"
-				md-transform-chip="transform($chip)"
-				readonly="topic.splitting || topic.split || topic.created">
-				<md-chip-template ng-class="$chip.status"
+				md-transform-chip="transform($chip)">
+				<md-autocomplete
+					ng-disabled="topic.splitting || topic.split || topic.created"
+          md-no-cache="false"
+          md-selected-item="selectedItem"
+          md-search-text="searchText"
+          md-items="word in vocabSearch(searchText)"
+          md-item-text="word"
+          placeholder="add new word">
+					<span md-highlight-text="searchText">{{word}}</span>
+				</md-autocomplete>
+				<md-chip-template
+					ng-class="$chip.status"
 					ng-mouseenter="hoverWord($chip)"
 					ng-mouseleave="unhoverWord($chip)"
 				 	class="topic-chip-template">
@@ -66,6 +76,8 @@
 			      </button>
 			</md-chips>
 		</span>
+
+		<!-- do not need autocomplete here as we will never be adding words to topic B -->
 		<span class="topic-b" ng-if="topic.splitting || topic.split" flex="50">
 			<span class="sub-topic-name">SUB TOPIC B</span>
 			<md-chips

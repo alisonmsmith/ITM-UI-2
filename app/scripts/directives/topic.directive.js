@@ -9,7 +9,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 		restrict: 'E',
 		scope: {
 			topic: '=',
-			stops: '='
+			stops: '=',
+			vocab: '='
 		},
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
@@ -83,7 +84,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
                 $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('please drag words between the sub topics before confirming or press cancel if you woudl like to cancel the split operation')
+                  .textContent('please drag words between the sub topics before confirming or press the x if you would like to cancel the split operation')
                   .ariaLabel('split topic dialog')
                   .ok('Got it!')
               );					return;
@@ -109,12 +110,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				if (!search && !search2) {
 					return $sce.trustAsHtml(text);
 				} else if (!search2) {
-					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+search +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
+					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+ search +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				} else if (!search) {
-					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+search2+'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
+					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+ search2 +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				} else {
-					var text2 = text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>')
-					return $sce.trustAsHtml(text2.replace(new RegExp('\\b'+search2+'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
+					var text2 = text.replace(new RegExp('\\b'+ search +'\\b', 'gi'), '<span class="highlightedText">$&</span>')
+					return $sce.trustAsHtml(text2.replace(new RegExp('\\b'+ search2 +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				}
 			}
 
@@ -248,11 +249,28 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					scope.$emit('remove-doc', doc.docid);
 				}
 
-			}
+			} 
 
 			scope.moreDocuments = function() {
 				// up the doc country by 20
 				scope.numDocs += 20;
+
+			}
+
+			scope.vocabSearch = function(query) {
+				var results = query ? scope.vocab.filter(createFilterFor(query)) : [];
+				return results;
+			};
+
+			/**
+			 * Create filter function for a query string
+			 */
+			function createFilterFor(query) {
+				var lowercaseQuery = angular.lowercase(query);
+
+				return function filterFn(word) {
+					return (angular.lowercase(word).indexOf(lowercaseQuery) === 0);
+				};
 
 			}
 
