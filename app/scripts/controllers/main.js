@@ -213,9 +213,14 @@ angular.module('itmUiApp')
        // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
       //    processModel(data.data, docs.data);
 
-          // Select the previously selected topic in the list
-          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+        // copy the topics
           $scope.topicsCopy = angular.copy($scope.topics);
+
+          // Select the previously selected topic in the list (if it exists)
+          if ($scope.selectedIndex >= $scope.topics.length) {
+            $scope.selectedIndex = 0;
+          }
+          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.topics[$scope.selectedIndex].selected = true;
 
           // reset the merged list
