@@ -51,6 +51,16 @@ md-sidenav.md-closed.md-locked-open-add-active {
     }
   }
 
+  .info {
+    padding: 5px;
+    p {
+      font-size: 1em;
+line-height: 1.25em;
+margin: 1.25em 0;
+text-align: left;
+    }
+  }
+
   .user-input {
     display: block;
     margin: auto;

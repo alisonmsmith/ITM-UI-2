@@ -36,6 +36,19 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	}
 
 	/**
+	* Method to return a unique id
+	*/
+	this.guid = function() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	  }
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	    s4() + '-' + s4() + s4() + s4();
+	};
+
+	/**
 	* Method to get the list of all available corpora.
 	*/
 	this.getCorpora = function() {
