@@ -55,9 +55,9 @@ md-sidenav.md-closed.md-locked-open-add-active {
     padding: 5px;
     p {
       font-size: 1em;
-line-height: 1.25em;
-margin: 1.25em 0;
-text-align: left;
+      line-height: 1.25em;
+      margin: 1.25em 0;
+      text-align: left;
     }
   }
 
@@ -72,6 +72,15 @@ text-align: left;
     margin: auto;
 
   }
+}
+
+.tutorial-message {
+//  text-align: center;
+//  width: 100%;
+  padding: 20px;
+  background-color: $md-accent;
+  color: white;
+  font-size: 20pt;
 }
 
 /*.user-input {

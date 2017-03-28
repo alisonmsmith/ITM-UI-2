@@ -21,10 +21,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// default user and corpus
 	var user = null;
 
-	// default the number of documents to 40
+	// default the number of documents to 20
 	// TODO: we might want to let the user choose this when he is choosing the number
 	// of topics; alternatively, this could be treated as 'show more' button on each topic
-	var docNums = 40;
+	var docNums = 20;
 
 	this.setUser = function(u) {
 		console.log("user set to: " + u);

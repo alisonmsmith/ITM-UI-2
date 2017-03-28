@@ -8,7 +8,7 @@
  * Controller of the itmUiApp
  */
 angular.module('itmUiApp')
-  .controller('MainCtrl',  function($scope, $state, $http, TopicService, $mdDialog) {
+  .controller('MainCtrl',  function($scope, $state, $http, TopicService, TutorialService, $mdDialog) {
 
     // get the current user
     $scope.user = TopicService.getUser();
@@ -17,6 +17,11 @@ angular.module('itmUiApp')
     if (!$scope.user) {
       $state.go('login');
     } else {
+
+      // if we do have a user, start the tutorial
+      $scope.tutorialComplete = false;
+      $scope.tutorialStep = 0;
+      $scope.tutorialMessages = TutorialService.messages;
 
    // $scope.documents = [];
     $scope.topics = [];
@@ -29,9 +34,8 @@ angular.module('itmUiApp')
     $scope.vocab = [];
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
-    $scope.corpus = "twitter";
+    $scope.corpus = "bbc_news";
     $scope.topicNums = 10;
-
 
     // METHODS REQUIRED FOR DROPPABLE TRASH CAN
     angular.element(document).find('.stop-words').on('dragover', dragOverHandler);
@@ -83,6 +87,18 @@ angular.module('itmUiApp')
        console.log('loaded the vocabulary');
        $scope.vocab = response.data;
      });
+    }
+
+    $scope.tutorialNext = function() {
+      if ($scope.tutorialStep < $scope.tutorialMessages.length) {
+        $scope.tutorialStep += 1;
+      } else {
+        $scope.tutorialComplete = true;
+      }
+    }
+
+    $scope.endTutorial = function() {
+      $scope.tutorialComplete = true;
     }
 
     /**
@@ -454,6 +470,24 @@ angular.module('itmUiApp')
     * Listen for event to select a topic
     */
     $scope.$on("select", function(event, topic) {
+      // if we're in the tutorial and on step 4, only select the topic if it's topic 7
+      console.log(topic);
+      if ($scope.tutorialStep === 4) {
+        if (topic.id !== 6) {
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .clickOutsideToClose(true)
+              .textContent('Please click Topic 7 to continue the tutorial.')
+              .ariaLabel('Alert Dialog Demo')
+              .ok('Got it!')
+          );
+          return;
+        } else {
+          $scope.tutorialStep += 1;
+        }
+      }
+
       // if we're in merge mode, toggle the merge status
       if ($scope.mode === 'merge') {
         // only allow selection of an unmerged or unsplit topic or uncreated topic
@@ -530,6 +564,43 @@ angular.module('itmUiApp')
      * Listen for event to remove a word to the currently selected topic
      */
     $scope.$on('remove-word', function(event, word) {
+
+      // if we're in tutorial mode, we should only be removing the word including from topic 7 on step
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 7) {
+          if ($scope.selectedTopic.id === 6) {
+            if (word === 'including') {
+              // add the refinement and update the step
+              $scope.tutorialStep += 1;
+            } else {
+              // alert the user that they need to remove the word including
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('Oops, that is not the right word. Please remove the word "including" from the topic words by clicking the "x" button next to the word.')
+                  .ariaLabel('Alert Dialog Demo')
+                  .ok('Got it!')
+              );
+              return;
+            }
+          } else {
+            // alert the user that they should select topic 7
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Please click Topic 7 and remove the word "including" from the topic words by clicking the "x" button next to the word.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       var refinement = {
         'type': 'removeWord',
         'topicId': $scope.selectedTopic.id,
@@ -564,6 +635,56 @@ angular.module('itmUiApp')
     // based on the indices prior to the former refinement - this should only affect the backend if
     // refinements are not applied in order
     $scope.$on('reorder-word', function(event, word, to, from) {
+
+      // if we're in tutorial mode, we should only be re-ordering the word 'award' to the third position in Topic 7 in step 9
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 9) {
+          if ($scope.selectedTopic.id === 6) {
+            if (word === 'award') {
+              if (to === 2) {
+                // update the step
+                $scope.tutorialStep += 1;
+              } else {
+                // alert the user to change the word's placement to 3
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .clickOutsideToClose(true)
+                    .textContent('Oops, that is not the right position. Please drag the word "award" to the third position in the list.')
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Got it!')
+                );
+                return;
+              }
+            } else {
+              // alert the user to change the word order of 'award'
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('Oops, that is not the right word. Please drag the word "award" to the third position in the list.')
+                  .ariaLabel('Alert Dialog Demo')
+                  .ok('Got it!')
+              );
+              return;
+            }
+          } else {
+            // alert the user to select topic 7
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Please click Topic 7 to continue.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       var refinement ={
         'type': 'changeWordOrder',
         'word': word,
@@ -579,6 +700,25 @@ angular.module('itmUiApp')
     * Listen for event to update the reorder word refinement for the given word and original position
     */
     $scope.$on('update-reorder-word', function(event, word, to, from) {
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 9) {
+          if ($scope.selectedTopic.id === 6) {
+            if (word === 'award') {
+              if (to === 2) {
+                $scope.tutorialStep += 1;
+              } else {
+                return;
+              }
+            } else {
+              return;
+            }
+          } else {
+            return;
+          }
+        } else {
+          return;
+        }
+      }
       _.each($scope.refinements, function(refinement) {
         if (refinement.type === 'changeWordOrder'
           && refinement.topicId === $scope.selectedTopic.id
@@ -616,6 +756,44 @@ angular.module('itmUiApp')
      * Listen for event to add a word to the currently selected topic
      */
     $scope.$on('add-word', function(event, word) {
+
+      // if we're in tutorial mode, the only add word operation should be 'oscar' to topic 7 on step 5
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 5) {
+          if ($scope.selectedTopic.id === 6) {
+            if (word === 'oscar' || word === 'Oscar') {
+              // add the refinement and update the step
+              $scope.tutorialStep += 1;
+            } else {
+              // alert the user to add the word Oscar to the topic
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('please add the word "Oscar" to the topic using the add word functionality.')
+                  .ariaLabel('Alert Dialog Demo')
+                  .ok('Got it!')
+              );
+              return;
+            }
+          } else {
+            // alert the user to select topic 7 and add the word oscar
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('please select Topic 7 and add the word "Oscar" using the add word functionality.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          // alert the user that you cannot add words during this step
+          return;
+        }
+      }
+
       var refinement = {
         'type': 'addWord',
         'topicId': $scope.selectedTopic.id,

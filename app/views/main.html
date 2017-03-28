@@ -6,14 +6,20 @@
         </h2>
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
-        <md-button class="md-raised" ng-click="">FINISH</md-button>
+        <timer countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
+        <md-button ng-if="!tutorialComplete" class="md-raised" ng-click="endTutorial()">END TUTORIAL</md-button>
+        <md-button ng-if="tutorialComplete" class="md-raised" ng-click="">FINISH</md-button>
         <div class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to stop words</md-tooltip>
         </div>
         <span class="username">{{user}}</span>
       </div>
     </md-toolbar>
+
+    <div ng-if="!tutorialComplete" class="tutorial-message">
+      {{tutorialMessages[tutorialStep]}}
+      <md-button ng-if="tutorialStep < 4 || tutorialStep === 6 || tutorialStep === 8 || tutorialStep === 10" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
+    </div>
 
 <div layout="row" flex>
       <md-progress-circular class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
