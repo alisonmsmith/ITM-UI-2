@@ -12,13 +12,14 @@
         <div class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to stop words</md-tooltip>
         </div>
-        <span class="username">{{user}}</span>
+        <!--<span class="username">{{user}}</span>-->
       </div>
     </md-toolbar>
 
     <div ng-if="!tutorialComplete" class="tutorial-message">
-      {{tutorialMessages[tutorialStep]}}
-      <md-button ng-if="tutorialStep < 4 || tutorialStep === 6 || tutorialStep === 8 || tutorialStep === 10" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
+      <span ng-bind-html="tutorialMessages[tutorialStep]"></span>
+      <md-button ng-if="tutorialStep < 4 || tutorialStep === 6 || tutorialStep === 8 || tutorialStep === 10 || tutorialStep === 13|| tutorialStep === 15 || tutorialStep === 17 || tutorialStep === 19 || tutorialStep === 21 || tutorialStep === 23" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
+      <md-button lass="md-raised md-primary" ng-click="endTutorial()" ng-if="tutorialStep === 26">finish</md-button>
     </div>
 
 <div layout="row" flex>

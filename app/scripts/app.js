@@ -14,6 +14,7 @@ angular
     'ngResource',
     'ui.router',
     'ngMaterial',
+    'ngSanitize',
     'mdChipDraggable',
     'angularSpinners',
     'timer'

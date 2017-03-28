@@ -81,6 +81,10 @@ md-sidenav.md-closed.md-locked-open-add-active {
   background-color: $md-accent;
   color: white;
   font-size: 20pt;
+
+  .tutorial-command {
+    text-decoration: underline;
+  }
 }
 
 /*.user-input {

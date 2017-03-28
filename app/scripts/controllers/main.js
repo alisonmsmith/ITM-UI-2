@@ -205,7 +205,11 @@ angular.module('itmUiApp')
     * Method to clear refinements
     */
     $scope.clearRefinements = function() {
-      console.log($scope.refinements);
+      // we don't support this functionality in the tutorial
+      if (!$scope.tutorialComplete) {
+        return;
+      }
+
       // undo all refinements
       $scope.topics = $scope.topicsCopy;
       $scope.selectedTopic = $scope.topics[0];
@@ -220,43 +224,82 @@ angular.module('itmUiApp')
      * Method to save the refined model.
      */
     $scope.save = function() {
-      $scope.loading = true;
-      // save the refinements
-      TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
-        console.log("the model has been updated!")
-        console.log(data.data);
-        processModel(data.data);
-       // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
-      //    processModel(data.data, docs.data);
+      // only let the user save during the tutorial if they're on step 11
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 11 || $scope.tutorialStep === 24) {
+          // TODO: let's do a special save to make sure we get back the faux updated topic that we want
+          $scope.loading = true;
+          $scope.tutorialStep += 1;
+          // save the refinements
+          TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
+            console.log("the model has been updated!")
+            console.log(data.data);
+            processModel(data.data);
+            // copy the topics
+              $scope.topicsCopy = angular.copy($scope.topics);
 
-        // copy the topics
-          $scope.topicsCopy = angular.copy($scope.topics);
+              // Select the previously selected topic in the list (if it exists)
+              if ($scope.selectedIndex >= $scope.topics.length) {
+                $scope.selectedIndex = 0;
+              }
+              $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+              $scope.topics[$scope.selectedIndex].selected = true;
 
-          // Select the previously selected topic in the list (if it exists)
-          if ($scope.selectedIndex >= $scope.topics.length) {
-            $scope.selectedIndex = 0;
-          }
-          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
-          $scope.topics[$scope.selectedIndex].selected = true;
+              // reset the merged list
+              $scope.merged = [];
 
-          // reset the merged list
-          $scope.merged = [];
+              // clear the refinement list
+              $scope.refinements = [];
+              $scope.isDirty = false;
+              $scope.stops = [];
 
-          // clear the refinement list
-          $scope.refinements = [];
-          $scope.isDirty = false;
-          $scope.stops = [];
-      //  });
+              $scope.tutorialStep += 1;
+          });
 
-    }, function() {
-      // error saving model
-      alert('error saving model - reverting to model prior to save');
-      $scope.refinements = [];
-      $scope.isDirty = false;
-      $scope.stops = [];
-      $scope.merged = [];
+        } else {
+          return;
+        }
+      } else {
+        $scope.loading = true;
+        // save the refinements
+        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
+          console.log("the model has been updated!")
+          console.log(data.data);
+          processModel(data.data);
+         // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
+        //    processModel(data.data, docs.data);
 
-    });
+          // copy the topics
+            $scope.topicsCopy = angular.copy($scope.topics);
+
+            // Select the previously selected topic in the list (if it exists)
+            if ($scope.selectedIndex >= $scope.topics.length) {
+              $scope.selectedIndex = 0;
+            }
+            $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+            $scope.topics[$scope.selectedIndex].selected = true;
+
+            // reset the merged list
+            $scope.merged = [];
+
+            // clear the refinement list
+            $scope.refinements = [];
+            $scope.isDirty = false;
+            $scope.stops = [];
+        //  });
+
+      }, function() {
+        // error saving model
+        alert('error saving model - reverting to model prior to save');
+        $scope.refinements = [];
+        $scope.isDirty = false;
+        $scope.stops = [];
+        $scope.merged = [];
+
+      });
+      }
+
+
     };
 
     /**
@@ -298,6 +341,27 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('accept-create', function(event, topic) {
+      // we should only accept a create refinement if it's on step 22 and we've added the words football, game, and support
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 22) {
+          if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
+            $scope.tutorialStep += 1;
+          } else {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Oops, you forgot a word! Try adding the word "sport" to your topic.')
+                .ariaLabel('tutorial alert')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       var refinement = {
         'type': 'createTopic',
         'topicId': topic.id,
@@ -307,6 +371,11 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('undo-create', function(event, topic) {
+      // we don't support undo in the tuturial
+      if (!$scope.tutorialComplete) {
+        return;
+      }
+
       // remove the topic
       $scope.topics = _.without($scope.topics, topic);
 
@@ -330,6 +399,41 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('accept-split', function(event, topic) {
+      // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 20
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 20) {
+          if ($scope.selectedTopic.id === 6) {
+            var words = _.pluck(topic.words, 'word');
+            console.log(words);
+            if (_.indexOf(words, 'music') === -1) {
+              $scope.tutorialStep += 1;
+            } else {
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('Oops, you missed a music-related word! Try dragging the word "music" to sub topic B.')
+                  .ariaLabel('tutorial alert')
+                  .ok('Got it!')
+              );
+              return;
+            }
+          } else {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Oops, wrong topic! Please select Topic 7 to split.')
+                .ariaLabel('tutorial alert')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       var refinement = {
         'type': 'splitTopic',
         'topicId': $scope.selectedTopic.id,
@@ -339,6 +443,11 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('undo-split', function(event, topic) {
+      // we don't support undo in the tuturial
+      if (!$scope.tutorialComplete) {
+        return;
+      }
+
       topic.words = topic.wordscopy;
       topic.wordscopy = undefined;
       topic.subwords = undefined;
@@ -392,6 +501,28 @@ angular.module('itmUiApp')
         return;
       }
 
+      // only allowing merge to happen on step 18 between topic 4 and topic 6
+      if (!$scope.tutorialCompleted) {
+        if ($scope.tutorialStep === 18) {
+          if ((pair[0].id === 5 || pair[0].id === 4) && (pair[1].id === 5 || pair[1].id === 4)) {
+            $scope.tutorialStep += 1;
+          } else {
+            // incorrect topics chosen for merge
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Oops, incorrect topics chosen for merge, please try again.')
+                .ariaLabel('merge alert')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       // add the topics as a merge pair
       $scope.merged.push(pair);
 
@@ -411,6 +542,11 @@ angular.module('itmUiApp')
     }
 
     $scope.undoMerge = function(pair) {
+      // we don't support undo in the tuturial
+      if (!$scope.tutorialComplete) {
+        return;
+      }
+
       // remove the merged status from the topics
       _.each(pair, function(p) {
         p.merged = false;
@@ -449,6 +585,16 @@ angular.module('itmUiApp')
     * Method to go into split 'mode' for the selected topic
     */
     $scope.$on("split", function(event, topic) {
+      // only enter split mode on step 20 of tutorial
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 20) {
+
+        } else {
+          // shouldn't be merging
+          return;
+        }
+      }
+
       topic.splitting = true;
       topic.wordscopy = topic.words;
 
@@ -461,6 +607,15 @@ angular.module('itmUiApp')
     * Method to go into merge 'mode' for the selected topic
     */
     $scope.$on("merge", function(event, topic) {
+      // only enter merge mode on step 18 of tutorial
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 18) {
+
+        } else {
+          // shouldn't be merging
+          return;
+        }
+      }
       // enter merge mode
       $scope.mode = 'merge';
       topic.merge = true;
@@ -532,6 +687,27 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('add-stop-word', function(event, word) {
+      // if we're in tutorial mode, we should only be adding the word 'year' to the stop words list in step 16
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 16) {
+          if (word === 'year') {
+            $scope.tutorialStep += 1;
+          } else {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Oops, that is not the right word. Please instead add the word "year" to the stop words list.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       // store the stop word
       $scope.stops.push(word);
 
@@ -794,12 +970,15 @@ angular.module('itmUiApp')
         }
       }
 
-      var refinement = {
-        'type': 'addWord',
-        'topicId': $scope.selectedTopic.id,
-        'word': word
-      };
-      $scope.refinements.push(refinement);
+        var refinement = {
+          'type': 'addWord',
+          'topicId': $scope.selectedTopic.id,
+          'word': word
+        };
+        $scope.refinements.push(refinement);
+
+
+
     });
 
     /**
@@ -830,6 +1009,41 @@ angular.module('itmUiApp')
      * Listen for event to remove a document from the currently selected topic
      */
     $scope.$on('remove-doc', function(event, doc) {
+      // if we're in tutorial mode, the only remove doc operation that should occur should be on step 14 removing the fourth document from topic 6
+      if (!$scope.tutorialComplete) {
+        if ($scope.tutorialStep === 14) {
+          if ($scope.selectedTopic.id === 5) {
+            if (doc === 35) {
+              $scope.tutorialStep += 1;
+            } else {
+              // alert the user to select topic 6
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('Oops, wrong document! Please remove the fourth document in the list about terror suspects facing house arrest.')
+                  .ariaLabel('Alert Dialog Demo')
+                  .ok('Got it!')
+              );
+              return;
+            }
+          } else {
+            // alert the user to select topic 6
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Oops, wrong topic! Please select Topic 6.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       var refinement = {
         'type': 'removeDocument',
         'topicId': $scope.selectedTopic.id,
