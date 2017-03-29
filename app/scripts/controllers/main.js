@@ -212,7 +212,7 @@ angular.module('itmUiApp')
     $scope.save = function() {
       // only let the user save during the tutorial if they're on step 11
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 11 || $scope.tutorial.step === 24) {
+        if ($scope.tutorial.step === 11 || $scope.tutorial.step === 19 || $scope.tutorial.step === 22 || $scope.tutorial.step === 25) {
           // TODO: let's do a special save to make sure we get back the faux updated topic that we want
           $scope.loading = true;
           $scope.tutorial.step += 1;
@@ -329,7 +329,7 @@ angular.module('itmUiApp')
     $scope.$on('accept-create', function(event, topic) {
       // we should only accept a create refinement if it's on step 22 and we've added the words football, game, and support
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 22) {
+        if ($scope.tutorial.step === 24) {
           if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
             $scope.tutorial.step += 1;
           } else {
@@ -387,8 +387,8 @@ angular.module('itmUiApp')
     $scope.$on('accept-split', function(event, topic) {
       // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 20
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 20) {
-          if ($scope.selectedTopic.id === 6) {
+        if ($scope.tutorial.step === 21) {
+          if ($scope.selectedTopic.id === 5) {
             var words = _.pluck(topic.words, 'word');
             if (_.indexOf(words, 'music') === -1) {
               $scope.tutorial.step += 1;
@@ -408,7 +408,7 @@ angular.module('itmUiApp')
               $mdDialog.alert()
                 .parent(angular.element(document.body))
                 .clickOutsideToClose(true)
-                .textContent('Oops, wrong topic! Please select Topic 7 to split.')
+                .textContent('Oops, wrong topic! Please select Topic 6 to split.')
                 .ariaLabel('tutorial alert')
                 .ok('Got it!')
             );
@@ -572,7 +572,7 @@ angular.module('itmUiApp')
     $scope.$on("split", function(event, topic) {
       // only enter split mode on step 20 of tutorial
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 20) {
+        if ($scope.tutorial.step === 21) {
 
         } else {
           // shouldn't be merging
