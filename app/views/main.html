@@ -7,20 +7,16 @@
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
         <timer countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
-        <md-button ng-if="!tutorialComplete" class="md-raised" ng-click="endTutorial()">END TUTORIAL</md-button>
-        <md-button ng-if="tutorialComplete" class="md-raised" ng-click="">FINISH</md-button>
-        <div class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
+        <md-button ng-if="!tutorial.complete" class="md-raised" ng-click="endTutorial()">END TUTORIAL</md-button>
+        <md-button ng-if="tutorial.complete" class="md-raised" ng-click="">FINISH</md-button>
+        <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
         </div>
         <!--<span class="username">{{user}}</span>-->
       </div>
     </md-toolbar>
 
-    <div ng-if="!tutorialComplete" class="tutorial-message">
-      <span ng-bind-html="tutorialMessages[tutorialStep]"></span>
-      <md-button ng-if="tutorialStep < 4 || tutorialStep === 6 || tutorialStep === 8 || tutorialStep === 10 || tutorialStep === 13|| tutorialStep === 15 || tutorialStep === 17 || tutorialStep === 19 || tutorialStep === 21 || tutorialStep === 23" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
-      <md-button lass="md-raised md-primary" ng-click="endTutorial()" ng-if="tutorialStep === 26">finish</md-button>
-    </div>
+    <tutorial ng-if="!tutorial.complete" ></tutorial>
 
 <div layout="row" flex>
       <md-progress-circular class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
@@ -43,12 +39,12 @@
               <span class="topic-list-heading">{{topicNums}} topics from "{{corpus}}"</span>
             </h3>
             <span flex></span>
-            <md-button aria-label="clear changes" ng-show="refinements.length > 0"
+            <md-button  id="clearRefinementsButton" aria-label="clear changes" ng-show="refinements.length > 0"
               class="md-icon-button" ng-click="clearRefinements()">
               <md-tooltip> clear {{refinements.length}} outstanding refinements</md-tooltip>
               <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon>
             </md-button>
-            <md-button aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
+            <md-button id="saveButton" aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
               <md-tooltip>save {{refinements.length}} outstanding refinements</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon>
             </md-button>
@@ -64,7 +60,7 @@
               <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
             </md-button>
             <md-button aria-label="accept merge" class="md-icon-button" ng-click="acceptMerge()">
-              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+              <md-icon class="save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
           </div>
       </md-toolbar>
@@ -83,6 +79,7 @@
           <div layout="row" layout-align="center center">
           <md-button
             class="md-fab"
+            id="createTopicButton"
             ng-click="createNewTopic()">
             <md-tooltip>create new topic</md-tooltip>
             <md-icon md-font-icon="mdi mdi-plus"></mdi-icon>

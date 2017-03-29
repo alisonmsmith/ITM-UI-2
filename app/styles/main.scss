@@ -78,14 +78,46 @@ md-sidenav.md-closed.md-locked-open-add-active {
 //  text-align: center;
 //  width: 100%;
   padding: 20px;
-  background-color: $md-accent;
-  color: white;
+  background-color: $md-primary-hue3;
+  color: $md-primary-hue2;
   font-size: 20pt;
+//  border: solid 4px $md-primary-hue1;
 
   .tutorial-command {
+//    font-style: italic;
+    font-weight: bold;
+    color: $md-accent;
+  }
+
+  .tutorial-element {
+    color: $md-accent;
     text-decoration: underline;
+    cursor: pointer;
   }
 }
+
+// tutorial highlighting
+.highlight {
+  &#topicA_ac, &#saveButton, &#clearRefinementsButton, &#stopWordsButton {
+    border: solid 2px $md-accent;
+  }
+  &.toggle-doc {
+    background-color: $md-accent;
+  }
+
+  &.remove-word, &.undo-word, &.remove-doc, &.undo-doc {
+    color: $md-accent;
+  }
+
+  &.merge-checkmark, &.split-checkmark, &.create-checkmark, &#createTopicButton {
+    border: solid 2px $md-primary;
+  }
+
+  &.undo-merge, &.undo-split {
+    border: solid 2px $md-primary;
+  }
+}
+
 
 /*.user-input {
   display: block;
@@ -396,7 +428,7 @@ button.topic-chip-remove, button.doc-remove {
         fill: white;
       }
 
-      &:hover, &:focus {
+      &:hover {
         background: rgba(255, 0, 0, 0.8);
       }
 }
