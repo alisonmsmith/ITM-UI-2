@@ -9,9 +9,14 @@
         <timer countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
         <md-button ng-if="!tutorial.complete" class="md-raised" ng-click="endTutorial()">END TUTORIAL</md-button>
         <md-button ng-if="tutorial.complete" class="md-raised" ng-click="">FINISH</md-button>
-        <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
+    <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
-        </div>
+        </div> -->
+        <md-button class="md-raised md-accent" id="stopWordsButton" ng-click="addStopWord()">
+          <!--<md-icon md-font-icon="mdi mdi-delete-forever"></md-icon>-->
+          remove selected word from all topics
+          <md-tooltip>add selected word to trash words</md-tooltip>
+        </md-button>
         <!--<span class="username">{{user}}</span>-->
       </div>
     </md-toolbar>
@@ -57,34 +62,36 @@
             </h3>
             <span flex></span>
             <md-button aria-label="cancel merge" class="md-icon-button" ng-click="cancelMerge()">
+              <md-tooltip>cancel merge</md-tooltip>
               <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
             </md-button>
             <md-button aria-label="accept merge" class="md-icon-button" ng-click="acceptMerge()">
+              <md-tooltip>save the merged topics</md-tooltip>
               <md-icon class="save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon>
             </md-button>
           </div>
       </md-toolbar>
         <md-content>
+          <div layout="row" layout-align="center center">
+          <md-button
+            class="md-raised md-accent"
+            id="createTopicButton"
+            ng-click="createNewTopic()">
+            <md-tooltip>create a new topic</md-tooltip>
+            <md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...
+            </md-button>
+          </div>
           <md-list >
             <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
             <div class="topic-merge-pair" ng-model="pair" ng-repeat="pair in merged">
                 <md-button aria-label="undo merge" class="undo-merge md-fab md-mini md-accent" ng-click="undoMerge(pair)">
-                  <md-tooltip>undo merge</md-tooltip>
+                  <md-tooltip>undo topic merge</md-tooltip>
                   <md-icon md-font-icon="mdi mdi-undo"></md-icon>
                 </md-button>
               <topic-list-item ng-repeat="t in pair" topic="t" select="select"></topic-list-item>
             </div>
 
           </md-list>
-          <div layout="row" layout-align="center center">
-          <md-button
-            class="md-fab"
-            id="createTopicButton"
-            ng-click="createNewTopic()">
-            <md-tooltip>create new topic</md-tooltip>
-            <md-icon md-font-icon="mdi mdi-plus"></mdi-icon>
-            </md-button>
-          </div>
         </md-content>
   </md-sidenav>
 <!--</div>-->

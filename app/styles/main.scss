@@ -90,9 +90,55 @@ md-sidenav.md-closed.md-locked-open-add-active {
   }
 
   .tutorial-element {
-    color: $md-accent;
-    text-decoration: underline;
-    cursor: pointer;
+  //  color: $md-accent;
+  //  text-decoration: underline;
+  //  cursor: pointer;
+    &.toggle-doc {
+      font-weight: 600;
+    }
+
+    &.merge-button, &.split-button {
+      padding: 0px;
+      margin: 0px;
+      cursor: default;
+    }
+
+    &.trash-button {
+      cursor: default;
+    }
+
+    &.remove-button, &.remove-doc-button, &.word-undo-button {
+      cursor: default;
+      width: 24px;
+      line-height: 30px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      right: 4px;
+      top: 4px;
+      margin-right: 0;
+      height: 24px;
+      md-icon {
+        top:-5px;
+        position:relative;
+        font-size:18pt;
+        color: white;
+        fill: white;
+
+        &.highlight {
+          border: none;
+          padding: 0px;
+        }
+      }
+
+
+    }
+
+
   }
 }
 
@@ -104,19 +150,20 @@ md-sidenav.md-closed.md-locked-open-add-active {
   }
 
   &#saveButton, &#clearRefinementsButton {
-    md-icon {
-      color: $md-accent;
-    }
+    border: solid 2px $md-accent;
   }
 
-  &.remove-word, &.undo-word, &.remove-doc, &.undo-doc, &.toggle-doc, &#stopWordsButton {
-    color: $md-accent;
+  &.toggle-doc {
+    border: solid 2px $md-accent;
+  }
+
+  &.remove-word, &.undo-word, &.remove-doc, &.undo-doc, &#stopWordsButton {
+    padding: 10px;
+    border: solid 2px $md-accent;
   }
 
   &.merge-checkmark, &.split-checkmark, &.create-checkmark {
-    md-icon {
-      color: $md-primary;
-    }
+    border: solid 2px $md-accent;
   }
 
   &#createTopicButton {
@@ -125,9 +172,6 @@ md-sidenav.md-closed.md-locked-open-add-active {
 
   &.undo-merge, &.undo-split {
     border: solid 2px $md-primary;
-    md-icon {
-      color: $md-primary;
-    }
   }
 }
 

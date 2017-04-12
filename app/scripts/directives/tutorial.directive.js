@@ -14,7 +14,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       var tutorialSteps = 26;
 
       // set up highlighting and unhighlighting for the tutorial
-      scope.highlight = function(element) {
+      function highlight(element) {
         switch (element) {
           case 'add-word':
           angular.element(document.querySelector('#topicA_ac')).addClass('highlight');
@@ -75,7 +75,12 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
         }
       }
 
-      scope.unhighlight = function(element) {
+      // method to automatically push the tutorial forward, only ever called when user clicks save and when results return from the save method
+      scope.$on('tutorial-next', function() {
+        scope.tutorialNext();
+      });
+
+      function unhighlight(element) {
         switch (element) {
           case 'add-word':
           angular.element(document.querySelector('#topicA_ac')).removeClass('highlight');
@@ -136,11 +141,59 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
         }
       }
 
+
       scope.tutorialNext = function() {
         if (scope.tutorial.step < tutorialSteps) {
           scope.tutorial.step += 1;
+          if (scope.tutorial.step < 4 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 13|| scope.tutorial.step === 15 || scope.tutorial.step === 17) {
+            scope.tutorial.nextEnabled = true;
+          } else {
+            scope.tutorial.nextEnabled = false;
+          }
         } else {
           scope.tutorial.complete = true;
+        }
+
+        // highlight appropriate elements depending on the step
+        if (scope.tutorial.step === 2) {
+          highlight('show-more');
+        }
+        if (scope.tutorial.step === 3) {
+          unhighlight('show-more');
+        }
+        if (scope.tutorial.step === 5) {
+          highlight('add-word');
+        }
+        if (scope.tutorial.step === 6) {
+          unhighlight('add-word');
+          highlight('save');
+        }
+        if (scope.tutorial.step === 7) {
+          unhighlight('save');
+          highlight('remove-word');
+        }
+        if (scope.tutorial.step === 8) {
+          unhighlight('remove-word');
+        }
+        // save outstanding refinements
+        if (scope.tutorial.step === 11) {
+          highlight('undo-word');
+          highlight('save');
+          highlight('clear-refinements');
+        }
+        // model updating
+        if (scope.tutorial.step === 12) {
+          unhighlight('undo-word');
+          unhighlight('save');
+          unhighlight('clear-refinements');
+        }
+        // remove document
+        if (scope.tutorial.step === 14) {
+          // need to make sure we still highlight the button after the user clicks to switch to topic 6
+          highlight('remove-doc');
+        }
+        if (scope.tutorial.step === 15) {
+          unhighlight('remove-doc');
         }
       }
 

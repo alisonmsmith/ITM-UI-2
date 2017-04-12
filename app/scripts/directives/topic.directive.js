@@ -42,6 +42,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				//console.log(scope.topic.topic);
 			});*/
 
+
 			scope.selectWord = function(chip) {
 				// TODO: looks like the chip is autoselected but for some reason the chip object is not passed through to the select method; this is a hacky fix, but might want to figure out what's really going on at some point
 				if (!chip) {
@@ -87,7 +88,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
                   .textContent('please drag words between the sub topics before confirming or press the x if you would like to cancel the split operation')
                   .ariaLabel('split topic dialog')
                   .ok('Got it!')
-              );					return;
+              );
+							return;
 				}
 				scope.topic.splitting = false;
 				scope.topic.split = true;
@@ -249,7 +251,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					scope.$emit('remove-doc', doc.docid);
 				}
 
-			} 
+			}
 
 			scope.moreDocuments = function() {
 				// up the doc country by 20

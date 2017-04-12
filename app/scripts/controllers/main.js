@@ -21,7 +21,8 @@ angular.module('itmUiApp')
       // if we do have a user, start the tutorial
       $scope.tutorial = {
         'complete':false,
-        'step':0
+        'step':0,
+        'nextEnabled':true
       };
 
    // $scope.documents = [];
@@ -215,7 +216,8 @@ angular.module('itmUiApp')
         if ($scope.tutorial.step === 11 || $scope.tutorial.step === 19 || $scope.tutorial.step === 22 || $scope.tutorial.step === 25) {
           // TODO: let's do a special save to make sure we get back the faux updated topic that we want
           $scope.loading = true;
-          $scope.tutorial.step += 1;
+          //$scope.tutorial.nextEnabled = true;
+          $scope.$broadcast('tutorial-next');
           // save the refinements
           TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
             console.log("the model has been updated!")
@@ -239,7 +241,8 @@ angular.module('itmUiApp')
               $scope.isDirty = false;
               $scope.stops = [];
 
-              $scope.tutorial.step += 1;
+            //  $scope.tutorial.nextEnabled = true;
+            $scope.$broadcast('tutorial-next');
           });
 
         } else {
@@ -331,7 +334,7 @@ angular.module('itmUiApp')
       if (!$scope.tutorial.complete) {
         if ($scope.tutorial.step === 24) {
           if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
-            $scope.tutorial.step += 1;
+            $scope.tutorial.nextEnabled = true;
           } else {
             $mdDialog.show(
               $mdDialog.alert()
@@ -391,7 +394,7 @@ angular.module('itmUiApp')
           if ($scope.selectedTopic.id === 5) {
             var words = _.pluck(topic.words, 'word');
             if (_.indexOf(words, 'music') === -1) {
-              $scope.tutorial.step += 1;
+              $scope.tutorial.nextEnabled = true;
             } else {
               $mdDialog.show(
                 $mdDialog.alert()
@@ -490,7 +493,7 @@ angular.module('itmUiApp')
       if (!$scope.tutorial.complete) {
         if ($scope.tutorial.step === 18) {
           if ((pair[0].id === 5 || pair[0].id === 4) && (pair[1].id === 5 || pair[1].id === 4)) {
-            $scope.tutorial.step += 1;
+            $scope.tutorial.nextEnabled = true;
           } else {
             // incorrect topics chosen for merge
             $mdDialog.show(
@@ -624,7 +627,7 @@ angular.module('itmUiApp')
           );
           return;
         } else {
-          $scope.tutorial.step += 1;
+          $scope.tutorial.nextEnabled = true;
         }
       }
 
@@ -676,7 +679,7 @@ angular.module('itmUiApp')
       if (!$scope.tutorial.complete) {
         if ($scope.tutorial.step === 16) {
           if (word === 'year') {
-            $scope.tutorial.step += 1;
+            $scope.tutorial.nextEnabled = true;
           } else {
             $mdDialog.show(
               $mdDialog.alert()
@@ -732,7 +735,7 @@ angular.module('itmUiApp')
           if ($scope.selectedTopic.id === 6) {
             if (word === 'including') {
               // add the refinement and update the step
-              $scope.tutorial.step += 1;
+              $scope.tutorial.nextEnabled = true;
             } else {
               // alert the user that they need to remove the word including
               $mdDialog.show(
@@ -804,7 +807,7 @@ angular.module('itmUiApp')
             if (word === 'award') {
               if (to === 2) {
                 // update the step
-                $scope.tutorial.step += 1;
+                $scope.tutorial.nextEnabled = true;
               } else {
                 // alert the user to change the word's placement to 3
                 $mdDialog.show(
@@ -866,7 +869,7 @@ angular.module('itmUiApp')
           if ($scope.selectedTopic.id === 6) {
             if (word === 'award') {
               if (to === 2) {
-                $scope.tutorial.step += 1;
+                $scope.tutorial.nextEnabled = true;
               } else {
                 return;
               }
@@ -924,7 +927,7 @@ angular.module('itmUiApp')
           if ($scope.selectedTopic.id === 6) {
             if (word === 'oscar' || word === 'Oscar') {
               // add the refinement and update the step
-              $scope.tutorial.step += 1;
+              $scope.tutorial.nextEnabled = true;
             } else {
               // alert the user to add the word Oscar to the topic
               $mdDialog.show(
@@ -999,7 +1002,7 @@ angular.module('itmUiApp')
         if ($scope.tutorial.step === 14) {
           if ($scope.selectedTopic.id === 5) {
             if (doc === 35) {
-              $scope.tutorial.step += 1;
+              $scope.tutorial.nextEnabled = true;
             } else {
               // alert the user to select topic 6
               $mdDialog.show(
