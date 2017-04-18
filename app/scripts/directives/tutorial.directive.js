@@ -11,7 +11,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
     templateUrl: 'views/tutorial.html',
     link: function(scope, element, attrs) {
       //scope.tutorialMessages = TutorialService.messages;
-      var tutorialSteps = 26;
+      var tutorialSteps = 27;
 
       // set up highlighting and unhighlighting for the tutorial
       function highlight(element) {
@@ -66,6 +66,9 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
           break;
           case 'clear-refinements':
           angular.element(document.querySelector('#clearRefinementsButton')).addClass('highlight');
+          break;
+          case 'topic-list-item':
+          angular.element(document.getElementsByClassName('topic-list-item')).addClass('highlight');
           break;
           case 'trash-can':
           angular.element(document.querySelector('#stopWordsButton')).addClass('highlight');
@@ -130,6 +133,9 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
           case 'clear-refinements':
           angular.element(document.querySelector('#clearRefinementsButton')).removeClass('highlight');
           break;
+          case 'topic-list-item':
+          angular.element(document.getElementsByClassName('topic-list-item')).removeClass('highlight');
+          break;
           case 'add-topic':
           angular.element(document.querySelector('#createTopicButton')).removeClass('highlight');
           break;
@@ -145,7 +151,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       scope.tutorialNext = function() {
         if (scope.tutorial.step < tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step < 4 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 13|| scope.tutorial.step === 15 || scope.tutorial.step === 17) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 3 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 13|| scope.tutorial.step === 15 || scope.tutorial.step === 17) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;
@@ -155,7 +161,13 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
         }
 
         // highlight appropriate elements depending on the step
+        if (scope.tutorial.step === 1) {
+          scope.tutorial.flags.topic3Selected = false;
+          highlight('topic-list-item');
+        }
         if (scope.tutorial.step === 2) {
+          scope.tutorial.flags.hoverWord = false;
+          unhighlight('topic-list-item');
           highlight('show-more');
         }
         if (scope.tutorial.step === 3) {

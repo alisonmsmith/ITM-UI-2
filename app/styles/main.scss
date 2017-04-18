@@ -95,6 +95,9 @@ md-sidenav.md-closed.md-locked-open-add-active {
   //  cursor: pointer;
     &.toggle-doc {
       font-weight: 600;
+      &.highlight {
+        border: none;
+      }
     }
 
     &.merge-button, &.split-button {
@@ -162,7 +165,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
     border: solid 2px $md-accent;
   }
 
-  &.merge-checkmark, &.split-checkmark, &.create-checkmark {
+  &.merge-checkmark, &.split-checkmark, &.create-checkmark, &.topic-list-item {
     border: solid 2px $md-accent;
   }
 
@@ -170,9 +173,10 @@ md-sidenav.md-closed.md-locked-open-add-active {
     border: solid 2px $md-primary;
   }
 
-  &.undo-merge, &.undo-split {
+  &.undo-merge, &.undo-split{
     border: solid 2px $md-primary;
   }
+
 }
 
 

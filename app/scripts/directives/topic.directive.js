@@ -53,6 +53,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 
 				// highlight the word in the documents
 				scope.selectedWord = chip.word;
+
+				scope.$emit('select-word', chip.word);
 			};
 
 			scope.blur = function() {
@@ -99,6 +101,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 			scope.hoverWord = function(chip) {
 				// highlight the word in the documents
 				scope.hoveredWord = chip.word;
+
+				scope.$emit('hover-word', chip.word);
 
 			};
 

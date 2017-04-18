@@ -22,8 +22,20 @@ angular.module('itmUiApp')
       $scope.tutorial = {
         'complete':false,
         'step':0,
-        'nextEnabled':true
+        'nextEnabled':true,
+        'flags':{}
       };
+
+      // pop up a modal about the tutorial
+      // alert the user that they need to remove the word including
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.body))
+          .clickOutsideToClose(true)
+          .textContent('This is a user interface for interactive topic modeling. We will begin with a tutorial to walk you through using the tool. Please follow the instructions and click next to continue through the tutorial steps.')
+          .ariaLabel('Tutorial Dialog')
+          .ok('Got it!')
+      );
 
    // $scope.documents = [];
     $scope.topics = [];
@@ -614,7 +626,6 @@ angular.module('itmUiApp')
     */
     $scope.$on("select", function(event, topic) {
       // if we're in the tutorial and on step 4, only select the topic if it's topic 7
-
       if ($scope.tutorial.step === 4) {
         if (topic.id !== 6) {
           $mdDialog.show(
@@ -629,6 +640,38 @@ angular.module('itmUiApp')
         } else {
           $scope.tutorial.nextEnabled = true;
         }
+      } else if ($scope.tutorial.step === 1) {
+        // only select the topic if it's 3 or 8
+        if (!$scope.tutorial.flags.topic3Selected) {
+          if (topic.id !== 2) {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Please click on Topic 3 to continue the tutorial.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          } else {
+            $scope.tutorial.flags.topic3Selected = true;
+          }
+        } else {
+          if (topic.id !== 7) {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Please click on Topic 8 to continue the tutorial.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+            return;
+          } else {
+            $scope.tutorial.nextEnabled = true;
+          }
+        }
+
       }
 
       // if we're in merge mode, toggle the merge status
@@ -672,6 +715,37 @@ angular.module('itmUiApp')
         $scope.$broadcast("select-topic", topic);
       }
 
+    });
+
+    $scope.$on('select-word', function(event, word) {
+      // if we're in tutorial mode
+      if (!$scope.tutorial.complete) {
+        if ($scope.tutorial.step === 2) {
+          if (word === 'year' && $scope.tutorial.flags.hoverWord) {
+            $scope.tutorial.nextEnabled = true;
+          } else {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .textContent('Please hover over the word "world" and select the word "year" in Topic 8 to continue the tutorial.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+            );
+          }
+        } 
+      }
+    });
+
+    $scope.$on('hover-word', function(event, word) {
+      // if we're in tutorial mode
+      if (!$scope.tutorial.complete) {
+        if ($scope.tutorial.step === 2) {
+          if (word === 'world') {
+            $scope.tutorial.flags.hoverWord = true;
+          }
+        }
+      }
     });
 
     $scope.$on('add-stop-word', function(event, word) {
