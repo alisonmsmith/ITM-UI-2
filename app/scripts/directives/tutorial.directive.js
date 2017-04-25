@@ -163,49 +163,49 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
         // highlight appropriate elements depending on the step
         if (scope.tutorial.step === 1) {
           scope.tutorial.flags.topic3Selected = false;
-          highlight('topic-list-item');
+    //      highlight('topic-list-item');
         }
         if (scope.tutorial.step === 2) {
           scope.tutorial.flags.hoverWord = false;
-          unhighlight('topic-list-item');
-          highlight('show-more');
+      //    unhighlight('topic-list-item');
+      //    highlight('show-more');
         }
         if (scope.tutorial.step === 3) {
-          unhighlight('show-more');
+      //    unhighlight('show-more');
         }
         if (scope.tutorial.step === 5) {
-          highlight('add-word');
+      //    highlight('add-word');
         }
         if (scope.tutorial.step === 6) {
-          unhighlight('add-word');
-          highlight('save');
+      //    unhighlight('add-word');
+      //    highlight('save');
         }
         if (scope.tutorial.step === 7) {
-          unhighlight('save');
-          highlight('remove-word');
+      //    unhighlight('save');
+      //    highlight('remove-word');
         }
         if (scope.tutorial.step === 8) {
-          unhighlight('remove-word');
+      //    unhighlight('remove-word');
         }
         // save outstanding refinements
         if (scope.tutorial.step === 11) {
-          highlight('undo-word');
-          highlight('save');
-          highlight('clear-refinements');
+      //    highlight('undo-word');
+      //    highlight('save');
+      //    highlight('clear-refinements');
         }
         // model updating
         if (scope.tutorial.step === 12) {
-          unhighlight('undo-word');
-          unhighlight('save');
-          unhighlight('clear-refinements');
+      //    unhighlight('undo-word');
+      //    unhighlight('save');
+      //    unhighlight('clear-refinements');
         }
         // remove document
         if (scope.tutorial.step === 14) {
           // need to make sure we still highlight the button after the user clicks to switch to topic 6
-          highlight('remove-doc');
+      //    highlight('remove-doc');
         }
         if (scope.tutorial.step === 15) {
-          unhighlight('remove-doc');
+      //    unhighlight('remove-doc');
         }
       }
 

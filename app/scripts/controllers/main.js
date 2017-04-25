@@ -30,7 +30,7 @@ angular.module('itmUiApp')
       // alert the user that they need to remove the word including
       $mdDialog.show(
         $mdDialog.alert()
-          .parent(angular.element(document.body))
+          //.parent(angular.element(document.body))
           .clickOutsideToClose(true)
           .textContent('This is a user interface for interactive topic modeling. We will begin with a tutorial to walk you through using the tool. Please follow the instructions and click next to continue through the tutorial steps.')
           .ariaLabel('Tutorial Dialog')
@@ -258,6 +258,14 @@ angular.module('itmUiApp')
           });
 
         } else {
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .clickOutsideToClose(true)
+              .textContent("Let's wait to save until we've performed a few more refinements.")
+              .ariaLabel('tutorial alert')
+              .ok('Got it!')
+          );
           return;
         }
       } else {
@@ -733,7 +741,7 @@ angular.module('itmUiApp')
                 .ok('Got it!')
             );
           }
-        } 
+        }
       }
     });
 
@@ -878,7 +886,7 @@ angular.module('itmUiApp')
       if (!$scope.tutorial.complete) {
         if ($scope.tutorial.step === 9) {
           if ($scope.selectedTopic.id === 6) {
-            if (word === 'award') {
+            if (word === 'awards') {
               if (to === 2) {
                 // update the step
                 $scope.tutorial.nextEnabled = true;
@@ -888,7 +896,7 @@ angular.module('itmUiApp')
                   $mdDialog.alert()
                     .parent(angular.element(document.body))
                     .clickOutsideToClose(true)
-                    .textContent('Oops, that is not the right position. Please drag the word "award" to the third position in the list.')
+                    .textContent('Oops, that is not the right position. Please drag the word "awards" to the third position in the list.')
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Got it!')
                 );
@@ -900,7 +908,7 @@ angular.module('itmUiApp')
                 $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('Oops, that is not the right word. Please drag the word "award" to the third position in the list.')
+                  .textContent('Oops, that is not the right word. Please drag the word "awards" to the third position in the list.')
                   .ariaLabel('Alert Dialog Demo')
                   .ok('Got it!')
               );

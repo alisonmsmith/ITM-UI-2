@@ -41,17 +41,19 @@
                 <md-tooltip>configure model</md-tooltip>
                 <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
               </md-button>
-              <span class="topic-list-heading">{{topicNums}} topics from "{{corpus}}"</span>
+              <span class="topic-list-heading">{{corpus}}</span>
             </h3>
             <span flex></span>
-            <md-button  id="clearRefinementsButton" aria-label="clear changes" ng-show="refinements.length > 0"
-              class="md-icon-button" ng-click="clearRefinements()">
+            <md-button  class="md-accent" id="clearRefinementsButton" aria-label="clear changes" ng-show="refinements.length > 0"
+              ng-click="clearRefinements()">
               <md-tooltip> clear {{refinements.length}} outstanding refinements</md-tooltip>
-              <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+            <!--  <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon> -->
+              CLEAR ALL
             </md-button>
-            <md-button id="saveButton" aria-label="save changes"  ng-show="refinements.length > 0" class="md-icon-button" ng-click="save()">
+            <md-button class="md-accent" id="saveButton" aria-label="save changes"  ng-show="refinements.length > 0" ng-click="save()">
               <md-tooltip>save {{refinements.length}} outstanding refinements</md-tooltip>
-              <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon>
+          <!--    <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon> -->
+              SAVE ALL
             </md-button>
           </div>
         </md-toolbar>
