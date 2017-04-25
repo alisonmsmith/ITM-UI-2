@@ -225,7 +225,7 @@ angular.module('itmUiApp')
     $scope.save = function() {
       // only let the user save during the tutorial if they're on step 11
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 11 || $scope.tutorial.step === 19 || $scope.tutorial.step === 22 || $scope.tutorial.step === 25) {
+        if ($scope.tutorial.step === 11 || $scope.tutorial.step === 20 || $scope.tutorial.step === 23 || $scope.tutorial.step === 26) {
           // TODO: let's do a special save to make sure we get back the faux updated topic that we want
           $scope.loading = true;
           //$scope.tutorial.nextEnabled = true;
@@ -350,9 +350,9 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('accept-create', function(event, topic) {
-      // we should only accept a create refinement if it's on step 22 and we've added the words football, game, and support
+      // we should only accept a create refinement if it's on step 25 and we've added the words football, game, and support
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 24) {
+        if ($scope.tutorial.step === 25) {
           if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
             $scope.tutorial.nextEnabled = true;
           } else {
@@ -408,9 +408,9 @@ angular.module('itmUiApp')
     });
 
     $scope.$on('accept-split', function(event, topic) {
-      // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 20
+      // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 22
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 21) {
+        if ($scope.tutorial.step === 22) {
           if ($scope.selectedTopic.id === 5) {
             var words = _.pluck(topic.words, 'word');
             if (_.indexOf(words, 'music') === -1) {
@@ -509,9 +509,9 @@ angular.module('itmUiApp')
         return;
       }
 
-      // only allowing merge to happen on step 18 between topic 4 and topic 6
+      // only allowing merge to happen on step 19 between topic 4 and topic 6
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 18) {
+        if ($scope.tutorial.step === 19) {
           if ((pair[0].id === 5 || pair[0].id === 4) && (pair[1].id === 5 || pair[1].id === 4)) {
             $scope.tutorial.nextEnabled = true;
           } else {
@@ -593,9 +593,9 @@ angular.module('itmUiApp')
     * Method to go into split 'mode' for the selected topic
     */
     $scope.$on("split", function(event, topic) {
-      // only enter split mode on step 20 of tutorial
+      // only enter split mode on step 22 of tutorial
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 21) {
+        if ($scope.tutorial.step === 22) {
 
         } else {
           // shouldn't be merging
@@ -615,9 +615,9 @@ angular.module('itmUiApp')
     * Method to go into merge 'mode' for the selected topic
     */
     $scope.$on("merge", function(event, topic) {
-      // only enter merge mode on step 18 of tutorial
+      // only enter merge mode on step 19 of tutorial
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 18) {
+        if ($scope.tutorial.step === 19) {
 
         } else {
           // shouldn't be merging

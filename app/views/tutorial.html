@@ -1,4 +1,4 @@
-<md-progress-linear class="md-accent" md-mode="determinate" value="{{tutorial.step*4}}"></md-progress-linear>
+<md-progress-linear class="md-accent" md-mode="determinate" value="{{tutorial.step*3}}"></md-progress-linear>
 <!--<div class="tutorial-message">
   <span ng-bind-html="tutorialMessages[tutorial.step]"></span>
   <md-button ng-if="tutorial.step < 4 || tutorial.step === 6 || tutorial.step === 8 || tutorial.step === 10 || tutorial.step === 13|| tutorial.step === 15 || tutorial.step === 17 || tutorial.step === 19 || tutorial.step === 21 || tutorial.step === 23" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
@@ -55,7 +55,7 @@ Hover over any of the topic words to see it highlighted in the documents. <span 
    next to the added, removed, or reordered word, or you can undo all of the refinements by clicking
    <md-button ng-disabled>CLEAR ALL</md-button>
 
-   Instead, let’s update the model with these refinements. <span class='tutorial-command'>Click SAVE ALL
+   Instead, let’s update the model with these refinements. <span class='tutorial-command'>Click <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button>
  </span>.</span>
 
 <span ng-show="tutorial.step === 12">The algorithm is working to update the model based on the refinements. Please wait while it finishes updating.</span>
@@ -84,37 +84,42 @@ next to the document. <span class='tutorial-command'>Click Topic 6</span>, which
 </button> next to the word.</span>
 
 <!-- STEP DIFFERENTIATING BETWEEN TRASH AND REMOVE -->
+<span ng-show="tutorial.step === 18">
+  It's important to remember that there are two different refinements to remove a word. The first removes a word from a single document by clicking <button class="tutorial-element remove-button md-icon-button">
+  <md-icon md-font-icon="mdi mdi-close"></md-icon>
+</button> next to the word. The second removes a word from all topics by clicking to select the word and then clicking <md-button ng-disabled="true" class="tutorial-element md-raised md-accent trash-button">remove selected word from all topics</md-button>.
+</span>
 <!--Remember, that if you want to remove a word just from a single topic, you click the <button class="tutorial-element remove-button md-icon-button">
 <md-icon md-font-icon="mdi mdi-close"></md-icon>
 </button> next to the word, and if you want to remove a word from all topics (i.e. add it to the trash word list), you click to select the word and then click <md-button ng-disabled="true" class="tutorial-element md-raised md-accent trash-button">remove selected word from all topics</md-button>.</span> -->
 
-<span ng-show="tutorial.step === 18"> (6) MERGE TOPICS: Topics can be merged by clicking <md-button ng-disabled="true" class="tutorial-element merge-button md-accent">merge</md-button> next to a topic in the list and then selecting additional topics to merge with it. Both Topic 5 and Topic 6 appear to be about government, so they can be merged. First <span class='tutorial-command'>click to select Topic 6</span> and then <span class='tutorial-command'>click <md-button ng-disabled="true" class="tutorial-element merge-button md-accent">merge</md-button></span>. Now,
+<span ng-show="tutorial.step === 19"> (6) MERGE TOPICS: Topics can be merged by clicking <md-button ng-disabled="true" class="tutorial-element merge-button md-accent">merge</md-button> next to a topic in the list and then selecting additional topics to merge with it. Both Topic 5 and Topic 6 appear to be about government, so they can be merged. First <span class='tutorial-command'>click to select Topic 6</span> and then <span class='tutorial-command'>click <md-button ng-disabled="true" class="tutorial-element merge-button md-accent">merge</md-button></span>. Now,
 <span class='tutorial-command'>click to select Topic 5</span> and <span class='tutorial-command'>Press
   <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span> to complete the merge.</span>
 
-<span ng-show="tutorial.step === 19">The merged topics are shown together in the list. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the merged topics. Let's save the model with the two outstanding refinements. <span class="tutorial-command">Click SAVE ALL</span>.</span>
+<span ng-show="tutorial.step === 20">The merged topics are shown together in the list. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the merged topics. Let's save the model with the two outstanding refinements. <span class="tutorial-command">Click <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button></span>.</span>
 
-<span ng-show="tutorial.step === 20">Now the algorithm is working to come up with an updated model based on the refinements. Please wait while it finishes updating.</span>
+<span ng-show="tutorial.step === 21">Now the algorithm is working to come up with an updated model based on the refinements. Please wait while it finishes updating.</span>
 
-<span ng-show="tutorial.step === 21">(7) SPLIT TOPIC: a topic can be split into two sub topics. Let’s try splitting the film and music awards topic into two sub topics about film and music, respectively. If it's not already selected, <span class='tutorial-command'>click Topic 6</span> then <span>click <md-button ng-disabled="true" class="tutorial-element split-button md-accent">split</md-button></span>. Words can be dragged between each sub topic. <span class='tutorial-command'>Drag the words about music into sub topic B and leave the words about films in sub topic A</span>. <span class='tutorial-command'>When you are done splitting the topic, press <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span>.</span>
+<span ng-show="tutorial.step === 22">(7) SPLIT TOPIC: a topic can be split into two sub topics. Let’s try splitting the film and music awards topic into two sub topics about film and music, respectively. If it's not already selected, <span class='tutorial-command'>click Topic 6</span> then <span>click <md-button ng-disabled="true" class="tutorial-element split-button md-accent">split</md-button></span>. Words can be dragged between each sub topic. <span class='tutorial-command'>Drag the words about music into sub topic B and leave the words about films in sub topic A</span>. <span class='tutorial-command'>When you are done splitting the topic, press <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span>.</span>
 
-<span ng-show="tutorial.step === 22">The split topic is shown in the list. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the split topic. Let's save the model with the outstanding split refinement. <span class="tutorial-command">Click SAVE</span>.</span>
+<span ng-show="tutorial.step === 23">The split topic is shown in the list. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the split topic. Let's save the model with the outstanding split refinement. <span class="tutorial-command">Click <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button></span>.</span>
 
-<span ng-show="tutorial.step === 23">Now the algorithm is working to come up with an updated model based on the refinement. Please wait while it finishes updating.</span>
+<span ng-show="tutorial.step === 24">Now the algorithm is working to come up with an updated model based on the refinement. Please wait while it finishes updating.</span>
 
-<span ng-show="tutorial.step === 24">(8) CREATE TOPIC: a new topic can be added to the model by clicking <md-button ng-disabled="true" class="tutorial-element md-raised md-accent"><md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...</md-button> at the top of the topic list and adding a few seed words to the new topic by typing into the <span class='tutorial-element' ng-mouseenter='highlight("add-word")' ng-mouseleave='unhighlight("add-word")'>input area that says 'add new word'</span> and pressing enter or selecting the matching word from the drop-down. Let's create a new sports topic. <span class='tutorial-command'>Click <md-button ng-disabled="true" class="tutorial-element md-raised md-accent"><md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...</md-button>
+<span ng-show="tutorial.step === 25">(8) CREATE TOPIC: a new topic can be added to the model by clicking <md-button ng-disabled="true" class="tutorial-element md-raised md-accent"><md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...</md-button> at the top of the topic list and adding a few seed words to the new topic by typing into the <span class='tutorial-element' ng-mouseenter='highlight("add-word")' ng-mouseleave='unhighlight("add-word")'>input area that says 'add new word'</span> and pressing enter or selecting the matching word from the drop-down. Let's create a new sports topic. <span class='tutorial-command'>Click <md-button ng-disabled="true" class="tutorial-element md-raised md-accent"><md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...</md-button>
   at the top of the topic list</span>. <span class='tutorial-command'>Add the word 'football'</span>, <span class='tutorial-command'>add the word 'game'</span>, and <span class="tutorial-command">add the word 'sport' to the topic</span> then <span class="tutorial-command">click
 <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span>.</span>
 
-<span ng-show="tutorial.step === 25">The new topic is shown at the bottom of the list with the added words. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the topic in the list. Let's save the model with the outstanding add topic refinement. <span class="tutorial-command">Click SAVE ALL</span>.</span>
+<span ng-show="tutorial.step === 26">The new topic is shown at the bottom of the list with the added words. Prior to saving, this can be undone by clicking the <md-button ng-disabled="true" class="undo-merge md-fab md-mini md-accent"><md-icon md-font-icon="mdi mdi-undo"></md-icon></md-button> next to the topic in the list. Let's save the model with the outstanding add topic refinement. <span class="tutorial-command">Click <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button></span>.</span>
 
-<span ng-show="tutorial.step === 26">Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</span>
+<span ng-show="tutorial.step === 27">Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</span>
 
-<span ng-show="tutorial.step === 27">Ok, you've now seen the eight different refinements you can use in the ITM interface. Remember that the interface shows the topics with your specified refinements, but it’s not until you click SAVE ALL that the model actually incorporates the refinements. You can press SAVE ALL as often as you prefer while you’re refining the model. It may take many rounds of updating before you are happy with the model.</span>
+<span ng-show="tutorial.step === 28">Ok, you've now seen the eight different refinements you can use in the ITM interface. Remember that the interface shows the topics with your specified refinements, but it’s not until you click <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button> that the model actually incorporates the refinements. You can press <md-button class="tutorial-element" ng-disabled>SAVE ALL</md-button> as often as you prefer while you’re refining the model. It may take many rounds of updating before you are happy with the model.</span>
 
 
-  <md-button ng-hide="tutorial.step===27" ng-disabled="!tutorial.nextEnabled" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
+  <md-button ng-hide="tutorial.step===28" ng-disabled="!tutorial.nextEnabled" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
 
-  <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === 27">finish</md-button>
+  <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === 28">finish</md-button>
 
 </div>

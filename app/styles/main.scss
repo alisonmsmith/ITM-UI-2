@@ -504,7 +504,8 @@ md-chip-template {
 }
 
 md-chip.dropping:before {
-  content: "↓";
+  //content: "↓";
+  content: " \2193";
   position: absolute;
   top: -20px;
 }
