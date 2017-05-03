@@ -1,13 +1,17 @@
+
     <!-- TOOLBAR -->
-    <md-toolbar layout="row" class="md-whiteframe-z2">
+    <md-toolbar layout="row" class="md-hue-2">
       <div class="md-toolbar-tools ">
         <h2 flex>
-          <md-button class="title" aria-label="go to application home" href="/">ITM</md-button>
+          <span class="title">ITM</span>
         </h2>
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <timer countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
-        <md-button ng-if="!tutorial.complete" class="md-raised" ng-click="endTutorial()">END TUTORIAL</md-button>
+        <timer ng-if="tutorial.complete" countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
+        <!--<md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
+          <md-tooltip>configure model</md-tooltip>
+          <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
+        </md-button> -->
         <md-button ng-if="tutorial.complete" class="md-raised" ng-click="">FINISH</md-button>
     <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
@@ -21,7 +25,27 @@
       </div>
     </md-toolbar>
 
-    <tutorial ng-if="!tutorial.complete" ></tutorial>
+    <!--<md-toolbar class="md-primary">
+      <div class="md-toolbar-tools" layout="row">-->
+      <div class="topic-refinement-info" layout="row" layout-align="center center">
+        <span ng-if="refinements.length > 0"> {{refinements.length}} outstanding change(s)
+        </span>
+        <md-button  class="md-accent md-raised" id="clearRefinementsButton" aria-label="clear changes" ng-show="refinements.length > 0"
+          ng-click="clearRefinements()">
+          <md-tooltip> clear {{refinements.length}} outstanding change(s)</md-tooltip>
+        <!--  <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon> -->
+          CLEAR ALL
+        </md-button>
+        <md-button class="md-accent md-raised" id="saveButton" aria-label="save changes"  ng-show="refinements.length > 0" ng-click="save()">
+          <md-tooltip>save {{refinements.length}} outstanding change(s)</md-tooltip>
+      <!--    <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon> -->
+          SAVE ALL
+        </md-button>
+      </div>
+  <!--  </md-toolbar> -->
+
+<span layout="row">
+    <tutorial ng-if="!tutorial.complete" flex="25"></tutorial>
 
 <div layout="row" flex>
       <md-progress-circular class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
@@ -34,27 +58,9 @@
         md-is-locked-open="true"
         md-disable-backdrop
         aria-label="topic list">
-        <md-toolbar class="md-hue-2">
+        <md-toolbar class="md-hue-1">
           <div class="md-toolbar-tools">
-            <h3>
-              <md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
-                <md-tooltip>configure model</md-tooltip>
-                <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
-              </md-button>
-              <span class="topic-list-heading">{{corpus}}</span>
-            </h3>
-            <span flex></span>
-            <md-button  class="md-accent" id="clearRefinementsButton" aria-label="clear changes" ng-show="refinements.length > 0"
-              ng-click="clearRefinements()">
-              <md-tooltip> clear {{refinements.length}} outstanding refinements</md-tooltip>
-            <!--  <md-icon class="clear-icon" md-font-icon="mdi mdi-window-close"></md-icon> -->
-              CLEAR ALL
-            </md-button>
-            <md-button class="md-accent" id="saveButton" aria-label="save changes"  ng-show="refinements.length > 0" ng-click="save()">
-              <md-tooltip>save {{refinements.length}} outstanding refinements</md-tooltip>
-          <!--    <md-icon class="save-icon" md-font-icon="mdi mdi-content-save"></md-icon> -->
-              SAVE ALL
-            </md-button>
+TOPIC LIST OF {{topics.length}} TOPICS FOR {{corpus}}:
           </div>
         </md-toolbar>
         <md-toolbar ng-if="mode === 'merge'" class="merge-toolbar">
@@ -74,16 +80,7 @@
           </div>
       </md-toolbar>
         <md-content>
-          <div layout="row" layout-align="center center">
-          <md-button
-            class="md-raised md-accent"
-            id="createTopicButton"
-            ng-click="createNewTopic()">
-            <md-tooltip>create a new topic</md-tooltip>
-            <md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...
-            </md-button>
-          </div>
-          <md-list >
+          <md-list>
             <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
             <div class="topic-merge-pair" ng-model="pair" ng-repeat="pair in merged">
                 <md-button aria-label="undo merge" class="undo-merge md-fab md-mini md-accent" ng-click="undoMerge(pair)">
@@ -94,14 +91,22 @@
             </div>
 
           </md-list>
+          <div layout="row" layout-align="center center">
+            <md-button
+              class="md-raised md-accent"
+              id="createTopicButton"
+              ng-click="createNewTopic()">
+              <md-tooltip>create a new topic</md-tooltip>
+              <md-icon md-font-icon="mdi mdi-plus"></mdi-icon> create a new topic...
+              </md-button>
+          </div>
         </md-content>
   </md-sidenav>
 <!--</div>-->
-  <div layout="column" flex>
     <!-- CONTENT -->
-    <md-content layout="column" flex class="topic-panel md-padding">
+    <md-content layout="column" flex class="topic-panel">
         <topic topic="selectedTopic" stops="stops" vocab="vocab" ng-if="selectedTopic"></topic>
        <div flex></div>
     </md-content>
-  </div>
 </div>
+</span>

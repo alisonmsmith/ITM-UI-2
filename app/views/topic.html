@@ -2,17 +2,18 @@
 	<md-card-title>
 		<md-card-title-text>
 
+			<md-toolbar class="topic-sub-toolbar md-hue-3"><div class="md-toolbar-tools">top {{topic.words.length}} words for {{topic.topic}}:</div></md-toolbar>
 				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
 		<div class="md-toolbar-tools">
 			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
 			<span ng-if="topic.split">
-				Unable to make topic-level changes with outstanding "split" refinement. Please save refinements to continue refining this topic.
+				This topic has been split. If you'd like to make additional changes to this topic, please save.
 			</span>
 			<span ng-if="topic.creating">
 				Add words to your new topic:
 			</span>
 			<span ng-if="topic.created">
-				Unable to make topic-level changes with outstanding "create topic" refinement. Please save refinements to continue refining this topic.
+				This topic has been created. If you'd like to make additional changes to this topic, please save.
 			</span>
 			<span flex></span>
 			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
@@ -35,7 +36,7 @@
         </md-toolbar>
 		</md-card-title-text>
 	</md-card-title>
-	<md-card-content>
+	<md-card-content class="topic-content">
 
 
 		<div class="word-holder" layout="row">
@@ -114,7 +115,8 @@
 			</md-chips>
 		</span>
 		</div>
-		<div class="document-holder">
+		<div class="document-holder" ng-if="!topic.creating && !topic.created">
+			<md-toolbar class="md-hue-3 topic-sub-toolbar"><div  class="md-toolbar-tools">top {{topic.docs.length}} documents for {{topic.topic}}:</div></md-toolbar>
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<!--<div class="document-name">

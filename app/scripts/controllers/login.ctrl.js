@@ -15,8 +15,8 @@ angular.module('itmUiApp')
     /*
     * When the user clicks accept, we set the user and go to the topics view.
     */
-  	$scope.submit = function(user) {
-  		TopicService.setUser(user);
+  	$scope.submit = function() {
+  		TopicService.setUser($scope.user);
   		$state.go('topics');
   	}
   });

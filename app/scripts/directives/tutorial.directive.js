@@ -11,7 +11,9 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
     templateUrl: 'views/tutorial.html',
     link: function(scope, element, attrs) {
       //scope.tutorialMessages = TutorialService.messages;
-      var tutorialSteps = 28;
+      var tutorialSteps = 29;
+
+      scope.tutorialRange = _.range(0,tutorialSteps+1);
 
       // set up highlighting and unhighlighting for the tutorial
       function highlight(element) {
@@ -151,7 +153,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       scope.tutorialNext = function() {
         if (scope.tutorial.step < tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step === 0 || scope.tutorial.step === 3 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 13|| scope.tutorial.step === 15 || scope.tutorial.step === 17 || scope.tutorial.step === 18) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 3 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 14|| scope.tutorial.step === 16 || scope.tutorial.step === 18 || scope.tutorial.step === 19) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;
@@ -181,6 +183,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       //    highlight('save');
         }
         if (scope.tutorial.step === 7) {
+          scope.tutorial.flags.removedWord = false;
       //    unhighlight('save');
       //    highlight('remove-word');
         }

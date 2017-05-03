@@ -20,20 +20,22 @@
 <!--	<md-icon class="topic-icon md-secondary" ng-if="topic.selected" aria-label="rename topic" ng-click="rename(topic)" md-font-icon="mdi mdi-pencil">
 		<md-tooltip>rename topic</md-tooltip>
 	</md-icon> -->
-	<md-button ng-if="(topic.selected && !topic.split && !(topic.created || topic.creating)) || topic.merged" ng-class="{highlight:topic.merged}" class="md-secondary merge-button md-accent"
+	<md-button ng-if="(topic.selected && !topic.split && !(topic.created || topic.creating)) || topic.merged" ng-class="{highlight:topic.merged}" class="md-secondary merge-button md-raised"
 		aria-label="merge topic"
 		ng-click="merge(topic)"
 		ng-disabled="topic.merged || topic.splitting || topic.merge">
-		merge
+		<span ng-if="topic.merged">TOPIC MERGED</span>
+		<span ng-if="!topic.merged">MERGE</span>
 		<md-tooltip ng-if="topic.merged || (!topic.merged && !topic.merge && !topic.splitting)">
 			<span ng-if="!topic.merged && !topic.merge && !topic.splitting">merge topic with other topics</span>
 			<span ng-if="topic.merged">topic merge specified, click save to update model</span>
 		</md-tooltip>
 	</md-button>
-		<md-button ng-if="(topic.selected && !topic.merged && !(topic.created || topic.creating)) || topic.split" ng-class="{highlight:topic.split}" class=" md-secondary split-button md-accent"
+		<md-button ng-if="(topic.selected && !topic.merged && !(topic.created || topic.creating)) || topic.split" ng-class="{highlight:topic.split}" class=" md-secondary split-button md-raised"
 		ng-click="split(topic)"  aria-label="split-topic"
 		ng-disabled="topic.split || topic.merge || topic.splitting">
-		split
+		<span ng-if="topic.split">TOPIC SPLIT</span>
+		<span ng-if="!topic.split">SPLIT</span>
 		<md-tooltip ng-if="topic.split || (!topic.split && !topic.merge && !topic.splitting)">
 			<span ng-if="!topic.split && !topic.merge && !topic.splitting">split topic into two separate topics</span>
 			<span ng-if="topic.split">topic split specified, click save to update model</span>

@@ -10,6 +10,17 @@ body {
 	display: none !important;
 }
 
+.topic-content {
+  padding: 0px;
+}
+
+.topic-sub-toolbar {
+  background-color:$md-primary-hue3;
+//  color: $md-primary;
+//border: solid 1px $md-primary;
+  text-transform:uppercase;
+}
+
 // Uncomment to use a topic list with width based on parent div
 // for responsive design (messes up the shadowing, though)
 /*md-sidenav,
@@ -74,13 +85,29 @@ md-sidenav.md-closed.md-locked-open-add-active {
   }
 }
 
+.tutorial-buttons {
+  margin-top: 10px;
+}
+
+.tutorial-step {
+//  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: solid 2px $md-primary-hue2;
+  padding: 10px;
+//  background-color: $md-primary-hue3;
+  color: $md-primary-hue2;
+  font-size: 18pt;
+  text-align: center;
+}
+
 .tutorial-message {
 //  text-align: center;
 //  width: 100%;
-  padding: 20px;
-  background-color: $md-primary-hue3;
+
+  padding-right: 10px;
+//  background-color: $md-primary-hue3;
   color: $md-primary-hue2;
-  font-size: 20pt;
+  font-size: 18pt;
 //  border: solid 4px $md-primary-hue1;
 
   .tutorial-command {
@@ -236,6 +263,30 @@ md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
   }
 }
 
+.tutorial-image {
+  height:25px;
+//  width:75%;
+
+  &.trash {
+    padding:5px;
+    position: relative;
+    left: -40px;
+    &.double {
+      left: -80px;
+    }
+  }
+}
+
+tutorial {
+  border: solid 5px $md-accent;
+}
+
+#topicA, #topicB {
+  input {
+    border-bottom: 1px solid $md-primary;
+  }
+}
+
 // fix an issue with the dialog box not extending the full amount
 md-dialog {
   max-width: 100%;
@@ -257,6 +308,7 @@ md-dialog {
   background-color: white;
   &.selected {
     background-color: $md-primary-hue3;
+    border: solid 5px $md-primary-hue3;
   }
 
   &.merge {
@@ -366,14 +418,25 @@ md-list-item.document-list-item {
 }
 
 .topic-card {
+  padding: 0;
+  margin: 0;
+  border: solid 5px $md-primary-hue3;
  md-card-title {
   padding: 0;
  }
 }
 
+.topic-refinement-info {
+  background-color: $md-primary;
+  height: 50px;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
 .topic-panel {
-  background-color: $md-primary-hue3;
+  //background-color: $md-primary-hue1;
   height: 100vh;
+  //border: solid 5px $md-primary-hue1;
 }
 
 .topic-toolbar {

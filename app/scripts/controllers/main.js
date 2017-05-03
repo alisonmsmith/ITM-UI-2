@@ -32,7 +32,7 @@ angular.module('itmUiApp')
         $mdDialog.alert()
           //.parent(angular.element(document.body))
           .clickOutsideToClose(true)
-          .textContent('This is a user interface for interactive topic modeling. We will begin with a tutorial to walk you through using the tool. Please follow the instructions and click next to continue through the tutorial steps.')
+          .textContent('This webpage allows you to explore and modify a topic model, which is a statistical model for discovering the "abstract" topics (or themes) that occur in a collection of documents. A topic model consists of a set of topics where each topic is represented by a lists of words that make up the topic and documents that are associated with the topic. We will begin with a tutorial to walk you through using the webpage. Please follow the instructions at the top of the screen and click "Next" to continue through each tutorial step.')
           .ariaLabel('Tutorial Dialog')
           .ok('Got it!')
       );
@@ -74,8 +74,7 @@ angular.module('itmUiApp')
     function loadModel() {
       $scope.loading = true;
       TopicService.loadModel($scope.corpus, $scope.topicNums).then(function(data) {
-        console.log("loaded the initial model!")
-        console.log(data.data);
+        console.log("loaded the model for " + $scope.corpus)
         processModel(data.data);
 
           // Select to display the first topic in the list
@@ -86,19 +85,35 @@ angular.module('itmUiApp')
        // });
      }, function() {
        // on error
-       console.log("error loading initial model");
+       console.error("error loading initial model");
      });
 
      // get the vocabulary
      TopicService.getVocab($scope.corpus).then(function(response) {
-       console.log('loaded the vocabulary');
+       console.log('loaded the vocabulary for ' + $scope.corpus);
        $scope.vocab = response.data;
      });
     }
 
 
     $scope.endTutorial = function() {
-      $scope.tutorial.complete = true;
+
+      // pop up message with instructions
+      $mdDialog.show(
+        $mdDialog.confirm()
+          //.parent(angular.element(document.body))
+          .clickOutsideToClose(true)
+          .textContent('Now we will begin the task.')
+          .ariaLabel('Tutorial Dialog')
+          .ok('Got it!')
+      ).then(function() {
+                  $scope.tutorial.complete = true;
+                });
+
+      // load ITM with the task url
+      $scope.corpus = "gnews";
+      $scope.topicNums = 10;
+      loadModel();
     }
 
     /**
@@ -225,15 +240,14 @@ angular.module('itmUiApp')
     $scope.save = function() {
       // only let the user save during the tutorial if they're on step 11
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 11 || $scope.tutorial.step === 20 || $scope.tutorial.step === 23 || $scope.tutorial.step === 26) {
+        if ($scope.tutorial.step === 12 || $scope.tutorial.step === 21 || $scope.tutorial.step === 24 || $scope.tutorial.step === 27) {
           // TODO: let's do a special save to make sure we get back the faux updated topic that we want
           $scope.loading = true;
           //$scope.tutorial.nextEnabled = true;
           $scope.$broadcast('tutorial-next');
           // save the refinements
           TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
-            console.log("the model has been updated!")
-            console.log(data.data);
+            console.log("the model for " + $scope.corpus + " has been updated!")
             processModel(data.data);
             // copy the topics
               $scope.topicsCopy = angular.copy($scope.topics);
@@ -273,7 +287,6 @@ angular.module('itmUiApp')
         // save the refinements
         TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
           console.log("the model has been updated!")
-          console.log(data.data);
           processModel(data.data);
          // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
         //    processModel(data.data, docs.data);
@@ -352,7 +365,7 @@ angular.module('itmUiApp')
     $scope.$on('accept-create', function(event, topic) {
       // we should only accept a create refinement if it's on step 25 and we've added the words football, game, and support
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 25) {
+        if ($scope.tutorial.step === 26) {
           if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
             $scope.tutorial.nextEnabled = true;
           } else {
@@ -410,7 +423,7 @@ angular.module('itmUiApp')
     $scope.$on('accept-split', function(event, topic) {
       // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 22
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 22) {
+        if ($scope.tutorial.step === 23) {
           if ($scope.selectedTopic.id === 5) {
             var words = _.pluck(topic.words, 'word');
             if (_.indexOf(words, 'music') === -1) {
@@ -424,6 +437,8 @@ angular.module('itmUiApp')
                   .ariaLabel('tutorial alert')
                   .ok('Got it!')
               );
+              topic.splitting = true;
+              topic.split = false;
               return;
             }
           } else {
@@ -511,7 +526,7 @@ angular.module('itmUiApp')
 
       // only allowing merge to happen on step 19 between topic 4 and topic 6
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 19) {
+        if ($scope.tutorial.step === 20) {
           if ((pair[0].id === 5 || pair[0].id === 4) && (pair[1].id === 5 || pair[1].id === 4)) {
             $scope.tutorial.nextEnabled = true;
           } else {
@@ -595,7 +610,7 @@ angular.module('itmUiApp')
     $scope.$on("split", function(event, topic) {
       // only enter split mode on step 22 of tutorial
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 22) {
+        if ($scope.tutorial.step === 23) {
 
         } else {
           // shouldn't be merging
@@ -617,7 +632,7 @@ angular.module('itmUiApp')
     $scope.$on("merge", function(event, topic) {
       // only enter merge mode on step 19 of tutorial
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 19) {
+        if ($scope.tutorial.step === 20) {
 
         } else {
           // shouldn't be merging
@@ -648,7 +663,7 @@ angular.module('itmUiApp')
         } else {
           $scope.tutorial.nextEnabled = true;
         }
-      } else if ($scope.tutorial.step === 1) {
+      } else if ($scope.tutorial.step === 1 && !$scope.tutorial.nextEnabled) {
         // only select the topic if it's 3 or 8
         if (!$scope.tutorial.flags.topic3Selected) {
           if (topic.id !== 2) {
@@ -759,7 +774,7 @@ angular.module('itmUiApp')
     $scope.$on('add-stop-word', function(event, word) {
       // if we're in tutorial mode, we should only be adding the word 'year' to the stop words list in step 16
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 16) {
+        if ($scope.tutorial.step === 17) {
           if (word === 'year') {
             $scope.tutorial.nextEnabled = true;
           } else {
@@ -811,20 +826,25 @@ angular.module('itmUiApp')
      */
     $scope.$on('remove-word', function(event, word) {
 
-      // if we're in tutorial mode, we should only be removing the word including from topic 7 on step
+      // if we're in tutorial mode, we should only be removing the word including or year from topic 7 on step
       if (!$scope.tutorial.complete) {
         if ($scope.tutorial.step === 7) {
           if ($scope.selectedTopic.id === 6) {
-            if (word === 'including') {
-              // add the refinement and update the step
-              $scope.tutorial.nextEnabled = true;
+            if (word === 'including' || word === 'year') {
+              if ($scope.tutorial.flags.removedWord) {
+                // add the refinement and update the step
+                $scope.tutorial.nextEnabled = true;
+              } else {
+                $scope.tutorial.flags.removedWord = true;
+              }
+
             } else {
               // alert the user that they need to remove the word including
               $mdDialog.show(
                 $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('Oops, that is not the right word. Please remove the word "including" from the topic words by clicking the "x" button next to the word.')
+                  .textContent('Oops, that is not the right word. Please remove the word "including" and the word "year" from the topic words by clicking the "x" button next to those word.')
                   .ariaLabel('Alert Dialog Demo')
                   .ok('Got it!')
               );
@@ -859,6 +879,24 @@ angular.module('itmUiApp')
     * Listen for event to undo a previously removed word for the currently selected topic
     */
     $scope.$on('undo-remove-word', function(event, word) {
+      // we should only undo the remove word refinement for tutorial step 11 and the word 'year'
+      if (!$scope.tutorial.complete && $scope.tutorial.step === 11) {
+        if (word === 'year') {
+          $scope.tutorial.nextEnabled = true;
+        } else {
+          // alert the user that they should remove the word year
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .clickOutsideToClose(true)
+              .textContent('Oops, wrong word. Please remove the word "year" by clicking the undo button next to the word')
+              .ariaLabel('Alert Dialog Demo')
+              .ok('Got it!')
+          );
+          return;
+        }
+      }
+
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
@@ -1055,6 +1093,7 @@ angular.module('itmUiApp')
     * Listen for event to undo a previously removed word for the currently selected topic
     */
     $scope.$on('undo-add-word', function(event, word) {
+
       // AS (4/7/16): there has to be a better way to do this...
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
@@ -1081,7 +1120,7 @@ angular.module('itmUiApp')
     $scope.$on('remove-doc', function(event, doc) {
       // if we're in tutorial mode, the only remove doc operation that should occur should be on step 14 removing the fourth document from topic 6
       if (!$scope.tutorial.complete) {
-        if ($scope.tutorial.step === 14) {
+        if ($scope.tutorial.step === 15) {
           if ($scope.selectedTopic.id === 5) {
             if (doc === 35) {
               $scope.tutorial.nextEnabled = true;
