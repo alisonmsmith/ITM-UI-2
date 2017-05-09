@@ -20,7 +20,7 @@ angular.module('itmUiApp')
 
       // if we do have a user, start the tutorial
       $scope.tutorial = {
-        'complete':false,
+        'complete':true,
         'step':0,
         'nextEnabled':true,
         'flags':{}
@@ -28,14 +28,16 @@ angular.module('itmUiApp')
 
       // pop up a modal about the tutorial
       // alert the user that they need to remove the word including
-      $mdDialog.show(
-        $mdDialog.alert()
-          //.parent(angular.element(document.body))
-          .clickOutsideToClose(true)
-          .textContent('This webpage allows you to explore and modify a topic model, which is a statistical model for discovering the "abstract" topics (or themes) that occur in a collection of documents. A topic model consists of a set of topics where each topic is represented by a lists of words that make up the topic and documents that are associated with the topic. We will begin with a tutorial to walk you through using the webpage. Please follow the instructions at the top of the screen and click "Next" to continue through each tutorial step.')
-          .ariaLabel('Tutorial Dialog')
-          .ok('Got it!')
-      );
+      if (!$scope.tutorial.complete) {
+        $mdDialog.show(
+          $mdDialog.alert()
+            //.parent(angular.element(document.body))
+            .clickOutsideToClose(true)
+            .textContent('This webpage allows you to explore and modify a topic model, which is a statistical model for discovering the "abstract" topics (or themes) that occur in a collection of documents. A topic model consists of a set of topics where each topic is represented by a lists of words that make up the topic and documents that are associated with the topic. We will begin with a tutorial to walk you through using the webpage. Please follow the instructions at the top of the screen and click "Next" to continue through each tutorial step.')
+            .ariaLabel('Tutorial Dialog')
+            .ok('Got it!')
+        );
+      }
 
    // $scope.documents = [];
     $scope.topics = [];
@@ -73,7 +75,7 @@ angular.module('itmUiApp')
 
     function loadModel() {
       $scope.loading = true;
-      TopicService.loadModel($scope.corpus, $scope.topicNums).then(function(data) {
+      TopicService.loadModel($scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
         console.log("loaded the model for " + $scope.corpus)
         processModel(data.data);
 
@@ -246,7 +248,7 @@ angular.module('itmUiApp')
           //$scope.tutorial.nextEnabled = true;
           $scope.$broadcast('tutorial-next');
           // save the refinements
-          TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
+          TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
             console.log("the model for " + $scope.corpus + " has been updated!")
             processModel(data.data);
             // copy the topics
@@ -285,7 +287,7 @@ angular.module('itmUiApp')
       } else {
         $scope.loading = true;
         // save the refinements
-        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums).then(function(data) {
+        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
           console.log("the model has been updated!")
           processModel(data.data);
          // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {

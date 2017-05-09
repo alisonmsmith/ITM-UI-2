@@ -311,6 +311,10 @@ md-dialog {
     border: solid 5px $md-primary-hue3;
   }
 
+  &.renaming {
+    border-left: 5px solid $md-accent;
+  }
+
   &.merge {
     background-color: $md-accent;
   }
@@ -446,7 +450,7 @@ md-list-item.document-list-item {
 input.topic-name-input {
   text-transform: uppercase;
  // color: white;
-  border-bottom: none;
+//  border-bottom: none;
  // padding-left: 20px;
 }
 

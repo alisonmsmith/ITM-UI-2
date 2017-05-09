@@ -83,13 +83,21 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		});
 	}
 
+	this.loadTutorial = function(iter) {
+		return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iter);
+	}
+
 	/**
 	* Method to load the model for the current user given the corpus and number of topics.
 	* The iteration count should always be at 0 for initial load.
 	*/
-	this.loadModel = function(corpus, topics) {
+	this.loadModel = function(corpus, topics, tutorialComplete) {
 		// ensure iteration count is at 0
 		iterationCount = 0;
+
+		if (!tutorialComplete) {
+			return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iterationCount);
+		}
 
 		return $http({
 			method: 'GET',
@@ -120,9 +128,14 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		});
 	}
 
-	this.save = function(refinements, corpus, topics) {
+	this.save = function(refinements, corpus, topics, tutorialComplete) {
 		// update the iteration count
 		iterationCount += 1;
+
+		if (!tutorialComplete) {
+			return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iterationCount);
+		}
+
 		var data = {'feedback':refinements};
 		return $http({
 			method: 'POST',

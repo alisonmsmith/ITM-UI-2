@@ -48,8 +48,19 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			}
 
 			scope.rename = function(topic) {
+				topic.name = topic.topic;
 				scope.renaming = true;
 			};
+
+			scope.saveName = function(topic) {
+				topic.topic = topic.name;
+				scope.renaming = false;
+			}
+
+			scope.cancelName = function(topic) {
+				topic.name = "";
+				scope.renaming = false;
+			}
 
 		/*	scope.toggleChangeName = function() {
 				scope.changeName = !scope.changeName;

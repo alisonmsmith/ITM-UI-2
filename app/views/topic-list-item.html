@@ -6,20 +6,23 @@
 	<md-tooltip>remove created topic</md-tooltip>
     <md-icon md-font-icon="mdi mdi-undo"></md-icon>
 </md-button>
-<md-list-item ng-if="renaming">
-	<md-input-container md-no-float class="md-block">
-    	<input class="topic-name-input" ng-model="topic.topic" placeholder="Topic Name">
+<md-list-item ng-if="renaming" class="topic-list-item renaming">
+	<md-input-container md-no-float ng-focus="true" class="md-block">
+    	<input ng-focus="true" class="topic-name-input" ng-model="topic.name" placeholder="Topic Name">
      </md-input-container>
+		 <md-button ng-click="saveName(topic)" class="md-secondary md-raised">SAVE</md-button>
+		 <md-button ng-click="cancelName(topic)" class="md-secondary md-raised">CANCEL</md-button>
 </md-list-item>
 <md-list-item ng-if="!renaming" class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge, split:topic.split}" ng-click="select(topic)">
 
 	<p>
+		<md-icon class="topic-icon md-secondary" ng-if="topic.selected" aria-label="rename topic" ng-click="rename(topic)" md-font-icon="mdi mdi-pencil">
+			<md-tooltip>rename topic</md-tooltip>
+		</md-icon>
 		<span class="topic-label">{{topic.topic}}</span>
 		<span class="topic-words">{{topic.displayWords}}</span>
 	</p>
-<!--	<md-icon class="topic-icon md-secondary" ng-if="topic.selected" aria-label="rename topic" ng-click="rename(topic)" md-font-icon="mdi mdi-pencil">
-		<md-tooltip>rename topic</md-tooltip>
-	</md-icon> -->
+
 	<md-button ng-if="(topic.selected && !topic.split && !(topic.created || topic.creating)) || topic.merged" ng-class="{highlight:topic.merged}" class="md-secondary merge-button md-raised"
 		aria-label="merge topic"
 		ng-click="merge(topic)"
