@@ -454,6 +454,30 @@ input.topic-name-input {
  // padding-left: 20px;
 }
 
+// custom css for md-dialog boxes to make them not full width and make the confirm button stand out more
+md-dialog {
+  max-width:80%;
+  font-size:14pt;
+  line-height:1.5em;
+  text-align: justify;
+  .md-button.md-confirm-button.md-primary, .md-button.md-confirm-button.md-primary:focus {
+    background-color: $md-primary;
+    color: white;
+    &:hover {
+      background-color: $md-primary-hue3;
+      color: $md-primary;
+    }
+  }
+}
+
+.tutorial-message {
+  ul {
+    li {
+      margin-top:5px;
+    }
+  }
+}
+
 md-chip-template{
   &.added {
    // color: $emerald;

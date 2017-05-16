@@ -7,12 +7,13 @@
         </h2>
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <timer ng-if="tutorial.complete" countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
+        <timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
         <!--<md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
           <md-tooltip>configure model</md-tooltip>
           <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
         </md-button> -->
-        <md-button ng-if="tutorial.complete" class="md-raised" ng-click="">FINISH</md-button>
+        <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START</md-button>
+        <md-button ng-if="task.started" class="md-raised" ng-click="finishTask()">FINISH</md-button>
     <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
         </div> -->
