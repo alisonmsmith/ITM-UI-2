@@ -111,7 +111,7 @@ angular.module('itmUiApp')
 
       // pop up message with instructions
       $mdDialog.show(
-        $mdDialog.confirm()
+        $mdDialog.alert()
           .clickOutsideToClose(false)
           .textContent('In the tutorial, you saw different problems with how the system generates topics and how to fix them by applying different refinement operations. We will now show you topics for another news document dataset and your task will be to improve the system generated topics by applying the different refinement operations.')
           .ariaLabel('Tutorial Complete Dialog')
@@ -124,9 +124,9 @@ angular.module('itmUiApp')
         loadModel();
         // pop up message with instructions
         $mdDialog.show(
-          $mdDialog.confirm()
+          $mdDialog.alert()
             .clickOutsideToClose(false)
-            .textContent('First, please carefully review the system generated topics. We will give you a questionnaire in which you need to answer a few questions related to these topics. The questionnaire will open in a different tab in your browser so that you can review the topics in the tool while answering the questions. Here is the link to the questionnaire: XXX. After you have opened the questionnaire in a new tab click ‘OK’ to close out of this pop-up and review the system generated topics.')
+            .textContent('First, please carefully review the system generated topics. We will give you a questionnaire in which you need to answer a few questions related to these topics. The questionnaire will open in a different tab in your browser so that you can review the topics in the tool while answering the questions. Here is the link to the questionnaire: https://goo.gl/forms/oaMdGptDUSwvuae03. After you have opened the questionnaire in a new tab click ‘OK’ to close out of this pop-up and review the system generated topics.')
             .ariaLabel('Tutorial Complete Dialog')
             .ok('OK')
         ).then(function() {
@@ -138,9 +138,9 @@ angular.module('itmUiApp')
     $scope.startTask = function() {
       // pop up message with instructions
       $mdDialog.show(
-        $mdDialog.confirm()
+        $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('Your task is to improve the system generated topics by applying different refinement operations. Please note that there is no one correct order to apply these refinements and you can apply different refinement operation in any order.')
+          .textContent('Your task is to improve the system generated topics by applying different refinement operations. Please note that there is no one correct order to apply these refinements and you can apply different refinement operations in any order.')
           .ariaLabel('Task Start Dialog')
           .ok('OK')
       ).then(function() {
@@ -156,9 +156,9 @@ angular.module('itmUiApp')
 
     $scope.finishTask = function() {
       $mdDialog.show(
-        $mdDialog.confirm()
+        $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('Thank you for finishing the task of refining the topics. To finish up, we would like you to answer a few questions related to the final topics that you have generated.')
+          .textContent('Thank you for finishing the task of refining the topics. To finish up, we would like you to answer a few questions related to the final topics that you have generated. Please open the post-task questionnaire here: https://goo.gl/forms/nUTvmpO4MHG9dvrz1')
           .ariaLabel('Task Finish Dialog')
           .ok('OK')
       ).then(function() {
@@ -415,7 +415,7 @@ angular.module('itmUiApp')
       // if on step 2, we should be renaming topic 1 to SPORTS
       if ($scope.tutorial.step === 2) {
         if (topic.id === 0) {
-          if (topic.topic === 'SPORTS') {
+          if (topic.topic === 'sports' || topic.topic === 'SPORTS') {
             $scope.tutorial.nextEnabled = true;
           } else {
             $mdDialog.show(

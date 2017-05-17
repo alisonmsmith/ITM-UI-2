@@ -26,9 +26,17 @@
 
 <md-card-content>
   <!-- comment in for debugging tutorial by jumping to specific step -->
-<!--  <md-select ng-model="tutorial.step">
+<!--<md-select ng-model="tutorial.step">
     <md-option ng-value="num" ng-repeat="num in tutorialRange">{{num}}</md-option>
   </md-select> -->
+
+  <!-- comment in for debugging workflow by skipping tutorial -->
+  <span layout="row">
+    <span flex></span>
+    <md-button class="md-raised md-accent" ng-click="endTutorial()">
+      <md-tooltip>skip button available for testing only - not during task</md-tooltip>
+      skip tutorial</md-button>
+  </span>
 
   <span ng-show="tutorial.step === 0">
 <ul>
