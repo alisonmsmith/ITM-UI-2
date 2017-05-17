@@ -101,14 +101,13 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 
 .tutorial-message {
-//  text-align: center;
-//  width: 100%;
 
-  padding-right: 10px;
-//  background-color: $md-primary-hue3;
+  md-card-content {
+    padding:5px;
+  }
+
   color: $md-primary-hue2;
-  font-size: 18pt;
-//  border: solid 4px $md-primary-hue1;
+  font-size: 16pt;
 
   .tutorial-command {
 //    font-style: italic;
@@ -263,6 +262,11 @@ md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
   }
 }
 
+md-card-title.md-accent {
+  background-color: $md-accent;
+  color: white;
+}
+
 .tutorial-image {
   height:25px;
 //  width:75%;
@@ -278,7 +282,12 @@ md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
 }
 
 tutorial {
-  border: solid 5px $md-accent;
+  //border: solid 5px $md-accent;
+  //background-color: $md-accent;
+  md-toolbar {
+    .md-toolbar-tools {
+    }
+  }
 }
 
 #topicA, #topicB {
@@ -467,6 +476,16 @@ md-dialog {
       background-color: $md-primary-hue3;
       color: $md-primary;
     }
+  }
+}
+
+md-toolbar.topic-list-header {
+  .md-toolbar-tools {
+    text-align: center;
+    background-color: white;
+    color: $md-primary-hue2;
+    border-bottom: solid 1px $md-primary;
+    font-size:16pt;
   }
 }
 

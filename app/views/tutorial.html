@@ -1,28 +1,36 @@
-  <md-toolbar class="md-accent" >
-  <div class="md-toolbar-tools" layout="row">
+  <!--<md-toolbar class="md-accent" >
+  <div class="md-toolbar-tools md-title" layout="row">
     <span>TUTORIAL</span>
     <span flex></span>
-    <span>STEP {{tutorial.step}} OF 29</span>
-    <!-- comment in for debugging tutorial by jumping to specific step -->
-    <md-select ng-model="tutorial.step">
-      <md-option ng-value="num" ng-repeat="num in tutorialRange">{{num}}</md-option>
-    </md-select>
-    <!--<md-button ng-if="!tutorial.complete"
-    class="md-raised md-primary" ng-click="endTutorial()">END TUTORIAL</md-button> -->
+    <span>STEP {{tutorial.step}} OF 30</span>
   </div>
 
-</md-toolbar>
-<md-progress-linear class="md-primary" md-mode="determinate" value="{{tutorial.step*3}}"></md-progress-linear>
+</md-toolbar> -->
+<!--<md-progress-linear class="md-primary" md-mode="determinate" value="{{tutorial.step*3}}"></md-progress-linear> -->
 <!--<div class="tutorial-message">
   <span ng-bind-html="tutorialMessages[tutorial.step]"></span>
   <md-button ng-if="tutorial.step < 4 || tutorial.step === 6 || tutorial.step === 8 || tutorial.step === 10 || tutorial.step === 13|| tutorial.step === 15 || tutorial.step === 17 || tutorial.step === 19 || tutorial.step === 21 || tutorial.step === 23" class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
   <md-button lass="md-raised md-primary" ng-click="endTutorial()" ng-if="tutorial.step === 26">finish</md-button>
 </div>-->
 
-<div class='tutorial-message'>
+<md-card class='tutorial-message md-body-2'>
+  <md-card-title class="md-accent">
+      <md-card-title-text layout="row">
+        <span>TUTORIAL</span>:
+        <span flex></span>
+        <span>STEP {{tutorial.step}} OF 30</span>
+      </md-card-title-text>
+    </md-card-title>
 
+<md-divider></md-divider>
 
-<span ng-show="tutorial.step === 0">
+<md-card-content>
+  <!-- comment in for debugging tutorial by jumping to specific step -->
+<!--  <md-select ng-model="tutorial.step">
+    <md-option ng-value="num" ng-repeat="num in tutorialRange">{{num}}</md-option>
+  </md-select> -->
+
+  <span ng-show="tutorial.step === 0">
 <ul>
   <li>To the right is a topic model that shows 10 topics the system has identified in a set of 2,225 news articles.</li>
 </ul>
@@ -32,19 +40,29 @@
 <ul>
   <li>The panel on the left shows the 10 topics, each one labeled with the three words that the system thinks are most relevant to that topic.</li>
   <li>When a topic is selected, more detail is shown on the right: the 20 top (most relevant) words and the 20 top (most relevant) documents associated with that topic.</li>
-  <li><span class="tutorial-command">Click Topic 3</span> and then <span class="tutorial-command">click Topic 8</span> to read through the words and documents for those topics.</li>
+  <li><span class="tutorial-command">Click Topic 1</span> and then <span class="tutorial-command">click Topic 8</span> to read through the words and documents for those topics.</li>
   <li>Take a minute to explore through the topics, words, and documents.</li>
 </ul>
 </span>
 
-<span ng-show="tutorial.step === 2" >
+<span ng-show="tutorial.step === 2">
+<ul>
+  <li>We can rename topics to help better remember what they are about, such as Topic 1, which appears to be about sports.</li>
+  <li><span class="tutorial-command">Click Topic 1</span> and then click <md-icon class="topic-icon" aria-label="rename topic" md-font-icon="mdi mdi-pencil">
+  </md-icon></li>
+  <li><span class="tutorial-command">Change the text in the input from TOPIC 1 to SPORTS and click <img class="tutorial-image" src="../images/saveName.png"></img></span></li>
+  <li>The name is now updated for the topic in the list.</li>
+</ul>
+</span>
+
+<span ng-show="tutorial.step === 3" >
   <ul>
     <li>Hovering over one of the top 20 words will  highlight it in the documents. <span class="tutorial-command">Hover over the word 'world' in Topic 8</span>.</li>
     <li>Clicking on a top word will keep it highlighted as you scroll through the documents. <span class="tutorial-command">Click on the word 'year' in Topic 8</span>.
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 3">
+<span ng-show="tutorial.step === 4">
   <ul>
     <li>Topic models are not always perfect.</li>
     <li>Some words or documents may not make sense with the rest of the topic and should be removed.</li>
@@ -53,7 +71,7 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 4">
+<span ng-show="tutorial.step === 5">
   <ul>
     <li>This tutorial will take you through eight possible ways to fix these and other problems.</li>
     <li>These refinements include: add word, remove word, trash word, change word order, remove document, split topic, merge topic, and add new topic.</li>
@@ -61,20 +79,20 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 5">
+<span ng-show="tutorial.step === 6">
   <ul>
     <li>ADD WORD: add a word to the list of top words for a topic by clicking 'add new word' at the end of that list, typing the word and pressing enter or selecting the match from the drop down menu.</li>
     <li><span class='tutorial-command'>Add the word 'oscar'</span> to this topic about films and music awards.</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 6">
+<span ng-show="tutorial.step === 7">
   <ul>
     <li>The new word is underlined</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 7">
+<span ng-show="tutorial.step === 8">
   <ul>
     <li>REMOVE WORD: remove a word a topic by clicking <button class="tutorial-element remove-button md-icon-button">
       <md-icon md-font-icon="mdi mdi-close"></md-icon>
@@ -83,13 +101,13 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 8">
+<span ng-show="tutorial.step === 9">
   <ul>
     <li>The removed words are now crossed out</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 9">
+<span ng-show="tutorial.step === 10">
   <ul>
     <li>CHANGE WORD ORDER: Reorder a word to emphasize its relative importance by dragging it to a different position in the top words list.</li>
     <li><span class='tutorial-command'>Drag the word 'awards' so that it’s the third most important word in the topic behind 'music' and before 'show'</span>.</li>
@@ -97,13 +115,13 @@
 </span>
 
 
-<span ng-show="tutorial.step === 10">
+<span ng-show="tutorial.step === 11">
   <ul>
     <li>The re-ordered word is now italicized.</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 11">
+<span ng-show="tutorial.step === 12">
   <ul>
     <li>You've now made four changes, but they have not been permanently incorporated into the model.</li>
 <li>That means you can undo <strong>any one</strong> of these changes by pressing <button class="tutorial-element word-undo-button md-icon-button">
@@ -115,7 +133,7 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 12">
+<span ng-show="tutorial.step === 13">
   <ul>
     <li>Now, let’s update the model with our oustanding changes.</li>
     <li><span class='tutorial-command'>Click <img class="tutorial-image" src="../images/saveAll.png"></img>
@@ -123,15 +141,15 @@
     </ul>
 </span>
 
-<span ng-show="tutorial.step === 13"><ul><li>The algorithm is working to update the model based on the changes. Please wait while it finishes updating.</li></ul></span>
+<span ng-show="tutorial.step === 14"><ul><li>The algorithm is working to update the model based on the changes. Please wait while it finishes updating.</li></ul></span>
 
-<span ng-show="tutorial.step === 14"><ul>
+<span ng-show="tutorial.step === 15"><ul>
   <li>The changes have been applied and here is the updated model.</li>
   <li>It is possible that your changes were not applied exactly as you had expected, because the model incorporates them along with its understanding of all of the words and documents in the data.</li>
   <li>It is important to save periodically, so that the model updates with your changes.</li>
 </ul></span>
 
-<span ng-show="tutorial.step === 15">
+<span ng-show="tutorial.step === 16">
   <ul>
     <li>REMOVE DOCUMENT: Click <button class="tutorial-element remove-doc-button">
         <md-icon class='remove-doc' aria-label='remove document' md-font-icon='mdi mdi-close'>
@@ -141,7 +159,7 @@
     </ul>
 </span>
 
-<span ng-show="tutorial.step === 16">
+<span ng-show="tutorial.step === 17">
   <ul><li>The removed document has a line through it.</li>
     <li>Don't do so now, but prior to saving, this can be undone by clicking <button class="tutorial-element word-undo-button md-icon-button">
     <md-icon md-font-icon="mdi mdi-undo"></md-icon>
@@ -149,20 +167,20 @@
 </ul>
 </span>
 
-<span ng-show="tutorial.step === 17">
+<span ng-show="tutorial.step === 18">
   <ul>
     <li>ADD WORD TO TRASH: Sometimes there are words that don’t belong in any of the topics of the model. These are called trash words. Trash a word by selecting it then clicking <div><img class="trash tutorial-image" src="../images/trash.png"></img></div> at the top-right of the page.</li>
   <li>Add the word 'year' to the trash, since it isn't meaningful for any of the topics. First click <span class='tutorial-command'>click Topic 3</span> and then <span class='tutorial-command'>click the word 'year'</span>. Finally, <span class='tutorial-command'>click
     <div><img class="tutorial-image trash" src="../images/trash.png"></img></div></span></li></ul>
 </span>
 
-<span ng-show="tutorial.step === 18">
+<span ng-show="tutorial.step === 19">
   <ul><li>The trashed word has a large X through it.</li><li>Don't do so now, but prior to saving, this can be undone by clicking <button class="tutorial-element word-undo-button md-icon-button">
     <md-icon md-font-icon="mdi mdi-undo"></md-icon>
 </button> next to the word.</li></ul></span>
 
 <!-- STEP DIFFERENTIATING BETWEEN TRASH AND REMOVE -->
-<span ng-show="tutorial.step === 19">
+<span ng-show="tutorial.step === 20">
   <ul>
     <li>Remember:</li>
       <ul>
@@ -174,7 +192,7 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 20">
+<span ng-show="tutorial.step === 21">
   <ul>
     <li>MERGE TOPICS: Similar topics can be merged.</li>
     <li>Both Topic 5 and Topic 6 appear to be about government, so let's merge them. First <span class='tutorial-command'>select Topic 6 by clicking it</span>, then <span class='tutorial-command'>click <img class="tutorial-image" src="../images/merge.png"></img>. Now,
@@ -183,15 +201,15 @@
  </ul>
 </span>
 
-<span ng-show="tutorial.step === 21">
+<span ng-show="tutorial.step === 22">
   <ul>
     <li>The merged topics are now shown together in the list.</li><li>Don't do so now, but prior to saving, this can be undone by clicking <img class="tutorial-image" src="../images/topic-undo.png"></img>  next to the merged topics.</li>
     <li>Let's save the model with the three outstanding refinements. <span class="tutorial-command">Click <img class="tutorial-image" src="../images/saveAll.png"></img></span>.</li></ul>
 </span>
 
-<span ng-show="tutorial.step === 22"><ul><li>Now the algorithm is working to come up with an updated model based on the changes. Please wait while it finishes updating.</li></ul></span>
+<span ng-show="tutorial.step === 23"><ul><li>Now the algorithm is working to come up with an updated model based on the changes. Please wait while it finishes updating.</li></ul></span>
 
-<span ng-show="tutorial.step === 23">
+<span ng-show="tutorial.step === 24">
   <ul>
     <li>SPLIT TOPIC: a topic can be split into two smaller sub-topics.</li>
     <li>Let’s split the film and music awards topic into topics about film and music, respectively. <span class='tutorial-command'>click Topic 6</span> then <span>click <img class="tutorial-image" src="../images/split.png"></img></span></li>
@@ -200,15 +218,15 @@
   </ul>
   </span>
 
-<span ng-show="tutorial.step === 24">
+<span ng-show="tutorial.step === 25">
   <ul>
     <li>The split topic is shown in the list.</li><li>Don't do so now, but prior to saving, this can be undone by clicking the <img class="tutorial-image" src="../images/topic-undo.png"></img>  next to the split topic.</li>
     <li>Let's save the model with the outstanding split refinement. <span class="tutorial-command">Click <img class="tutorial-image" src="../images/saveAll.png"></img></span></li>
   </ul>.</span>
 
-<span ng-show="tutorial.step === 25"><ul><li>Now the algorithm is working to come up with an updated model based on the refinement. Please wait while it finishes updating.</li></ul></span>
+<span ng-show="tutorial.step === 26"><ul><li>Now the algorithm is working to come up with an updated model based on the refinement. Please wait while it finishes updating.</li></ul></span>
 
-<span ng-show="tutorial.step === 26">
+<span ng-show="tutorial.step === 27">
   <ul>
     <li>CREATE TOPIC: Create a new topic by clicking <img class="tutorial-image" src="../images/create.png"></img> at the bottom of the topic list and adding a few words to describe it.</li>
     <li> Remember to press 'Enter' or select the matching word from the drop down after typing each word.</li>
@@ -216,7 +234,7 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 27">
+<span ng-show="tutorial.step === 28">
   <ul>
     <li>The new topic is shown at the bottom of the list with the added words.</li>
       <li>Don't do so now, but prior to saving, this can be undone by clicking the <img class="tutorial-image" src="../images/topic-undo.png"></img> next to the topic in the list.</li>
@@ -224,9 +242,9 @@
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 28"><ul><li>Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</li></ul></span>
+<span ng-show="tutorial.step === 29"><ul><li>Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</li></ul></span>
 
-<span ng-show="tutorial.step === 29">
+<span ng-show="tutorial.step === 30">
   <ul>
     <li>You've now seen the eight different changes you can use in the tool: add word, remove word, trash word, change word order, remove document, create topic, merge topic, split topic.</li>
       <li>Remember that changes are only temporarily applied until you click <img class="tutorial-image" src="../images/saveAll.png"></img> for the model to incorporate them.</li>
@@ -234,15 +252,15 @@
       <li>It may take many rounds of updating before you are happy with the model.</li>
     </ul>
   </span>
+</md-card-content>
 
-
-<div class="tutorial-buttons" layout="row" layout-align="center center">
+<md-card-actions class="tutorial-buttons" layout="row" layout-align="center center">
   <!-- ng-disabled="!tutorial.nextEnabled"  -->
-  <md-button ng-hide="tutorial.step===29"
+  <md-button ng-hide="tutorial.step===30"
   ng-disabled="!tutorial.nextEnabled"
   class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
 
-  <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === 29">finish tutorial</md-button>
-</div>
+  <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === 30">finish tutorial</md-button>
+</md-card-actions>
 
-</div>
+</md-card>

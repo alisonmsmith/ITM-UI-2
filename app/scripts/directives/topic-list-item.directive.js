@@ -55,6 +55,9 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			scope.saveName = function(topic) {
 				topic.topic = topic.name;
 				scope.renaming = false;
+
+				// emit event to save the new name for the topic
+				scope.$emit("rename-topic", topic);
 			}
 
 			scope.cancelName = function(topic) {

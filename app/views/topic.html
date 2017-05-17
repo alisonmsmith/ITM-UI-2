@@ -2,7 +2,7 @@
 	<md-card-title>
 		<md-card-title-text>
 
-			<md-toolbar class="topic-sub-toolbar md-hue-3"><div class="md-toolbar-tools">top {{topic.words.length}} words for {{topic.topic}}:</div></md-toolbar>
+			<md-toolbar class="topic-sub-toolbar md-hue-3"><div class="md-toolbar-tools">top {{topic.words.length}} words for "{{topic.topic}}":</div></md-toolbar>
 				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
 		<div class="md-toolbar-tools">
 			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
@@ -116,7 +116,7 @@
 		</span>
 		</div>
 		<div class="document-holder" ng-if="!topic.creating && !topic.created">
-			<md-toolbar class="md-hue-3 topic-sub-toolbar"><div  class="md-toolbar-tools">top {{topic.docs.length}} documents for {{topic.topic}}:</div></md-toolbar>
+			<md-toolbar class="md-hue-3 topic-sub-toolbar"><div  class="md-toolbar-tools">top {{topic.docs.length}} documents for "{{topic.topic}}":</div></md-toolbar>
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<!--<div class="document-name">

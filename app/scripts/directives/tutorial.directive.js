@@ -11,7 +11,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
     templateUrl: 'views/tutorial.html',
     link: function(scope, element, attrs) {
       //scope.tutorialMessages = TutorialService.messages;
-      var tutorialSteps = 29;
+      var tutorialSteps = 30;
 
       scope.tutorialRange = _.range(0,tutorialSteps+1);
 
@@ -153,7 +153,7 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       scope.tutorialNext = function() {
         if (scope.tutorial.step < tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step === 0 || scope.tutorial.step === 3 || scope.tutorial.step === 6 || scope.tutorial.step === 8 || scope.tutorial.step === 10 || scope.tutorial.step === 14|| scope.tutorial.step === 16 || scope.tutorial.step === 18 || scope.tutorial.step === 19) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 7 || scope.tutorial.step === 9 || scope.tutorial.step === 11 || scope.tutorial.step === 15|| scope.tutorial.step === 17 || scope.tutorial.step === 19 || scope.tutorial.step === 20) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;
@@ -164,51 +164,13 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
 
         // highlight appropriate elements depending on the step
         if (scope.tutorial.step === 1) {
-          scope.tutorial.flags.topic3Selected = false;
-    //      highlight('topic-list-item');
-        }
-        if (scope.tutorial.step === 2) {
-          scope.tutorial.flags.hoverWord = false;
-      //    unhighlight('topic-list-item');
-      //    highlight('show-more');
+          scope.tutorial.flags.topic1Selected = false;
         }
         if (scope.tutorial.step === 3) {
-      //    unhighlight('show-more');
-        }
-        if (scope.tutorial.step === 5) {
-      //    highlight('add-word');
-        }
-        if (scope.tutorial.step === 6) {
-      //    unhighlight('add-word');
-      //    highlight('save');
-        }
-        if (scope.tutorial.step === 7) {
-          scope.tutorial.flags.removedWord = false;
-      //    unhighlight('save');
-      //    highlight('remove-word');
+          scope.tutorial.flags.hoverWord = false;
         }
         if (scope.tutorial.step === 8) {
-      //    unhighlight('remove-word');
-        }
-        // save outstanding refinements
-        if (scope.tutorial.step === 11) {
-      //    highlight('undo-word');
-      //    highlight('save');
-      //    highlight('clear-refinements');
-        }
-        // model updating
-        if (scope.tutorial.step === 12) {
-      //    unhighlight('undo-word');
-      //    unhighlight('save');
-      //    unhighlight('clear-refinements');
-        }
-        // remove document
-        if (scope.tutorial.step === 14) {
-          // need to make sure we still highlight the button after the user clicks to switch to topic 6
-      //    highlight('remove-doc');
-        }
-        if (scope.tutorial.step === 15) {
-      //    unhighlight('remove-doc');
+          scope.tutorial.flags.removedWord = false;
         }
       }
 

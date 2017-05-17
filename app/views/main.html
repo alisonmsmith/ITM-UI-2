@@ -59,9 +59,9 @@
         md-is-locked-open="true"
         md-disable-backdrop
         aria-label="topic list">
-        <md-toolbar class="md-hue-1">
+        <md-toolbar class="md-hue-1 topic-list-header">
           <div class="md-toolbar-tools">
-TOPIC LIST OF {{topics.length}} TOPICS FOR {{corpus}}:
+TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpus}}":
           </div>
         </md-toolbar>
         <md-toolbar ng-if="mode === 'merge'" class="merge-toolbar">
