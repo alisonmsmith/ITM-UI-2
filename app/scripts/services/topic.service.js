@@ -36,6 +36,24 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	}
 
 	/**
+	* Method to submit an answer to a question of the pre-task questionnaire
+	*/
+	this.submitAnswer = function(id, answer) {
+		console.log(id);
+		console.log(answer);
+		// submit the user id, question id, and answer to the questionnaire service
+		return $http({
+			method: 'PUT',
+			url: backend_head + '/itm-backend/rest/questionnaire',
+			params: {
+				userId: user,
+				questionId: id,
+				userResponse: answer
+			}
+		});
+	}
+
+	/**
 	* Method to return a unique id
 	*/
 	this.guid = function() {

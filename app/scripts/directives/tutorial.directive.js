@@ -4,16 +4,15 @@
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document', function(TutorialService, $document) {
+angular.module('itmUiApp').directive('tutorial', [ '$document', function($document) {
   return {
     restrict: 'E',
     scope:true,
     templateUrl: 'views/tutorial.html',
     link: function(scope, element, attrs) {
-      //scope.tutorialMessages = TutorialService.messages;
-      var tutorialSteps = 30;
+      scope.tutorialSteps = 33;
 
-      scope.tutorialRange = _.range(0,tutorialSteps+1);
+      scope.tutorialRange = _.range(0,scope.tutorialSteps+1);
 
       // set up highlighting and unhighlighting for the tutorial
       function highlight(element) {
@@ -150,10 +149,13 @@ angular.module('itmUiApp').directive('tutorial', [ 'TutorialService', '$document
       }
 
 
+      /**
+      * Method to go to the next step in the tutorial. Called when the user clicks the 'next' button.
+      */
       scope.tutorialNext = function() {
-        if (scope.tutorial.step < tutorialSteps) {
+        if (scope.tutorial.step < scope.tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 7 || scope.tutorial.step === 9 || scope.tutorial.step === 11 || scope.tutorial.step === 15|| scope.tutorial.step === 17 || scope.tutorial.step === 19 || scope.tutorial.step === 20) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 7 || scope.tutorial.step === 9 || scope.tutorial.step === 11 || scope.tutorial.step === 15 || scope.tutorial.step === 17 || scope.tutorial.step === 19 || scope.tutorial.step === 20 || scope.tutorial.step === 24 || scope.tutorial.step === 28 || scope.tutorial.step === 32) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;

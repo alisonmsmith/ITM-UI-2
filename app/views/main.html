@@ -12,8 +12,11 @@
           <md-tooltip>configure model</md-tooltip>
           <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
         </md-button> -->
-        <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START TASK</md-button>
+      <!--  <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START TASK</md-button> -->
         <md-button ng-if="task.started" class="md-raised" ng-click="finishTask()">FINISH TASK</md-button>
+
+        <!-- in case for some reason the url doesn't open (pop ups?) the user can try again-->
+      <md-button ng-if="task.completed" class="md-raised" ng-click="finishTask()">OPEN POST TASK QUESTIONNAIRE</md-button>
     <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
         </div> -->
@@ -47,6 +50,7 @@
 
 <span layout="row">
     <tutorial ng-if="!tutorial.complete" flex="25"></tutorial>
+    <questionnaire ng-if="tutorial.complete && !questionnaire.complete" flex="25"></questionnaire>
 
 <div layout="row" flex>
       <md-progress-circular class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
