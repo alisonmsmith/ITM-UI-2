@@ -37,7 +37,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
         var id = id-1;
 
         // submit the question to the questionnaire service
-        TopicService.submitAnswer(id, answer).then(function(response) {
+        TopicService.submitAnswer(id, answer, scope.corpus, scope.topics.length).then(function(response) {
           // go to the next question
           if (scope.questionnaire.step < numQuestions) {
             scope.questionnaire.step += 1;
@@ -47,7 +47,14 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
           }
 
         }, function(error) {
-          console.error('error submitting questionnaire answer');
+        //  console.error('error submitting questionnaire answer');
+          // go to the next question
+          if (scope.questionnaire.step < numQuestions) {
+            scope.questionnaire.step += 1;
+          } else {
+            scope.questionnaire.complete = true;
+            scope.startTask();
+          }
         });
       }
     }

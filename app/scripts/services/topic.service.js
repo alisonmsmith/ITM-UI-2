@@ -38,17 +38,19 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	/**
 	* Method to submit an answer to a question of the pre-task questionnaire
 	*/
-	this.submitAnswer = function(id, answer) {
-		console.log(id);
-		console.log(answer);
+	this.submitAnswer = function(id, answer, corpus, topics) {
+		//console.log(id);
+		//console.log(answer);
 		// submit the user id, question id, and answer to the questionnaire service
 		return $http({
-			method: 'PUT',
+			method: 'GET',
 			url: backend_head + '/itm-backend/rest/questionnaire',
 			params: {
 				userId: user,
 				questionId: id,
-				userResponse: answer
+				userResponse: answer,
+				corpus: corpus,
+				topicNums: topics
 			}
 		});
 	}

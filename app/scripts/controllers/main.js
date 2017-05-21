@@ -147,7 +147,7 @@ angular.module('itmUiApp')
       $mdDialog.show(
         $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('Now we will begin the task. Remember that for this task you have been asked to organize a dataset of 7000 news articles into common news categories. To do so, you will improve these system generated topics by making changes using the tool. Remember that you can add words to a topic, remove words from a single topic, trash words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, and create new topics. Also, remember that you need to press the save button periodically for the system to incorporate your changes. Please note that there is no one correct order to apply these refinements and you can apply different refinement operation in any order.')
+          .textContent('Now we will begin the task. Remember that for this task you have been asked to organize a dataset of 7000 news articles into common news categories. To do so, you will improve these system generated topics by making changes using the tool. Remember that you can add words to a topic, remove words from a single topic, trash words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, and create new topics. Also, remember that you need to press the save button periodically for the system to incorporate your changes. Please note that there is no one correct order to apply these refinements and you can apply different refinement operation in any order. You should spend 30-45 minutes to refine these categories. When you are satisfied with the organization of documents in different categories, press press FINISH TASK button')
           .ariaLabel('Task Start Dialog')
           .ok('OK')
       ).then(function() {
@@ -169,7 +169,7 @@ angular.module('itmUiApp')
           .ariaLabel('Task Start Dialog')
           .ok('OK')
       ).then(function() {
-        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.298976279&entry.1930377152"
+        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152"
         window.open(url, '_blank');
         console.log('user has completed the task and continued to the post-task questionnaire');
         $scope.task.started = false;
