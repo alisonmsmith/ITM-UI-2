@@ -8,7 +8,7 @@
 </md-button>
 <md-list-item ng-if="renaming" class="topic-list-item renaming">
 	<md-input-container md-no-float ng-focus="true" class="md-block">
-    	<input ng-focus="true" class="topic-name-input" ng-model="topic.name" placeholder="Topic Name">
+    	<input ng-attr-autofocus=true class="topic-name-input" ng-model="topic.name" placeholder="Topic Name">
      </md-input-container>
 		 <md-button ng-click="saveName(topic)" class="md-secondary md-raised">SAVE</md-button>
 		 <md-button ng-click="cancelName(topic)" class="md-secondary md-raised">CANCEL</md-button>
