@@ -478,12 +478,19 @@ angular.module('itmUiApp')
         }
       }
 
+      // add a create topic refinement and an update name refinement
       var refinement = {
         'type': 'createTopic',
         'topicId': topic.id,
         'seedWords': _.pluck(topic.words, 'word')
       };
+      var name_refinement = {
+        'type': 'updateName',
+        'topicId': topic.id,
+        'name': topic.topic
+      };
       $scope.refinements.push(refinement);
+      $scope.refinements.push(name_refinement);
     });
 
     $scope.$on('undo-create', function(event, topic) {
