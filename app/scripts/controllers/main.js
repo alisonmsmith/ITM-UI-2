@@ -399,7 +399,7 @@ angular.module('itmUiApp')
 
       var index = $scope.topics.length
       var topic = {
-        "id": TopicService.guid(),
+        "id": index,
         "words":[],
         "docs":[],
         "merge":false,
