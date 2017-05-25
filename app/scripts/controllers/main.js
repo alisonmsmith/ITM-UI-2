@@ -58,7 +58,6 @@ angular.module('itmUiApp')
     $scope.loading = true;
     $scope.stops = [];
     $scope.vocab = [];
-    $scope.topicNameMap = {};
 
     // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
     $scope.corpus = "bbc_news";
@@ -233,11 +232,6 @@ angular.module('itmUiApp')
           topic.id = topic.topicindex;
         }
 
-        // determine if we have a name for this topic based on index
-        if (topic.id in $scope.topicNameMap) {
-          topic.topic = $scope.topicNameMap[topic.id];
-        }
-
         // choose the topic label as the first three words of the topic
         var display = '';
         display += topic.words[0].word + ' ' + topic.words[1].word + ' ' + topic.words[2].word;
@@ -294,6 +288,7 @@ angular.module('itmUiApp')
       }
 
       // undo all refinements
+      //TODO: we don't really want to clear topic names, but we have to since we're clearing all refinements which includes topic names
       $scope.topics = $scope.topicsCopy;
       $scope.selectedTopic = $scope.topics[0];
       $scope.topics[0].selected = true;
@@ -354,7 +349,7 @@ angular.module('itmUiApp')
         $scope.loading = true;
         // save the refinements
         TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
-          console.log("the model has been updated!")
+          // process the model
           processModel(data.data);
          // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
         //    processModel(data.data, docs.data);
@@ -376,6 +371,7 @@ angular.module('itmUiApp')
             $scope.refinements = [];
             $scope.isDirty = false;
             $scope.stops = [];
+
         //  });
 
       }, function() {
@@ -441,7 +437,13 @@ angular.module('itmUiApp')
           }
         }
       }
-      $scope.topicNameMap[topic.id] = topic.topic;
+      // update the topic name map and add the refinement to the stack (to be attached to the model on save)
+      var refinement = {
+        'type': 'updateName',
+        'topicId': topic.id,
+        'name': topic.topic
+      };
+      $scope.refinements.push(refinement);
     });
 
     $scope.$on('remove-topic', function(event, topic) {
