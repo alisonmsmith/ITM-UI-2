@@ -125,7 +125,7 @@ angular.module('itmUiApp')
         $scope.tutorial.complete = true;
         // load ITM with the task url, but do not yet start the timer
         $scope.corpus = "gnews";
-        $scope.topicNums = 10;
+        $scope.topicNums = 15;
         loadModel();
         // pop up message with instructions
         $mdDialog.show(
