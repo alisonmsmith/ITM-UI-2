@@ -86,7 +86,10 @@ TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpus}}":
       </md-toolbar>
         <md-content>
           <md-list>
+            <!-- TOPICS -->
             <topic-list-item ng-repeat="topic in topics" ng-if="!topic.merged" topic="topic" select="select"></topic-list-item>
+
+            <!-- MERGED TOPICS -->
             <div class="topic-merge-pair" ng-model="pair" ng-repeat="pair in merged">
                 <md-button aria-label="undo merge" class="undo-merge md-fab md-mini md-accent" ng-click="undoMerge(pair)">
                   <md-tooltip>undo topic merge</md-tooltip>

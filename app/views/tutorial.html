@@ -292,6 +292,7 @@
   class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
 
   <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === tutorialSteps">finish tutorial</md-button>
+    <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step !== tutorialSteps">skip tutorial</md-button>
 </md-card-actions>
 
 </md-card>

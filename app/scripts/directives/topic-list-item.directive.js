@@ -18,7 +18,7 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			scope.select = function(topic) {
 				// emit event that the current topic has been selected
 				scope.$emit("select", topic);
-			}
+			};
 
 			/**
 			* Method to start merging with the selected topic
@@ -28,7 +28,7 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 				if (!topic.merged) {
 					scope.$emit("merge", topic);
 				}
-			}
+			};
 
 			/**
 			* Method to start splitting the selected topic
@@ -52,7 +52,14 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			*/
 			scope.undoCreateNew = function(topic) {
 				scope.$emit("undo-create", topic);
-			}
+			};
+
+			/**
+			* Method to undo the deletion of the topic
+			*/
+			scope.undoDeleteTopic = function(topic) {
+				scope.$emit("undo-delete", topic);
+			};
 
 			/**
 			* Method to rename a topic. Saves a temporary name until user presses 'save' or cancel'

@@ -15,7 +15,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	var iterationCount = 0;
 
 	//var backend_head = "http://dna.cs.umd.edu:8080";
-	var backend_head = "http://itm.cs.umd.edu:8080";
+	var backend_head = "http://lda.cs.umd.edu:8080";
 	//var backend_head = "http://localhost:8080";
 
 	// default user and corpus
@@ -29,11 +29,11 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	this.setUser = function(u) {
 		console.log("user set to: " + u);
 		user = u;
-	}
+	};
 
 	this.getUser = function() {
 		return user;
-	}
+	};
 
 	/**
 	* Method to submit an answer to a question of the pre-task questionnaire
@@ -53,7 +53,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				topicNums: topics
 			}
 		});
-	}
+	};
 
 	/**
 	* Method to return a unique id
@@ -76,7 +76,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/getcorpora'
 		});
-	}
+	};
 
 	/**
 	* Method to get the vocabulary for the current corpus (used by autocomplete)
@@ -84,7 +84,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	this.getVocab = function(corpus) {
 		console.log('retrieiving vocab for ' + corpus);
 		return $http.get(backend_head + '/itm-backend/rest/getvocab?corpus=' + corpus);
-	}
+	};
 
 	/**
 	* Method to add a message to the current log file on the server.
@@ -101,11 +101,11 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			},
 			data: message
 		});
-	}
+	};
 
 	this.loadTutorial = function(iter) {
 		return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iter);
-	}
+	};
 
 	/**
 	* Method to load the model for the current user given the corpus and number of topics.
@@ -130,7 +130,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				docNums: docNums
 			}
 		});
-	}
+	};
 
 	/**
 	* Method to load the documents for the current user given the corpus and number of topics.
@@ -146,7 +146,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				modelId: iterationCount
 			}
 		});
-	}
+	};
 
 	this.save = function(refinements, corpus, topics, tutorialComplete) {
 		// update the iteration count
@@ -169,5 +169,5 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			},
 			data:data
 		});
-	}
+	};
 });

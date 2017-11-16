@@ -333,6 +333,12 @@ md-dialog {
     border-left: 25px solid $md-accent;
   }
 
+  &.deleted {
+    opacity:.2;
+    background-color:lightgray;
+    color:gray;
+  }
+
   .topic-label {
   	text-transform: uppercase;
   	margin-right: 5px;

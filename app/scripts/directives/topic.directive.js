@@ -30,7 +30,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					if (scope.stops.indexOf(word.word) !== -1) {
 						word.status = 'trashed';
 					}
-				})
+				});
 			});
 
 			scope.$watchCollection('stops', function (value) {
@@ -59,19 +59,33 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 
 			scope.blur = function() {
 				console.log("blur!");
-			}
+			};
 
+			/**
+			* Method called when a user chooses to delete the topic
+			*/
+			scope.delete = function(topic) {
+				// TODO: confirm DELETE
+				scope.$emit('remove-topic', topic);
+			};
+
+			/**
+			* Method called when a user chooses to cancel the topic creation process; the topic is removed from the list.
+			*/
 			scope.cancelCreate = function() {
 				// remove this topic from the list
 				scope.$emit('remove-topic', scope.topic);
-			}
+			};
 
+			/**
+			* Method called when the user accepts the created topic.
+			*/
 			scope.acceptCreate = function() {
 				scope.topic.creating = false;
 				scope.topic.created = true;
 				scope.topic.displayWords = _.pluck(scope.topic.words.slice(0,3), "word").join(" ");
 				scope.$emit('accept-create', scope.topic);
-			}
+			};
 
 			scope.cancelSplit = function() {
 				scope.topic.splitting = false;
@@ -120,10 +134,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 				} else if (!search) {
 					return $sce.trustAsHtml(text.replace(new RegExp('\\b'+ search2 +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				} else {
-					var text2 = text.replace(new RegExp('\\b'+ search +'\\b', 'gi'), '<span class="highlightedText">$&</span>')
+					var text2 = text.replace(new RegExp('\\b'+ search +'\\b', 'gi'), '<span class="highlightedText">$&</span>');
 					return $sce.trustAsHtml(text2.replace(new RegExp('\\b'+ search2 +'\\b', 'gi'), '<span class="highlightedText">$&</span>'));
 				}
-			}
+			};
 
 			/*scope.acceptmerge = function() {
 				scope.$emit('accept-merge', topic);
@@ -172,7 +186,6 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 						chip.originalIndex = data.from;
 						scope.$emit('reorder-word', chip.word, data.to, data.from);
 					}
-
 				} else if (data.fromCollection !== data.toCollection) {
 					// Move from one chip list to another
 					if (data.fromCollection === 'topicA') {
@@ -255,13 +268,13 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					scope.$emit('remove-doc', doc.docid);
 				}
 
-			}
+			};
 
 			scope.moreDocuments = function() {
 				// up the doc country by 20
 				scope.numDocs += 20;
 
-			}
+			};
 
 			scope.vocabSearch = function(query) {
 				var results = query ? scope.vocab.filter(createFilterFor(query)) : [];
@@ -285,8 +298,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 					word: chip,
 					weight: 'unknown',
 					status: 'added'
-				}
-			}
+				};
+			};
 		}
 	};
 }]);

@@ -1,79 +1,60 @@
 <md-card class="topic-card">
+
 	<md-card-title>
 		<md-card-title-text>
-
-			<md-toolbar class="topic-sub-toolbar md-hue-3"><div class="md-toolbar-tools">top {{topic.words.length}} words for "{{topic.topic}}":</div></md-toolbar>
-				<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
-		<div class="md-toolbar-tools">
-			<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
-			<span ng-if="topic.split">
-				This topic has been split. If you'd like to make additional changes to this topic, please save.
-			</span>
-			<span ng-if="topic.creating">
-				Add at least three new words to your new topic:
-			</span>
-			<span ng-if="topic.created">
-				This topic has been created. If you'd like to make additional changes to this topic, please save.
-			</span>
-			<span flex></span>
-			<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
-				<md-tooltip>cancel splitting; all changes will be discarded</md-tooltip>
-              <md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
-            </md-button>
-            <md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button split-checkmark" ng-click="acceptSplit()">
-            	<md-tooltip>save the split topic</md-tooltip>
-              <md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
-            </md-button>
-						<md-button ng-if="topic.creating" aria-label="delete new topic" class="md-icon-button" ng-click="cancelCreate()">
-							<md-tooltip>cancel create topic; all changes will be discarded</md-tooltip>
-										<md-icon class="save-icon" md-font-icon="mdi mdi-close"></md-icon>
-									</md-button>
-									<md-button ng-disabled="topic.words.length === 0" ng-if="topic.creating" aria-label="accept created topic" class="md-icon-button create-checkmark" ng-click="acceptCreate()">
-										<md-tooltip>save the created topic after adding some words</md-tooltip>
-										<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
-									</md-button>
-        </div>
-        </md-toolbar>
+			<!-- TOPIC WORDS -->
+			<md-toolbar class="topic-sub-toolbar md-hue-3" layout="row">
+				<span class="md-toolbar-tools" flex="60">top {{topic.words.length}} words for "{{topic.topic}}":</span>
+				<span flex></span>
+				<md-button ng-if="!topic.deleted" class="delete-topic-button md-accent md-raised" ng-click="delete(topic)"><md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
+			</md-toolbar>
+			<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
+				<div class="md-toolbar-tools">
+					<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
+					<span ng-if="topic.split">
+						This topic has been split. If you'd like to make additional changes to this topic, please save.
+					</span>
+					<span ng-if="topic.creating">
+						Add at least three new words to your new topic:
+					</span>
+					<span ng-if="topic.created">
+						This topic has been created. If you'd like to make additional changes to this topic, please save.
+					</span>
+					<span flex></span>
+					<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
+						<md-tooltip>cancel splitting; all changes will be discarded</md-tooltip>
+						<md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
+					</md-button>
+					<md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button split-checkmark" ng-click="acceptSplit()">
+						<md-tooltip>save the split topic</md-tooltip>
+						<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+					</md-button>
+					<md-button ng-if="topic.creating" aria-label="delete new topic" class="md-icon-button" ng-click="cancelCreate()">
+						<md-tooltip>cancel create topic; all changes will be discarded</md-tooltip>
+						<md-icon class="save-icon" md-font-icon="mdi mdi-close"></md-icon>
+					</md-button>
+					<md-button ng-disabled="topic.words.length === 0" ng-if="topic.creating" aria-label="accept created topic" class="md-icon-button create-checkmark" ng-click="acceptCreate()">
+						<md-tooltip>save the created topic after adding some words</md-tooltip>
+						<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
 		</md-card-title-text>
 	</md-card-title>
 	<md-card-content class="topic-content">
-
-
 		<div class="word-holder" layout="row">
 			<span class="topic-a" flex>
 				<span class="sub-topic-name" ng-if="topic.splitting || topic.split">SUB TOPIC A</span>
-			<md-chips
-				id="topicA"
-				ng-if="topic"
-				ng-model="topic.words"
-				md-autocomplete-snap
-				md-on-select="selectWord($chip)"
-				md-on-add="addWord($chip)"
-				md-on-remove="removeWord($chip, $index)"
-				md-transform-chip="transform($chip)">
-				<md-autocomplete
-					id="topicA_ac"
-					ng-disabled="topic.splitting || topic.split || topic.created"
-          md-no-cache="false"
-					md-select-on-match="true"
-					md-match-case-insensitive="true"
-          md-selected-item="selectedItem"
-          md-search-text="searchText"
-          md-items="word in vocabSearch(searchText)"
-          md-item-text="word"
-          placeholder="add new word...">
+			<md-chips id="topicA" ng-if="topic" ng-model="topic.words" md-autocomplete-snap md-on-select="selectWord($chip)" md-on-add="addWord($chip)" md-on-remove="removeWord($chip, $index)" md-transform-chip="transform($chip)">
+				<md-autocomplete id="topicA_ac" ng-disabled="topic.splitting || topic.split || topic.created" md-no-cache="false" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="selectedItem" md-search-text="searchText" md-items="word in vocabSearch(searchText)"
+				  md-item-text="word" placeholder="add new word...">
 					<span md-highlight-text="searchText">{{word}}</span>
 				</md-autocomplete>
-				<md-chip-template
-					ng-class="$chip.status"
-					ng-mouseenter="hoverWord($chip)"
-					ng-mouseleave="unhoverWord($chip)"
-				 	class="topic-chip-template">
-		          <strong md-chip-draggable
-		          	ng-style="{{$chip.style}}">{{$chip.word}}</strong>
-		         <!-- <em>({{$chip.weight}})</em> -->
-		        </md-chip-template>,
-		          <button md-chip-remove class="topic-chip-remove md-icon-button">
+				<md-chip-template ng-class="$chip.status" ng-mouseenter="hoverWord($chip)" ng-mouseleave="unhoverWord($chip)" class="topic-chip-template">
+					<strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
+					<!-- <em>({{$chip.weight}})</em> -->
+				</md-chip-template>,
+				<button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon class="undo-word" ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo">
 									<md-tooltip>undo</md-tooltip>
 								</md-icon>
@@ -82,29 +63,17 @@
 							</md-icon>
 			      </button>
 			</md-chips>
-		</span>
+			</span>
 
-		<!-- do not need autocomplete here as we will never be adding words to topic B -->
-		<span class="topic-b" ng-if="topic.splitting || topic.split" flex="50">
+			<!-- do not need autocomplete here as we will never be adding words to topic B -->
+			<span class="topic-b" ng-if="topic.splitting || topic.split" flex="50">
 			<span class="sub-topic-name">SUB TOPIC B</span>
-			<md-chips
-				id="topicB"
-				placeholder="add new word..."
-				ng-model="topic.subwords"
-				md-on-select="selectWord($chip)"
-				md-on-add="addWord($chip)"
-				md-on-remove="removeWord($chip, $index)"
-				md-transform-chip="transform($chip)"
-				readonly="topic.splitting || topic.split">
-				<md-chip-template
-					ng-mouseenter="hoverWord($chip)"
-					ng-mouseleave="unhoverWord($chip)"
-					ng-class="$chip.status"
-					class="topic-chip-template">
-		          <strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
-		         <!-- <em>({{$chip.weight}})</em> -->
-		        </md-chip-template>,
-		          <button md-chip-remove class="topic-chip-remove md-icon-button">
+			<md-chips id="topicB" placeholder="add new word..." ng-model="topic.subwords" md-on-select="selectWord($chip)" md-on-add="addWord($chip)" md-on-remove="removeWord($chip, $index)" md-transform-chip="transform($chip)" readonly="topic.splitting || topic.split">
+				<md-chip-template ng-mouseenter="hoverWord($chip)" ng-mouseleave="unhoverWord($chip)" ng-class="$chip.status" class="topic-chip-template">
+					<strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
+					<!-- <em>({{$chip.weight}})</em> -->
+				</md-chip-template>,
+				<button md-chip-remove class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo">
 									<md-tooltip>undo</md-tooltip>
 								</md-icon>
@@ -113,10 +82,12 @@
 							</md-icon>
 			      </button>
 			</md-chips>
-		</span>
+			</span>
 		</div>
 		<div class="document-holder" ng-if="!topic.creating && !topic.created">
-			<md-toolbar class="md-hue-3 topic-sub-toolbar"><div  class="md-toolbar-tools">top {{topic.docs.length}} documents for "{{topic.topic}}":</div></md-toolbar>
+			<md-toolbar class="md-hue-3 topic-sub-toolbar">
+				<div class="md-toolbar-tools">top {{topic.docs.length}} documents for "{{topic.topic}}":</div>
+			</md-toolbar>
 			<md-list>
 				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
 					<!--<div class="document-name">
@@ -125,13 +96,13 @@
 						</div>-->
 					<span class="document-snippet">
 						<span ng-if="document.hasMore && !document.more"  ng-bind-html="highlight(document.snippet, hoveredWord, selectedWord)"></span>
-						<span ng-if="!document.hasMore || document.more"  ng-bind-html="highlight(document.text, hoveredWord, selectedWord)"></span>
-						<span ng-if="document.hasMore">
+					<span ng-if="!document.hasMore || document.more" ng-bind-html="highlight(document.text, hoveredWord, selectedWord)"></span>
+					<span ng-if="document.hasMore">
 							<span class="toggle-doc" ng-if="!document.more" ng-click="document.more=true">show more</span>
-							<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
-						</span>
+					<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
 					</span>
-					<button ng-if="!topic.splitting && !topic.split"class="doc-remove md-secondary" ng-click="removeDocument(document)">
+					</span>
+					<button ng-if="!topic.splitting && !topic.split" class="doc-remove md-secondary" ng-click="removeDocument(document)">
 						<md-icon class='remove-doc' ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-close'>
 							<md-tooltip>remove this document from this topic</md-tooltip>
 						</md-icon>
@@ -141,7 +112,7 @@
 					</button>
 					<md-divider></md-divider>
 				</md-list-item>
-		<!--		<md-list-item class="more-documents" ng-click="moreDocuments()">show more documents</md-list-item> -->
+				<!--		<md-list-item class="more-documents" ng-click="moreDocuments()">show more documents</md-list-item> -->
 			</md-list>
 		</div>
 	</md-card-content>

@@ -446,14 +446,29 @@ angular.module('itmUiApp')
       $scope.refinements.push(refinement);
     });
 
+    /**
+    * Listen for remove-topic event; either called when a user decides to cancel the topic create process or the user decides to delete a topic
+    */
     $scope.$on('remove-topic', function(event, topic) {
-      // only able to remove topics that were in the process of being created
-      $scope.topics = _.without($scope.topics, topic);
+      if (topic.creating || topic.created) {
+        // only able to remove topics that were in the process of being created
+        $scope.topics = _.without($scope.topics, topic);
 
-      // select the first topic in the list
-      $scope.selectedIndex = 0;
-      $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
-      $scope.selectedTopic.selected = true;
+        // select the first topic in the list
+        $scope.selectedIndex = 0;
+        $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+        $scope.selectedTopic.selected = true;
+      } else {
+        // if the topic was not in the process of being created, we need to specify a delete topic refinement to the backend
+        var refinement = {
+          'type': 'deleteTopic',
+          'topicId': topic.id,
+        };
+        $scope.refinements.push(refinement);
+
+        // mark the topic as deleted to display in the UI
+        topic.deleted = true;
+      }
     });
 
     $scope.$on('accept-create', function(event, topic) {
@@ -493,13 +508,41 @@ angular.module('itmUiApp')
       $scope.refinements.push(name_refinement);
     });
 
-    $scope.$on('undo-create', function(event, topic) {
-      // we don't support undo in the tuturial
+    /**
+    * Listen for event to undo the deleted topic (prior to save)
+    */
+    $scope.$on('undo-delete', function(event, topic) {
+      // we don't support undo deleting a new topic in the tuturial
       if (!$scope.tutorial.complete) {
         return;
       }
 
-      // remove the topic
+      // remove the refinement
+      var indexToRemove = -1;
+      _.each($scope.refinements, function(refinement, index) {
+        // find the match
+        if (refinement.type === 'deleteTopic' && refinement.topicId === topic.id) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        $scope.refinements.splice(indexToRemove, 1);
+      }
+
+      // set topic status to not deleted
+      topic.deleted = false;
+    });
+
+    /**
+    * Listen for event to undo the newly created topic (prior to save)
+    */
+    $scope.$on('undo-create', function(event, topic) {
+      // we don't support undo creating a new topic in the tuturial
+      if (!$scope.tutorial.complete) {
+        return;
+      }
+
+      // remove the topic from the list
       $scope.topics = _.without($scope.topics, topic);
 
       // select the first topic in the list
@@ -511,8 +554,7 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'createTopic'
-          && refinement.topicId === topic.id) {
+        if (refinement.type === 'createTopic' && refinement.topicId === topic.id) {
           indexToRemove = index;
         }
       });
@@ -581,8 +623,7 @@ angular.module('itmUiApp')
       var indexToRemove = -1;
       _.each($scope.refinements, function(refinement, index) {
         // find the match
-        if (refinement.type === 'splitTopic'
-          && refinement.topicId === topic.id) {
+        if (refinement.type === 'splitTopic' && refinement.topicId === topic.id) {
           indexToRemove = index;
         }
       });
