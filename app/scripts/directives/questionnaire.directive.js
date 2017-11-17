@@ -25,7 +25,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
       scope.skipQuestionnaire = function() {
         scope.questionnaire.complete = true;
         scope.startTask();
-      }
+      };
 
       /**
       * Method to submit an answer to a question in the questionnaire
@@ -34,7 +34,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
         var answer = scope.questionnaire.answers[id];
 
         // account for 0 indexing on the questions
-        var id = id-1;
+        id = id-1;
 
         // submit the question to the questionnaire service
         TopicService.submitAnswer(id, answer, scope.corpus, scope.topics.length).then(function(response) {
