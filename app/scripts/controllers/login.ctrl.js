@@ -18,5 +18,5 @@ angular.module('itmUiApp')
   	$scope.submit = function() {
   		TopicService.setUser($scope.user);
   		$state.go('topics');
-  	}
+  	};
   });

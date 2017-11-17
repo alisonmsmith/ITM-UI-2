@@ -4,11 +4,13 @@
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('topicListItem', [ function() {
+angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function(TopicService) {
 	return {
 		restrict: 'E',
 		scope: {
-			topic: '='
+			topic: '=',
+			corpus: '=',
+			nums: '='
 		},
 		templateUrl: 'views/topic-list-item.html',
 		link: function(scope, element, attrs) {
@@ -16,6 +18,7 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			* Method to select a topic in the list.
 			*/
 			scope.select = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, 'user selected topic ' + scope.topic.id);
 				// emit event that the current topic has been selected
 				scope.$emit("select", topic);
 			};
@@ -65,6 +68,7 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 			* Method to rename a topic. Saves a temporary name until user presses 'save' or cancel'
 			*/
 			scope.rename = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, 'user clicked to rename ' + scope.topic.id);
 				topic.name = topic.topic;
 				scope.renaming = true;
 			};
@@ -80,15 +84,16 @@ angular.module('itmUiApp').directive('topicListItem', [ function() {
 
 				// emit event to save the new name for the topic
 				scope.$emit("rename-topic", topic);
-			}
+			};
 
 			/**
 			* Method to cancel topic renaming
 			*/
 			scope.cancelName = function(topic) {
+								TopicService.log(scope.corpus, scope.nums, 'user clicked to cancel renaming ' + scope.topic.id);
 				topic.name = "";
 				scope.renaming = false;
-			}
+			};
 
 		}
 	};

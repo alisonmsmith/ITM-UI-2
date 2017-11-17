@@ -4,13 +4,15 @@
 /* jshint unused:vars */
 'use strict';
 
-angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sce, $mdDialog) {
+angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicService', function($sce, $mdDialog, TopicService) {
 	return {
 		restrict: 'E',
 		scope: {
 			topic: '=',
 			stops: '=',
-			vocab: '='
+			vocab: '=',
+			corpus: '=',
+			nums: '='
 		},
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
@@ -44,6 +46,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', function($sc
 
 
 			scope.selectWord = function(chip) {
+				TopicService.log(scope.corpus, scope.nums, 'user selected ' + chip.word + ' in topic ' + scope.topic.id);
 				// TODO: looks like the chip is autoselected but for some reason the chip object is not passed through to the select method; this is a hacky fix, but might want to figure out what's really going on at some point
 				if (!chip) {
 					return;
