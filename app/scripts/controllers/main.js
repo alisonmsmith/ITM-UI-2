@@ -311,7 +311,7 @@ angular.module('itmUiApp')
       $scope.save = function() {
         // only let the user save during the tutorial if they're on step 13, 22, 25, or 28
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step === 13 || $scope.tutorial.step === 22 || $scope.tutorial.step === 26 || $scope.tutorial.step === 30) {
+          if ($scope.tutorial.step === 13 || $scope.tutorial.step === 22 || $scope.tutorial.step === 26 || $scope.tutorial.step === 32) {
             $scope.loading = true;
             //$scope.tutorial.nextEnabled = true;
             $scope.$broadcast('tutorial-next');
@@ -470,6 +470,26 @@ angular.module('itmUiApp')
           $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.selectedTopic.selected = true;
         } else {
+          // we should only accept a remove refinement if it's on step 29 and it's topic 8
+          if (!$scope.tutorial.complete) {
+            if ($scope.tutorial.step === 29) {
+              if (topic.id === 7) {
+                $scope.tutorial.nextEnabled = true;
+              } else {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                  .parent(angular.element(document.body))
+                  .clickOutsideToClose(true)
+                  .textContent('Oops, please try again to delete Topic 8.')
+                  .ariaLabel('tutorial alert')
+                  .ok('Got it!')
+                );
+                return;
+              }
+            } else {
+              return;
+            }
+          }
           TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to delete topic ' + topic.id + '; adding refinement to list');
           // if the topic was not in the process of being created, we need to specify a delete topic refinement to the backend
           var refinement = {
@@ -484,9 +504,9 @@ angular.module('itmUiApp')
       });
 
       $scope.$on('accept-create', function(event, topic) {
-        // we should only accept a create refinement if it's on step 29 and we've added the words football, game, and sport
+        // we should only accept a create refinement if it's on step 31 and we've added the words football, game, and sport
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step === 29) {
+          if ($scope.tutorial.step === 31) {
             if (_.indexOf(_.pluck(topic.words, 'word'), 'sport') !== -1) {
               $scope.tutorial.nextEnabled = true;
             } else {

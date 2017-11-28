@@ -46,11 +46,11 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
 
 			scope.selectWord = function(chip) {
-				TopicService.log(scope.corpus, scope.nums, 'user selected ' + chip.word + ' in topic ' + scope.topic.id);
 				// TODO: looks like the chip is autoselected but for some reason the chip object is not passed through to the select method; this is a hacky fix, but might want to figure out what's really going on at some point
 				if (!chip) {
 					return;
 				}
+				TopicService.log(scope.corpus, scope.nums, 'user selected ' + chip.word + ' in topic ' + scope.topic.id);
 				// store the selected word for the trash can
 				scope.selected = chip;
 
@@ -91,6 +91,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 			};
 
 			scope.cancelSplit = function() {
+				TopicService.log(scope.corpus, scope.nums, 'user clicked to cancel split of topic ' + scope.topic.id);
 				scope.topic.splitting = false;
 				scope.topic.words = scope.topic.wordscopy;
 				scope.topic.wordscopy = undefined;
@@ -116,6 +117,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 			};
 
 			scope.hoverWord = function(chip) {
+								TopicService.log(scope.corpus, scope.nums, 'user hovered over ' + chip.word + ' in topic ' + scope.topic.id);
 				// highlight the word in the documents
 				scope.hoveredWord = chip.word;
 
@@ -192,11 +194,13 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 				} else if (data.fromCollection !== data.toCollection) {
 					// Move from one chip list to another
 					if (data.fromCollection === 'topicA') {
+
 						// moving from A to B
 						var chip = scope.topic.words.splice(data.from, 1)[0];
 						chip.status = 'split';
 						chip.orginalIndex = data.from;
 						chip.originalTopic = data.fromCollection;
+										TopicService.log(scope.corpus, scope.nums, 'user dragged ' + chip.word + ' from sub topic A to sub topic B to split topic ' + scope.topic.id);
 						// if this is the first chip to be dragged into B, we can remove the hidden chip
 						if (scope.topic.subwords.length === 1 && scope.topic.subwords[0].status === 'hidden') {
 							scope.topic.subwords = [chip];
@@ -208,6 +212,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 					} else {
 						// moving from B to A
 						var chip = scope.topic.subwords.splice(data.from, 1)[0];
+						TopicService.log(scope.corpus, scope.nums, 'user dragged ' + chip.word + ' from sub topic B to sub topic A to split topic ' + scope.topic.id);
 						// if B is now empty, we need to add back in the hidden chip
 						if (scope.topic.subwords.length === 0) {
 							scope.topic.subwords = [{'status':'hidden'}];
@@ -274,6 +279,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 			};
 
 			scope.moreDocuments = function() {
+				TopicService.log(scope.corpus, scope.nums, 'user clicked to view more documents');
 				// up the doc country by 20
 				scope.numDocs += 20;
 

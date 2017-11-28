@@ -90,7 +90,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	* Method to add a message to the current log file on the server.
 	*/
 	this.log = function(corpus, topics, message) {
-		return $http({
+		$http({
 			method: 'POST',
 			url: backend_head + '/itm-backend/rest/logger',
 			params: {
@@ -100,6 +100,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				modelId: iterationCount
 			},
 			data: message
+		}).then(function(success) {
+			console.log('succesfully logged');
+		}, function (error) {
+			console.log('error logging');
 		});
 	};
 

@@ -10,7 +10,7 @@ angular.module('itmUiApp').directive('tutorial', [ '$document', function($docume
     scope:true,
     templateUrl: 'views/tutorial.html',
     link: function(scope, element, attrs) {
-      scope.tutorialSteps = 33;
+      scope.tutorialSteps = 35;
 
       scope.tutorialRange = _.range(0,scope.tutorialSteps+1);
 
@@ -155,7 +155,7 @@ angular.module('itmUiApp').directive('tutorial', [ '$document', function($docume
       scope.tutorialNext = function() {
         if (scope.tutorial.step < scope.tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 7 || scope.tutorial.step === 9 || scope.tutorial.step === 11 || scope.tutorial.step === 15 || scope.tutorial.step === 17 || scope.tutorial.step === 19 || scope.tutorial.step === 20 || scope.tutorial.step === 24 || scope.tutorial.step === 28 || scope.tutorial.step === 32) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 7 || scope.tutorial.step === 9 || scope.tutorial.step === 11 || scope.tutorial.step === 15 || scope.tutorial.step === 17 || scope.tutorial.step === 19 || scope.tutorial.step === 20 || scope.tutorial.step === 24 || scope.tutorial.step === 28 || scope.tutorial.step === 30 || scope.tutorial.step === 34) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;

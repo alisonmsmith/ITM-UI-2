@@ -81,8 +81,8 @@
 
 <span ng-show="tutorial.step === 5">
   <ul>
-    <li>This tutorial will take you through eight possible ways to fix these and other problems.</li>
-    <li>These refinements include: add word, remove word, trash word, change word order, remove document, split topic, merge topic, and add new topic.</li>
+    <li>This tutorial will take you through nine possible ways to fix these and other problems.</li>
+    <li>These refinements include: add word, remove word, trash word, change word order, remove document, split topic, merge topics, delete topic, and create new topic.</li>
     <li><span class='tutorial-command'>Click on Topic 7</span>, which appears to be a topic about films and music.</li>
   </ul>
 </span>
@@ -203,7 +203,7 @@
 <span ng-show="tutorial.step === 21">
   <ul>
     <li>MERGE TOPICS: Similar topics can be merged.</li>
-    <li>Both Topic 5 and Topic 6 appear to be about government, so let's merge them. First <span class='tutorial-command'>click Topic 6 by</span>, then <span class='tutorial-command'>click <img class="tutorial-image" src="../images/merge.png"></img>. Now,
+    <li>Both Topic 5 and Topic 6 appear to be about government, so let's merge them. First <span class='tutorial-command'>click Topic 6</span>, then <span class='tutorial-command'>click <img class="tutorial-image" src="../images/merge.png"></img></span>. Now,
  <span class='tutorial-command'>click to select Topic 5</span> and <span class='tutorial-command'>press
    <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span> to complete the merge.</li>
  </ul>
@@ -237,7 +237,7 @@
   <ul>
     <li>The split topic is shown in the list.</li><li>Don't do so now, but prior to saving, this can be undone by clicking the <img class="tutorial-image" src="../images/topic-undo.png"></img>  next to the split topic.</li>
     <li>Let's save the model with the outstanding split refinement. <span class="tutorial-command">Click <img class="tutorial-image" src="../images/saveAll.png"></img></span></li>
-  </ul>.</span>
+  </ul></span>
 
 <span ng-show="tutorial.step === 27"><ul><li>Now the algorithm is working to come up with an updated model based on the refinement. Please wait while it finishes updating.</li></ul></span>
 
@@ -251,33 +251,47 @@
 
 <span ng-show="tutorial.step === 29">
   <ul>
-    <li>CREATE TOPIC: Create a new topic by clicking <img class="tutorial-image" src="../images/create.png"></img> at the bottom of the topic list and adding a few words to describe it.</li>
+    <li>DELETE TOPIC: Delete a topic by clicking to select the topic and then clicking <img class="tutorial-image" src="../images/delete.png"></img> to the top right of the topic view.</li>
+    <li>Let's delete Topic 8. <span class='tutorial-command'>Click to select Topic 8 and click <img class="tutorial-image" src="../images/delete.png"></img>.
+  </ul>
+</span>
+
+<span ng-show="tutorial.step === 30">
+  <ul>
+    <li>The deleted topic is shown grayed out in the topic list.</li>
+      <li>Don't do so now, but prior to saving, this can be undone by clicking the <img class="tutorial-image" src="../images/topic-undo.png"></img> next to the topic in the list.</li>
+  </ul>
+</span>
+
+<span ng-show="tutorial.step === 31">
+  <ul>
+    <li>CREATE NEW TOPIC: Create a new topic by clicking <img class="tutorial-image" src="../images/create.png"></img> at the bottom of the topic list and adding a few words to describe it.</li>
     <li> Remember to press 'Enter' or select the matching word from the drop down after typing each word.</li>
     <li>You should provide at least 3 words to create a new topic. If you provide more words, the system will be able to create a better topic for you.</li>
     <li>Let's create a new topic about football. <span class='tutorial-command'>Click <img class="tutorial-image" src="../images/create.png"></img>. Add the word 'football', add the word 'game', and add the word 'sport' to the topic. Click <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span></li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 30">
+<span ng-show="tutorial.step === 32">
   <ul>
     <li>The new topic is shown at the bottom of the list with the added words.</li>
       <li>Don't do so now, but prior to saving, this can be undone by clicking the <img class="tutorial-image" src="../images/topic-undo.png"></img> next to the topic in the list.</li>
-    <li>Let's save the model with the outstanding add topic refinement. <span class="tutorial-command">Click <img class="tutorial-image" src="../images/saveAll.png"></img></span>.</li>
+    <li>Let's save the model with the outstanding delete and create topic refinements. <span class="tutorial-command">Click <img class="tutorial-image" src="../images/saveAll.png"></img></span>.</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 31"><ul><li>Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</li></ul></span>
+<span ng-show="tutorial.step === 33"><ul><li>Now the algorithm is working to come up with an updated model based on your refinement. Please wait while it finishes updating.</li></ul></span>
 
-<span ng-show="tutorial.step === 32">
+<span ng-show="tutorial.step === 34">
   <ul>
     <li>Here is the updated model.</li>
-    <li>The model has one additional topic than before because the new topic, Topic 11, was created about football.</li>
+    <li>Topic 8 was removed, and the new topic, Topic 11, was created about football.</li>
   </ul>
 </span>
 
-<span ng-show="tutorial.step === 33">
+<span ng-show="tutorial.step === 35">
   <ul>
-    <li>You've now seen the eight different changes you can use in the tool: add word, remove word, trash word, change word order, remove document, create topic, merge topic, split topic.</li>
+    <li>You've now seen the nine different changes you can use in the tool: add word, remove word, trash word, change word order, remove document, delete topic, create topic, merge topic, split topic.</li>
       <li>Remember that changes are only temporarily applied until you click <img class="tutorial-image" src="../images/saveAll.png"></img> for the model to incorporate them.</li>
       <li>Prior to saving, you can undo any changes, and you can save as often as you'd like while refining the model.</li>
       <li>It may take many rounds of updating before you are happy with the model.</li>
