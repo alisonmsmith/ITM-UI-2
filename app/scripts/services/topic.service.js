@@ -15,8 +15,9 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	var iterationCount = 0;
 
 	//var backend_head = "http://dna.cs.umd.edu:8080";
-	var backend_head = "http://lda.cs.umd.edu:8080";
+	// var backend_head = "http://lda.cs.umd.edu:8080";
 	//var backend_head = "http://localhost:8080";
+	var backend_head = "http://35.237.234.44:8080";
 
 	// default user and corpus
 	var user = null;
