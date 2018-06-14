@@ -10,7 +10,8 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 		scope: {
 			topic: '=',
 			corpus: '=',
-			nums: '='
+			nums: '=',
+			tutorial: '='
 		},
 		templateUrl: 'views/topic-list-item.html',
 		link: function(scope, element, attrs) {
@@ -68,6 +69,18 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			* Method to rename a topic. Saves a temporary name until user presses 'save' or cancel'
 			*/
 			scope.rename = function(topic) {
+				if (!scope.tutorial.complete) {
+					// if on step 2, we should be renaming topic 1 to SPORTS
+					if (scope.tutorial.step === 2) {
+						if (topic.id === 0) {
+							// continue
+						} else {
+							return;
+						}
+					} else {
+						return;
+					}
+				}
 				TopicService.log(scope.corpus, scope.nums, 'user clicked to rename ' + scope.topic.id);
 				topic.name = topic.topic;
 				scope.renaming = true;

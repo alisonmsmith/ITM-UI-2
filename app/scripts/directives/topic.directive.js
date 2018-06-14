@@ -12,7 +12,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 			stops: '=',
 			vocab: '=',
 			corpus: '=',
-			nums: '='
+			nums: '=',
+			tutorial: '='
 		},
 		templateUrl: 'views/topic.html',
 		link: function(scope, element, attrs) {
@@ -262,6 +263,11 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 			};
 
 			scope.removeDocument = function(doc) {
+				if (!scope.tutorial.complete) {
+					if (scope.tutorial.step !== 16) {
+						return;
+					}
+				}
 				if (doc.status === 'removed') {
 					doc.status = 'unevaluated';
 					scope.$emit('undo-remove-doc', doc.docid);

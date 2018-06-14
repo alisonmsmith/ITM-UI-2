@@ -121,7 +121,7 @@ angular.module('itmUiApp')
         $mdDialog.show(
           $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('In the tutorial, you saw different problems with how the system generates topics and how to fix them by applying different refinement operations. We will now show you a new topic model for a dataset of 7000 news articles.')
+          .textContent('In the tutorial, you saw different problems with how the system generates topics and how to fix them by applying different refinement operations. We will now show you a new topic model for a dataset of 9000 tweets.')
           .ariaLabel('Tutorial Complete Dialog')
           .ok('OK')
         ).then(function() {
@@ -134,7 +134,7 @@ angular.module('itmUiApp')
           $mdDialog.show(
             $mdDialog.alert()
             .clickOutsideToClose(false)
-            .textContent('For this task, assume that you work for a news agency and your boss has asked you to organize a dataset of 7000 news articles into the common news categories such as education, health, politics, etc and to identify a few representative articles for each of the categories. To help you with this task, the system generated topics for the 7000 news articles, as a starting point. Your task is to improve these topics using the refinement operations explained in the tutorial so that you can use them to show your boss the common news categories and a few representative articles from each. To start we would like you to answer a few questions related to this initial model.')
+            .textContent('For this task, assume that you work for a travel blog and your boss has asked you to write a blog post about the common complaints that travelers have when flying. To help you with your task, the system has generated topics for a dataset of 9000 tweets directed at various popular airlines where people are complaining about their experience. Your task is to improve these topics using the refinement operations explained in the tutorial so that you can use them to write a blog post about common air travel complaints with a few representative tweets from each. To start we would like you to answer a few questions related to this initial model.')
             .ariaLabel('Questionnaire Start Dialog')
             .ok('OK')
           ).then(function() {
@@ -149,7 +149,7 @@ angular.module('itmUiApp')
         $mdDialog.show(
           $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('Now we will begin the task. Remember that for this task you have been asked to organize a dataset of 7000 news articles into common news categories. To do so, you will improve these system generated topics by making changes using the tool. Remember that you can add words to a topic, remove words from a single topic, trash words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, and create new topics. Also, remember that you need to press the save button periodically for the system to incorporate your changes. Please note that there is no one correct order to apply these refinements and you can apply different refinement operation in any order. You should spend 30-45 minutes to refine these categories. When you are satisfied with the organization of documents in different categories, press press FINISH TASK button')
+          .textContent('Now we will begin the task. Remember that for this task you have been asked to organize a dataset of 9000 tweets into common types of air travel complaints. To do so, you will improve these system generated topics by making changes using the tool. Remember that you can add words to a topic, remove words from a single topic, trash words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, and create new topics. Also, remember that you need to press the save button periodically for the system to incorporate your changes. Please note that there is no one correct order to apply these refinements and you can apply different refinement operation in any order. You should spend 30-45 minutes to refine these categories. When you are satisfied with the organization of tweets by the types of complaints, press press FINISH TASK button')
           .ariaLabel('Task Start Dialog')
           .ok('OK')
         ).then(function() {
@@ -167,7 +167,7 @@ angular.module('itmUiApp')
         $mdDialog.show(
           $mdDialog.alert()
           .clickOutsideToClose(false)
-          .textContent('Thank you for changing the topics to better organize the news articles. To finish up, we would like you to answer a few questions related to the final topics that you have generated. The questionnaire will open in a google form in a new window. Note: you may have to enable popups in your browser for the questionnaire to open.')
+          .textContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. The questionnaire will open in a google form in a new window. Note: you may have to enable popups in your browser for the questionnaire to open.')
           .ariaLabel('Task Start Dialog')
           .ok('OK')
         ).then(function() {
@@ -400,6 +400,11 @@ angular.module('itmUiApp')
        * Method to create a new topic. Adds a new, empty topic to the list and selects it. Does not add a create refinement until user adds topic words and confirms the created topic
        */
       $scope.createNewTopic = function() {
+        if (!$scope.tutorial.complete) {
+          if (!$scope.tutorial.step === 32) {
+            return;
+          }
+        }
         TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to "create a new tpoic"');
         // deselect other topics
         _.each($scope.topics, function(topic) {
@@ -430,7 +435,8 @@ angular.module('itmUiApp')
        */
       $scope.$on('rename-topic', function(event, topic) {
         // if on step 2, we should be renaming topic 1 to SPORTS
-        if ($scope.tutorial.step === 2) {
+        if (!$scope.tutorial.complete) {
+          if ($scope.tutorial.step === 2) {
           if (topic.id === 0) {
             if (topic.topic === 'sports' || topic.topic === 'SPORTS') {
               $scope.tutorial.nextEnabled = true;
@@ -445,7 +451,10 @@ angular.module('itmUiApp')
               );
             }
           }
+        } else {
+          return;
         }
+      }
         TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to rename topic ' + topic.id + ' with the name ' + topic.topic + '; adding refinement to list');
         // update the topic name map and add the refinement to the stack (to be attached to the model on save)
         var refinement = {
@@ -675,6 +684,11 @@ angular.module('itmUiApp')
       });
 
       $scope.addStopWord = function() {
+        if (!$scope.tutorial.complete) {
+          if ($scope.tutorial.step !== 18) {
+            return;
+          }
+        }
         $scope.$broadcast('topic-stop-word');
       };
 
