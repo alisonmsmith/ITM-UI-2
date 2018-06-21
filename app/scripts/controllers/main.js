@@ -116,6 +116,9 @@ angular.module('itmUiApp')
       // Load the intial model
       loadModel(3);
 
+      /**
+      * Method to end the tutorial
+      */
       $scope.endTutorial = function() {
         // pop up message with instructions
         $mdDialog.show(
@@ -287,6 +290,7 @@ angular.module('itmUiApp')
        * Method to clear refinements
        */
       $scope.clearRefinements = function() {
+        console.warn('should no longer call this method');
         // we don't support this functionality in the tutorial
         if (!$scope.tutorial.complete) {
           return;
@@ -306,9 +310,54 @@ angular.module('itmUiApp')
       };
 
       /**
+      * called whenever the user applies a refinement
+      */
+      function save() {
+        $scope.loading = true;
+        // save the refinements
+        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
+          // process the model
+          processModel(data.data);
+          // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
+          //    processModel(data.data, docs.data);
+
+          // copy the topics
+          $scope.topicsCopy = angular.copy($scope.topics);
+
+          // Select the previously selected topic in the list (if it exists)
+          if ($scope.selectedIndex >= $scope.topics.length) {
+            $scope.selectedIndex = 0;
+          }
+          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+          $scope.topics[$scope.selectedIndex].selected = true;
+
+          // reset the merged list
+          $scope.merged = [];
+
+          // clear the refinement list
+          $scope.refinements = [];
+          $scope.isDirty = false;
+          $scope.stops = [];
+
+          //  });
+
+        }, function() {
+          // error saving model
+          alert('error saving model - reverting to model prior to save');
+          $scope.refinements = [];
+          $scope.loading = false;
+          $scope.isDirty = false;
+          $scope.stops = [];
+          $scope.merged = [];
+
+        });
+      }
+
+      /**
        * Method to save the refined model.
        */
       $scope.save = function() {
+        console.warn('should no longer call this method');
         // only let the user save during the tutorial if they're on step 13, 22, 25, or 28
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step === 13 || $scope.tutorial.step === 22 || $scope.tutorial.step === 26 || $scope.tutorial.step === 32) {
@@ -400,12 +449,13 @@ angular.module('itmUiApp')
        * Method to create a new topic. Adds a new, empty topic to the list and selects it. Does not add a create refinement until user adds topic words and confirms the created topic
        */
       $scope.createNewTopic = function() {
+        console.log('creating new topic', $scope.tutorial.complete, $scope.tutorial.step);
         if (!$scope.tutorial.complete) {
-          if (!$scope.tutorial.step === 32) {
+          if ($scope.tutorial.step !== 32) {
             return;
           }
         }
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to "create a new tpoic"');
+        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to "create a new topic"');
         // deselect other topics
         _.each($scope.topics, function(topic) {
           topic.selected = false;
@@ -549,6 +599,7 @@ angular.module('itmUiApp')
         };
         $scope.refinements.push(refinement);
         $scope.refinements.push(name_refinement);
+        save();
       });
 
       /**
