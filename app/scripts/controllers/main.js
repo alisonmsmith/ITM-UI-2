@@ -449,7 +449,6 @@ angular.module('itmUiApp')
        * Method to create a new topic. Adds a new, empty topic to the list and selects it. Does not add a create refinement until user adds topic words and confirms the created topic
        */
       $scope.createNewTopic = function() {
-        console.log('creating new topic', $scope.tutorial.complete, $scope.tutorial.step);
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step !== 32) {
             return;
@@ -556,9 +555,10 @@ angular.module('itmUiApp')
             'topicId': topic.id,
           };
           $scope.refinements.push(refinement);
+          save();
 
           // mark the topic as deleted to display in the UI
-          topic.deleted = true;
+          //topic.deleted = true;
         }
       });
 
@@ -606,6 +606,7 @@ angular.module('itmUiApp')
        * Listen for event to undo the deleted topic (prior to save)
        */
       $scope.$on('undo-delete', function(event, topic) {
+        console.log('should not be calling this method');
         // we don't support undo deleting a new topic in the tuturial
         if (!$scope.tutorial.complete) {
           return;
@@ -633,6 +634,7 @@ angular.module('itmUiApp')
        * Listen for event to undo the newly created topic (prior to save)
        */
       $scope.$on('undo-create', function(event, topic) {
+        console.log('should not be calling this method');
         // we don't support undo creating a new topic in the tuturial
         if (!$scope.tutorial.complete) {
           return;
@@ -706,9 +708,11 @@ angular.module('itmUiApp')
           'seedWords': _.pluck(topic.words, 'word')
         };
         $scope.refinements.push(refinement);
+        save();
       });
 
       $scope.$on('undo-split', function(event, topic) {
+        console.log('should not be calling this method');
         // we don't support undo in the tuturial
         if (!$scope.tutorial.complete) {
           return;
@@ -806,6 +810,7 @@ angular.module('itmUiApp')
         };
         $scope.refinements.push(refinement);
         $scope.isDirty = true;
+        save();
       };
 
       $scope.cancelMerge = function() {
@@ -817,6 +822,7 @@ angular.module('itmUiApp')
       }
 
       $scope.undoMerge = function(pair) {
+        console.log('should not be calling this method');
         // we don't support undo in the tuturial
         if (!$scope.tutorial.complete) {
           return;
@@ -1060,9 +1066,12 @@ angular.module('itmUiApp')
           'word': word
         };
         $scope.refinements.push(refinement);
+        save();
       });
 
       $scope.$on('undo-stop-word', function(event, word) {
+        console.log('should not be calling this method');
+        return;
         // remove the stop word
         $scope.stops = _.without($scope.stops, word);
 
@@ -1135,12 +1144,15 @@ angular.module('itmUiApp')
           'word': word
         };
         $scope.refinements.push(refinement);
+        save();
       });
 
       /**
        * Listen for event to undo a previously removed word for the currently selected topic
        */
       $scope.$on('undo-remove-word', function(event, word) {
+        console.log('should not be calling this method');
+        return;
         // we should only undo the remove word refinement for tutorial step 12 and the word 'year'
         if (!$scope.tutorial.complete && $scope.tutorial.step === 12) {
           if (word === 'year') {
@@ -1243,13 +1255,15 @@ angular.module('itmUiApp')
           'topicId': $scope.selectedTopic.id
         };
         $scope.refinements.push(refinement);
-        console.log($scope.refinements);
+        save();
       });
 
       /**
        * Listen for event to update the reorder word refinement for the given word and original position
        */
       $scope.$on('update-reorder-word', function(event, word, to, from) {
+        console.log('should not be calling this method');
+        return;
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step === 10) {
             if ($scope.selectedTopic.id === 6) {
@@ -1288,6 +1302,8 @@ angular.module('itmUiApp')
        * Listen for event to undo previously re-ordered word in the topic
        */
       $scope.$on('undo-reorder-word', function(event, word, to, from) {
+        console.log('should not be calling this method');
+        return;
                       TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo reordering ' + word + ' from ' + from + ' to ' + to + ' in topic '+ $scope.selectedTopic.id + '; removing refinement from list');
         var indexToRemove = -1;
         _.each($scope.refinements, function(refinement, index) {
@@ -1356,7 +1372,7 @@ angular.module('itmUiApp')
           'word': word
         };
         $scope.refinements.push(refinement);
-
+        save();
 
 
       });
@@ -1365,7 +1381,10 @@ angular.module('itmUiApp')
        * Listen for event to undo a previously removed word for the currently selected topic
        */
       $scope.$on('undo-add-word', function(event, word) {
-                              TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo adding ' + word + ' to topic '+ $scope.selectedTopic.id + '; removing refinement from list');
+        console.log('should not be calling this method -- but what about if the user wants to undo an added word to a created topic?');
+        return;
+
+        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo adding ' + word + ' to topic '+ $scope.selectedTopic.id + '; removing refinement from list');
 
         // AS (4/7/16): there has to be a better way to do this...
         var indexToRemove = -1;
@@ -1380,11 +1399,6 @@ angular.module('itmUiApp')
         if (indexToRemove !== -1) {
           $scope.refinements.splice(indexToRemove, 1);
         }
-        /* $scope.refinements = _.without($scope.refinements, {
-           'type': 'addWord',
-           'topicId': $scope.selectedTopic.id,
-           'word': word
-         });*/
       });
 
       /**
@@ -1434,12 +1448,15 @@ angular.module('itmUiApp')
           'documentId': doc
         };
         $scope.refinements.push(refinement);
+        save();
       });
 
       /**
        * Listen for event to undo a previously removed word for the currently selected topic
        */
       $scope.$on('undo-remove-doc', function(event, doc) {
+        console.log('should not be calling this method');
+        return;
         TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo removing ' + doc + ' from topic '+ $scope.selectedTopic.id + '; removing refinement from list');
         var indexToRemove = -1;
         _.each($scope.refinements, function(refinement, index) {

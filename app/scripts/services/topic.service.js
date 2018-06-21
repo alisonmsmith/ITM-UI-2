@@ -91,6 +91,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	* Method to add a message to the current log file on the server.
 	*/
 	this.log = function(corpus, topics, message) {
+		console.log('logging temporarily deprecated');
+		return;
 		$http({
 			method: 'POST',
 			url: backend_head + '/itm-backend/rest/logger',
@@ -102,9 +104,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			},
 			data: message
 		}).then(function(success) {
-			console.log('succesfully logged');
 		}, function (error) {
-			console.log('error logging');
 		});
 	};
 
