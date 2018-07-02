@@ -15,14 +15,14 @@
     <md-button class="md-raised md-accent" ng-click="skipQuestionnaire()">
       <md-tooltip>skip button available for testing only - not during task</md-tooltip>
       skip questionnaire</md-button>
-  </span> 
+  </span>
 
   <span ng-show="questionnaire.step === 0">
       Please spend a minute or so reviewing these initial topics before starting the questionnaire.
   </span>
 
   <span ng-show="questionnaire.step === 1">
-    On a scale of 1 to 7, how satisfied are you with the system's organization of the news articles into common news categories?
+    On a scale of 1 to 7, how satisfied are you with the system's organization of the tweets into categories of air travel complaints?
 
     <md-slider-container class="satisfaction-slider">
       1
@@ -44,8 +44,11 @@
   </span>
 
   <span ng-show="questionnaire.step === 3">
-    Remember that you can change these topics by adding words, removing words from a single topic, trashing words from all topics, changing a word's order in a topic, removing documents from a topic, merging topics, splitting topics, and creating new topics. Which of these ways of fixing the topics do you think will be most useful for your task and why?
-
+    <p>Remember that you can change these topics by adding words, removing words from a single topic, trashing words from all topics, changing a word's order in a topic, removing documents from a topic, merging topics, splitting topics, deleting topics, and creating new topics.
+    <br/>
+    <br/>
+    Which of these ways of fixing the topics do you think will be most useful for your task and why?
+    </p>
     <md-input-container>
       <input type="text" ng-model="questionnaire.answers[questionnaire.step]"></input>
     </md-input-container>
@@ -60,7 +63,7 @@
   class="md-raised md-accent" ng-click="skipQuestionnaire()">SKIP QUESTIONNAIRE</md-button>-->
   <md-button
   ng-if="questionnaire.step > 0"
-  class="md-raised md-primary" ng-click="submitAnswer(questionnaire.step)">SUBMIT</md-button>
+  class="md-raised md-primary" ng-click="submitAnswer(questionnaire.step)" ng-disabled="!questionnaire.answers[questionnaire.step]">SUBMIT</md-button>
 </md-card-actions>
 
 </md-card>

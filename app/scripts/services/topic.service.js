@@ -27,6 +27,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// of topics; alternatively, this could be treated as 'show more' button on each topic
 	var docNums = 20;
 
+	// default the model type to 0
+	// a dropdown will let us switch between model types
+	var modelType = 0;
+
 	this.setUser = function(u) {
 		console.log("user set to: " + u);
 		user = u;
@@ -51,7 +55,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				questionId: id,
 				userResponse: answer,
 				corpus: corpus,
-				topicNums: topics
+				topicNums: topics,
+				modelType: modelType
 			}
 		});
 	};
@@ -91,8 +96,6 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	* Method to add a message to the current log file on the server.
 	*/
 	this.log = function(corpus, topics, message) {
-		console.log('logging temporarily deprecated');
-		return;
 		$http({
 			method: 'POST',
 			url: backend_head + '/itm-backend/rest/logger',
@@ -100,7 +103,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				corpus: corpus,
 				userId: user,
 				topicNums: topics,
-				modelId: iterationCount
+			//	modelId: iterationCount,
+				modelType: modelType
 			},
 			data: message
 		}).then(function(success) {
@@ -121,7 +125,15 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		iterationCount = 0;
 
 		if (!tutorialComplete) {
-			return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iterationCount);
+			return $http({
+				method: 'GET',
+				url: backend_head + '/itm-backend/rest/dummymodel',
+				params: {
+					userId: user,
+					modelId: iterationCount,
+					modelType: modelType
+				}
+			});
 		}
 
 		return $http({
@@ -132,7 +144,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				userId: user,
 				topicNums: topics,
 				modelId: iterationCount,
-				docNums: docNums
+				docNums: docNums,
+				modelType: modelType
 			}
 		});
 	};
@@ -158,7 +171,15 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		iterationCount += 1;
 
 		if (!tutorialComplete) {
-			return $http.get(backend_head + '/itm-backend/rest/dummymodel?model_id=' + iterationCount);
+			return $http({
+				method: 'GET',
+				url: backend_head + '/itm-backend/rest/dummymodel',
+				params: {
+					userId: user,
+					modelId: iterationCount,
+					modelType: modelType
+				}
+			});
 		}
 
 		var data = {'feedback':refinements};
@@ -170,7 +191,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				userId: user,
 				topicNums: topics,
 				modelId: iterationCount,
-				docNums: docNums
+				docNums: docNums,
+				modelType: modelType
 			},
 			data:data
 		});
