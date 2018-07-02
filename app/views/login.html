@@ -17,7 +17,16 @@
 
  <p>If you agree to participate in this user study, click on the "Agree" button.</p>
 </div>
-<form class="login-form" ng-submit="submit(user)" flex>
+<br/>
+<br/>
+
+<!-- model type selection (this should be hidden prior to the user study) -->
+<div>
+  <md-select ng-model="modelType">
+    <md-option ng-repeat="type in modelTypes" ng-value="type.value">{{type.modelName}}</md-option>
+  </md-select>
+</div>
+<form class="login-form" ng-submit="submit(user, modelType)" flex>
     <!--<md-input-container class="user-input" md-no-float>
         <input ng-model="user" placeholder="enter user name"/>
     </md-input-container> -->

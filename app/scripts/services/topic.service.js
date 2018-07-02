@@ -40,6 +40,11 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		return user;
 	};
 
+	this.setModelType = function(t) {
+		console.log("model type set to: " + t);
+		modelType = t;
+	}
+
 	/**
 	* Method to submit an answer to a question of the pre-task questionnaire
 	*/
