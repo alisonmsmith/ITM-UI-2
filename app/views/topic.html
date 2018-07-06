@@ -6,7 +6,7 @@
 			<md-toolbar class="topic-sub-toolbar md-hue-3" layout="row">
 				<span class="md-toolbar-tools" flex="60">top {{topic.words.length}} words for "{{topic.topic}}":</span>
 				<span flex></span>
-				<md-button ng-if="!topic.deleted" class="delete-topic-button md-accent" ng-click="delete(topic)"><md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
+				<md-button ng-if="!topic.deleted" class="delete-topic-button md-accent md-raised" ng-click="delete(topic)"><md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
 			</md-toolbar>
 			<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
 				<div class="md-toolbar-tools">

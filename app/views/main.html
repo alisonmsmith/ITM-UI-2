@@ -2,9 +2,12 @@
     <!-- TOOLBAR -->
     <md-toolbar layout="row" class="md-hue-2">
       <div class="md-toolbar-tools ">
-        <h2 flex>
-          <span class="title">ITM (auto save version)</span>
-        </h2>
+        <!--<h2 flex>
+          <span class="title">ITM</span>
+        </h2>-->
+        <md-button class="md-accent md-raised"
+        ng-if="iterationCount > 0"
+        ng-click="undo()">UNDO LAST REFINEMENT</md-button>
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
         <timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>

@@ -12,7 +12,7 @@
 
 angular.module('itmUiApp').service('TopicService', function($http) {
 	// initially set the iteration count to 0
-	var iterationCount = 0;
+	//var iterationCount = 0;
 
 	//var backend_head = "http://dna.cs.umd.edu:8080";
 	// var backend_head = "http://lda.cs.umd.edu:8080";
@@ -93,7 +93,6 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	* Method to get the vocabulary for the current corpus (used by autocomplete)
 	*/
 	this.getVocab = function(corpus) {
-		console.log('retrieiving vocab for ' + corpus);
 		return $http.get(backend_head + '/itm-backend/rest/getvocab?corpus=' + corpus);
 	};
 
@@ -127,7 +126,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	*/
 	this.loadModel = function(corpus, topics, tutorialComplete) {
 		// ensure iteration count is at 0
-		iterationCount = 0;
+		var iterationCount = 0;
 
 		if (!tutorialComplete) {
 			return $http({
@@ -174,8 +173,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	/**
 	* Method to undo the previous refinement and revert to the last version of the model.
 	*/
-	this.undo = function(tutorialComplete) {
-		iterationCount -= 1;
+	this.undo = function(corpus, iterationCount, tutorialComplete) {
+		//iterationCount -= 1;
 
 		if (!tutorialComplete) {
 			return $http({
@@ -193,6 +192,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 			method: 'GET',
 			url: backend_head + '/itm-backend/rest/getmodel',
 			params: {
+				corpus: corpus,
 				userId: user,
 				modelId: iterationCount,
 				modelType: modelType
@@ -203,9 +203,9 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	/**
 	* Method to save the refinements to the model.
 	*/
-	this.save = function(refinements, corpus, topics, tutorialComplete) {
+	this.save = function(refinements, corpus, topics, iterationCount, tutorialComplete) {
 		// update the iteration count
-		iterationCount += 1;
+		//iterationCount += 1;
 
 		if (!tutorialComplete) {
 			return $http({

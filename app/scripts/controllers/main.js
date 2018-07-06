@@ -12,6 +12,8 @@ angular.module('itmUiApp')
 
     // get the current user
     $scope.user = TopicService.getUser();
+    $scope.isDirty = false;
+    $scope.iterationCount = 0;
 
     // if we don't have a user, go to the login page
     if (!$scope.user) {
@@ -313,9 +315,11 @@ angular.module('itmUiApp')
       * called whenever the user applies a refinement
       */
       function save() {
+        $scope.isDirty = true;
         $scope.loading = true;
         // save the refinements
-        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
+        $scope.iterationCount += 1;
+        TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           // process the model
           processModel(data.data);
           // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
@@ -344,6 +348,51 @@ angular.module('itmUiApp')
         }, function() {
           // error saving model
           alert('error saving model - reverting to model prior to save');
+          // decrement the iteration count
+          $scope.iterationCount -= 1;
+          $scope.refinements = [];
+          $scope.loading = false;
+          $scope.isDirty = false;
+          $scope.stops = [];
+          $scope.merged = [];
+
+        });
+      }
+
+      /**
+      * Method to undo the last refinement operation.
+      */
+      $scope.undo = function() {
+        // decrement the iteration count
+        $scope.iterationCount -= 1;
+        $scope.loading = true;
+        TopicService.undo($scope.corpus, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
+          // process the model
+          processModel(data.data);
+
+          // copy the topics
+          $scope.topicsCopy = angular.copy($scope.topics);
+
+          // Select the previously selected topic in the list (if it exists)
+          if ($scope.selectedIndex >= $scope.topics.length) {
+            $scope.selectedIndex = 0;
+          }
+          $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
+          $scope.topics[$scope.selectedIndex].selected = true;
+
+          // reset the merged list
+          $scope.merged = [];
+
+          // clear the refinement list
+          $scope.refinements = [];
+          $scope.isDirty = false;
+          $scope.stops = [];
+
+        }, function() {
+          // error saving model
+          alert('error saving model - reverting to model prior to save');
+          // increment the iteration count
+          $scope.iterationCount += 1;
           $scope.refinements = [];
           $scope.loading = false;
           $scope.isDirty = false;
@@ -358,6 +407,7 @@ angular.module('itmUiApp')
        */
       $scope.save = function() {
         console.warn('should no longer call this method');
+        $scope.iterationCount += 1;
         // only let the user save during the tutorial if they're on step 13, 22, 25, or 28
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step === 13 || $scope.tutorial.step === 22 || $scope.tutorial.step === 26 || $scope.tutorial.step === 32) {
@@ -365,7 +415,7 @@ angular.module('itmUiApp')
             //$scope.tutorial.nextEnabled = true;
             $scope.$broadcast('tutorial-next');
             // save the refinements
-            TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
+            TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
               console.log("the model for " + $scope.corpus + " has been updated!");
               processModel(data.data);
               // copy the topics
@@ -405,7 +455,7 @@ angular.module('itmUiApp')
           TopicService.log($scope.corpus, $scope.topicNums, 'user clicked "save refinements" with ' + $scope.refinements.length + ' outstanding refinements');
           $scope.loading = true;
           // save the refinements
-          TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.tutorial.complete).then(function(data) {
+          TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
             // process the model
             processModel(data.data);
             // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
