@@ -171,6 +171,38 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		});
 	};
 
+	/**
+	* Method to undo the previous refinement and revert to the last version of the model.
+	*/
+	this.undo = function(tutorialComplete) {
+		iterationCount -= 1;
+
+		if (!tutorialComplete) {
+			return $http({
+				method: 'GET',
+				url: backend_head + '/itm-backend/rest/dummymodel',
+				params: {
+					userId: user,
+					'model_id': iterationCount,
+					modelType: modelType
+				}
+			});
+		}
+
+		return $http({
+			method: 'GET',
+			url: backend_head + '/itm-backend/rest/getmodel',
+			params: {
+				userId: user,
+				modelId: iterationCount,
+				modelType: modelType
+			}
+		});
+	}
+
+	/**
+	* Method to save the refinements to the model.
+	*/
 	this.save = function(refinements, corpus, topics, tutorialComplete) {
 		// update the iteration count
 		iterationCount += 1;
