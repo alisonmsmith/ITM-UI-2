@@ -82,6 +82,8 @@ angular.module('itmUiApp')
       // Get all corpora
       TopicService.getCorpora().then(function(data) {
         $scope.corpora = data.data.corpus;
+      }, function(error) {
+        console.error('error getting corpora');
       });
 
       /**
@@ -112,6 +114,8 @@ angular.module('itmUiApp')
         TopicService.getVocab($scope.corpus).then(function(response) {
           console.log('loaded the vocabulary for ' + $scope.corpus);
           $scope.vocab = response.data;
+        }, function(error) {
+          console.error('error loading vocabulary');
         });
       };
 
@@ -132,8 +136,8 @@ angular.module('itmUiApp')
         ).then(function() {
           $scope.tutorial.complete = true;
           // load ITM with the task url, but do not yet start the timer
-          $scope.corpus = "gnews";
-          $scope.topicNums = 15;
+          $scope.corpus = "twitter";
+          $scope.topicNums = 10;
           loadModel();
           // pop up message with instructions
           $mdDialog.show(
@@ -161,7 +165,8 @@ angular.module('itmUiApp')
           // start the timer
           $scope.task.started = true;
           // load ITM with the task url
-          $scope.corpus = "gnews";
+          // TODO: should not need to reload the model (but also might be super fast if cached)
+          $scope.corpus = "twitter";
           $scope.topicNums = 10;
           loadModel();
         });
@@ -366,7 +371,7 @@ angular.module('itmUiApp')
         // decrement the iteration count
         $scope.iterationCount -= 1;
         $scope.loading = true;
-        TopicService.undo($scope.corpus, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
+        TopicService.undo($scope.corpus, g$scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           // process the model
           processModel(data.data);
 

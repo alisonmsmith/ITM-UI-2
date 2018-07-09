@@ -45,6 +45,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		modelType = t;
 	}
 
+	this.getNumDocuments = function() {
+		return docNums;
+	}
+
 	/**
 	* Method to submit an answer to a question of the pre-task questionnaire
 	*/
