@@ -131,6 +131,9 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	this.loadModel = function(corpus, topics, tutorialComplete) {
 		// ensure iteration count is at 0
 		var iterationCount = 0;
+		if (!tutorialComplete) {
+			iterationCount = 10;
+		}
 
 		if (!tutorialComplete) {
 			return $http({
@@ -138,7 +141,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				url: backend_head + '/itm-backend/rest/dummymodel',
 				params: {
 					userId: user,
-					'model_id': iterationCount,
+					modelId : iterationCount,
 					modelType: modelType
 				}
 			});
