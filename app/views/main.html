@@ -6,7 +6,7 @@
           <span class="title">ITM</span>
         </h2>-->
         <md-button class="md-accent md-raised"
-        ng-if="iterationCount > 0"
+        ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
         ng-click="undo()">UNDO LAST REFINEMENT</md-button>
         <span flex></span>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->

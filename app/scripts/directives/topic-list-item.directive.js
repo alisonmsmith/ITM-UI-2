@@ -70,9 +70,9 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			*/
 			scope.rename = function(topic) {
 				if (!scope.tutorial.complete) {
-					// if on step 2, we should be renaming topic 1 to SPORTS
+					// if on step 2, we should be renaming topic 4 to SPORTS
 					if (scope.tutorial.step === 2) {
-						if (topic.id === 0) {
+						if (topic.id === 3) {
 							// continue
 						} else {
 							return;
@@ -103,7 +103,7 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			* Method to cancel topic renaming
 			*/
 			scope.cancelName = function(topic) {
-								TopicService.log(scope.corpus, scope.nums, 'user clicked to cancel renaming ' + scope.topic.id);
+				TopicService.log(scope.corpus, scope.nums, 'user clicked to cancel renaming ' + scope.topic.id);
 				topic.name = "";
 				scope.renaming = false;
 			};

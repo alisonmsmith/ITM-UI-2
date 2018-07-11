@@ -126,14 +126,10 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 
 	/**
 	* Method to load the model for the current user given the corpus and number of topics.
-	* The iteration count should always be at 0 for initial load.
+	* The iteration count should always be at 0 for initial load unless we're loading the dummy tutorial model at which it should be 10.
 	*/
-	this.loadModel = function(corpus, topics, tutorialComplete) {
-		// ensure iteration count is at 0
-		var iterationCount = 0;
-		if (!tutorialComplete) {
-			iterationCount = 10;
-		}
+	this.loadModel = function(corpus, topics, iterationCount, tutorialComplete) {
+		// assert iteration count = 0 or 10
 
 		if (!tutorialComplete) {
 			return $http({
