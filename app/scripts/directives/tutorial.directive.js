@@ -155,7 +155,7 @@ angular.module('itmUiApp').directive('tutorial', [ '$document', function($docume
       scope.tutorialNext = function() {
         if (scope.tutorial.step < scope.tutorialSteps) {
           scope.tutorial.step += 1;
-          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 8 || scope.tutorial.step === 11 || scope.tutorial.step === 14 || scope.tutorial.step === 17 || scope.tutorial.step === 20 || scope.tutorial.step === 24 || scope.tutorial.step === 27 || scope.tutorial.step === 30 || scope.tutorial.step === 34) {
+          if (scope.tutorial.step === 0 || scope.tutorial.step === 4 || scope.tutorial.step === 8 || scope.tutorial.step === 11 || scope.tutorial.step === 14 || scope.tutorial.step === 17 || scope.tutorial.step === 20 || scope.tutorial.step === 21 || scope.tutorial.step === 24 || scope.tutorial.step === 27 || scope.tutorial.step === 30 || scope.tutorial.step === 34) {
             scope.tutorial.nextEnabled = true;
           } else {
             scope.tutorial.nextEnabled = false;

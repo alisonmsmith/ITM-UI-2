@@ -48,7 +48,7 @@
 <ul>
   <li>The panel in the middle shows the 10 topics, each one labeled with the three words that the system thinks are most relevant to that topic.</li>
   <li>When a topic is selected, more detail is shown on the right: the 20 top (most relevant) words and the 20 top (most relevant) documents associated with that topic.</li>
-  <li><span class="tutorial-command">Click Topic 1</span> and then <span class="tutorial-command">click Topic 8</span> to read through the words and documents for those topics.</li>
+  <li><span class="tutorial-command">Click Topic 1</span> and read through the words and documents for those topics. <span class="tutorial-command">Do the same for Topic 8.</span></li>
   <li>Take a minute to explore through the topics, words, and documents.</li>
 </ul>
 </span>
@@ -144,11 +144,11 @@
   </ul>
 </span>
 
-<!-- TODO -->
 <span ng-show="tutorial.step === 15">
   <ul>
     <li>CHANGE WORD ORDER: Reorder a word to emphasize its relative importance by dragging it to a different position in the top words list.</li>
-    <li>Let's make the word "album" more important to Topic 2<span class='tutorial-command'>Click Topic 2 and drag the word 'album' so that it’s the third most important word in the topic behind 'XXX' and before 'XXX'</span>.</li>
+    <li>Let's make the word "album" more important to Topic 2. <span class='tutorial-command'>Click Topic 2</span>.</li>
+    <li> Now, <span class='tutorial-command'>drag the word 'album' so that it’s the third most important word in the topic behind 'music' and before 'oscar'</span>.</li>
   </ul>
 </span>
 
@@ -164,10 +164,10 @@
 
 <span ng-show="tutorial.step === 18">
   <ul>
-    <li>REMOVE WORD: remove a word a topic by clicking <button class="tutorial-element remove-button md-icon-button">
+    <li>REMOVE WORD: remove a word from a topic by clicking <button class="tutorial-element remove-button md-icon-button">
       <md-icon md-font-icon="mdi mdi-close"></md-icon>
-    </button> next to the word.</li>
-    <li>The words 'schools' isn't specific to Topic 3. <span class='tutorial-command'>Remove the word 'schools' from Topic 3</span>.</li>
+    </button> next to the word in the top words list.</li>
+    <li>The word 'schools' doesn't belong with the other words in Topic 3. <span class='tutorial-command'>Remove the word 'schools' from Topic 3</span>.</li>
   </ul>
 </span>
 
@@ -218,7 +218,7 @@
 <span ng-show="tutorial.step === 25">
   <ul>
     <li>MERGE TOPICS: Similar topics can be merged.</li>
-    <li>Both Topic 2 and Topic 8 appear to be about entertainment, so let's merge them. First <span class='tutorial-command'>click Topic 2</span>, then <span class='tutorial-command'>click <img class="tutorial-image" src="../images/merge.png"></img></span>. Now,
+    <li>Both Topic 2 and Topic 8 appear to be about art and entertainment, so let's merge them. First <span class='tutorial-command'>click Topic 2</span>, then <span class='tutorial-command'>click <img class="tutorial-image" src="../images/merge.png"></img></span>. Now,
  <span class='tutorial-command'>click to select Topic 8</span> and <span class='tutorial-command'>press
    <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span> to complete the merge.</li>
  </ul>
@@ -232,7 +232,7 @@
 <span ng-show="tutorial.step === 27">
   <ul>
     <li>Here is the updated model with your refinement applied.</li>
-    <li>Topic 2 and Topic 8 have been merged into Topic XXX, and the model now contains one less topic than before.
+    <li>Topic 2 and Topic 8 have been merged into TOPIC 2_TOPIC 8, and the model now contains one less topic than before.
   </ul>
 </span>
 
@@ -241,7 +241,9 @@
     <li>CREATE NEW TOPIC: Create a new topic by clicking <img class="tutorial-image" src="../images/create.png"></img> at the bottom of the topic list and adding a few words to describe it.</li>
     <li> Remember to press 'Enter' or select the matching word from the drop down after typing each word.</li>
     <li>You should provide at least 3 words to create a new topic. If you provide more words, the system will be able to create a better topic for you.</li>
-    <li>Let's create a new topic about technology. <span class='tutorial-command'>Click <img class="tutorial-image" src="../images/create.png"></img>. Add the word 'iPhone', add the word 'mobile', add the word 'internet', and add the word 'facebook' to the topic. Click <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span></li>
+    <li>Let's create a new topic about technology. <span class='tutorial-command'>Click <img class="tutorial-image" src="../images/create.png"></img>.</span></li>
+    <li><span class='tutorial-command'> Add the word 'iPhone', add the word 'mobile', add the word 'internet', and add the word 'facebook' to the new topic.</span></li>
+    <li><span class='tutorial-command'>Click <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span></li>
   </ul>
 </span>
 

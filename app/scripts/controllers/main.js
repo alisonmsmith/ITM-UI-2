@@ -393,7 +393,17 @@ angular.module('itmUiApp')
       */
       $scope.undo = function() {
         if (!$scope.tutorial.complete) {
-          return;
+          if ($scope.tutorial.step !== 33) {
+            $mdDialog.show(
+              $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .clickOutsideToClose(true)
+              .textContent("Oops, let's wait to use the undo button until later in the tutorial.")
+              .ariaLabel('tutorial alert')
+              .ok('Got it!')
+            );
+            return;
+          }
         }
         // decrement the iteration count
         $scope.iterationCount -= 1;
@@ -702,7 +712,7 @@ angular.module('itmUiApp')
 
         // we should only accept a create refinement if it's on step 28 and we've added the words iphone, facebook, mobile, and internet
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step === 31) {
+          if ($scope.tutorial.step === 28) {
             if (_.indexOf(_.pluck(topic.words, 'word'), 'internet') !== -1) {
               //$scope.tutorial.nextEnabled = true;
               $scope.refinements.push(refinement);
@@ -876,7 +886,16 @@ angular.module('itmUiApp')
       */
       $scope.addStopWord = function() {
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step !== 18) {
+          // should only add to stop words on step 12
+          if ($scope.tutorial.step !== 12) {
+            $mdDialog.show(
+              $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .clickOutsideToClose(true)
+              .textContent("Oops, we only want to use this refinement on Step 13 of the tutorial.")
+              .ariaLabel('tutorial alert')
+              .ok('Got it!')
+            );
             return;
           }
         }
@@ -887,9 +906,6 @@ angular.module('itmUiApp')
       * Method to accept the merged topics
       */
       $scope.acceptMerge = function() {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the merge operation for ' + topics.length + ' topics; tutorial complete? ' + $scope.tutorial.complete);
-        $scope.mode = undefined;
-
         // determine selected topics to merge
         var topics = [];
         var pair = [];
@@ -900,9 +916,12 @@ angular.module('itmUiApp')
             topic.merge = false;
 
             // merged status is for display in the topic list
-            topic.merged = true;
+            //topic.merged = true;
           }
         });
+
+        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the merge operation for ' + topics.length + ' topics; tutorial complete? ' + $scope.tutorial.complete);
+        $scope.mode = undefined;
 
         var refinement = {
           'type': 'mergeTopics',
@@ -925,7 +944,7 @@ angular.module('itmUiApp')
         // only allowing merge to happen on step 25 between topic 2 and topic 8
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step === 25) {
-            if ((pair[0].id === 1 || pair[0].id === 7) && (pair[1].id === 1 || pair[1].id === 7)) {
+            if ((pair[0].id === 1 || pair[0].id === 6) && (pair[1].id === 1 || pair[1].id === 6)) {
               //$scope.tutorial.nextEnabled = true;
               // add the topics as a merge pair
               $scope.merged.push(pair);
@@ -934,6 +953,7 @@ angular.module('itmUiApp')
               $scope.isDirty = true;
               tutorialSave();
             } else {
+              console.log(pair);
               // incorrect topics chosen for merge
               $mdDialog.show(
                 $mdDialog.alert()
@@ -943,10 +963,7 @@ angular.module('itmUiApp')
                 .ariaLabel('merge alert')
                 .ok('Got it!')
               );
-              return;
             }
-          } else {
-            return;
           }
         } else {
           // add the topics as a merge pair
@@ -1589,7 +1606,7 @@ angular.module('itmUiApp')
           if ($scope.tutorial.step === 22) {
             if ($scope.selectedTopic.id === 5) {
               // TODO: check the doc id
-              if (doc === 35) {
+              if (doc === 3786) {
                 //$scope.tutorial.nextEnabled = true;
                 $scope.refinements.push(refinement);
                 tutorialSave();

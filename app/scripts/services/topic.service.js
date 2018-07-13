@@ -185,7 +185,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				url: backend_head + '/itm-backend/rest/dummymodel',
 				params: {
 					userId: user,
-					'model_id': iterationCount,
+					modelId: iterationCount,
 					modelType: modelType
 				}
 			});
@@ -216,7 +216,7 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 				url: backend_head + '/itm-backend/rest/dummymodel',
 				params: {
 					userId: user,
-					'model_id': iterationCount,
+					modelId: iterationCount,
 					modelType: modelType
 				}
 			});

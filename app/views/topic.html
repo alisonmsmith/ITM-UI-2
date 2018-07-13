@@ -12,13 +12,13 @@
 				<div class="md-toolbar-tools">
 					<span ng-if="topic.splitting">Drag words between the sub topics below to split the topic.</span>
 					<span ng-if="topic.split">
-						This topic has been split. If you'd like to make additional changes to this topic, please save.
+						This topic has been split.
 					</span>
 					<span ng-if="topic.creating">
 						Add at least three new words to your new topic:
 					</span>
 					<span ng-if="topic.created">
-						This topic has been created. If you'd like to make additional changes to this topic, please save.
+						This topic has been created.
 					</span>
 					<span flex></span>
 					<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
