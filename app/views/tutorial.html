@@ -194,14 +194,13 @@
   </ul>
 </span>
 
-<!-- TODO -->
 <span ng-show="tutorial.step === 22">
   <ul>
     <li>REMOVE DOCUMENT: Click <button class="tutorial-element remove-doc-button">
         <md-icon class='remove-doc' aria-label='remove document' md-font-icon='mdi mdi-close'>
         </md-icon>
       </button> next to a document to remove it from a topic.</li>
-    <li><span class='tutorial-command'>Click Topic 6</span>, which appears to be about government and laws. <span class='tutorial-command'>Remove the fourth document</span>, which is about the actor Dustin Hoffman and doesn't belong with the rest.</li>
+    <li><span class='tutorial-command'>Click Topic 6</span>, which appears to be about government and laws. <span class='tutorial-command'>Remove the fourth document</span>, which is about the Grammy awards and doesn't belong with the rest.</li>
     </ul>
 </span>
 
@@ -228,7 +227,6 @@
   <ul><li>The algorithm is working to update the model based on your change. Please wait while it finishes updating.</li></ul>
 </span>
 
-<!-- TODO -->
 <span ng-show="tutorial.step === 27">
   <ul>
     <li>Here is the updated model with your refinement applied.</li>
@@ -242,7 +240,7 @@
     <li> Remember to press 'Enter' or select the matching word from the drop down after typing each word.</li>
     <li>You should provide at least 3 words to create a new topic. If you provide more words, the system will be able to create a better topic for you.</li>
     <li>Let's create a new topic about technology. <span class='tutorial-command'>Click <img class="tutorial-image" src="../images/create.png"></img>.</span></li>
-    <li><span class='tutorial-command'> Add the word 'iPhone', add the word 'mobile', add the word 'internet', and add the word 'facebook' to the new topic.</span></li>
+    <li><span class='tutorial-command'> Add the word 'iphone', add the word 'mobile', add the word 'internet', and add the word 'facebook' to the new topic.</span></li>
     <li><span class='tutorial-command'>Click <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span></li>
   </ul>
 </span>
@@ -258,13 +256,12 @@
   </ul>
 </span>
 
-<!-- TODO -->
 <span ng-show="tutorial.step === 31">
   <ul>
     <li>SPLIT TOPIC: a topic can be split into two smaller sub-topics.</li>
-    <li>Let’s split the film and music awards topic into topics about film and music, respectively. <span class='tutorial-command'>click Topic 6</span> then <span>click <img class="tutorial-image" src="../images/split.png"></img></span></li>
+    <li>Let’s split Topic 5, which appears to be about banking and business topic into topics about banking and business, respectively. <span class='tutorial-command'>click Topic 5</span> then <span>click <img class="tutorial-image" src="../images/split.png"></img></span></li>
     <li>The topic words can now be placed in sub-topic 'A' or sub-topic 'B'.</li>
-    <li><span class='tutorial-command'>Drag the words about music (like 'music' and 'band') into sub-topic 'B' and leave the words more about films in sub-topic 'A'</span>. <span class='tutorial-command'>When you are done, press <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span>.</li>
+    <li><span class='tutorial-command'>Drag the words about business (like 'company', 'companies' and 'business') into sub-topic 'B' and leave the words more about banking in sub-topic 'A'</span>. <span class='tutorial-command'>When you are done, press <md-icon class="tutorial-element save-icon merge-checkmark" md-font-icon="mdi mdi-check"></md-icon></span>.</li>
   </ul>
   </span>
 
@@ -276,9 +273,9 @@
 <span ng-show="tutorial.step === 33">
   <ul>
     <li>Here is the updated model.</li>
-    <li>The model has one additional topic than before because the film and music topic (Topic 6) was split into two separate topics.</li>
-    <li>Sub Topic 'A' remained as Topic 6 and Sub Topic 'B' became Topic 10.</li>
-    <li>Let's undo this change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.<li>
+    <li>The model has one additional topic than before because the banking and business topic (Topic 5) was split into two separate topics.</li>
+    <li>Sub Topic 'A' remained as Topic 5 and Sub Topic 'B' became SPLIT_FROM_topic 5.</li>
+    <li>Let's undo this change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.</li>
   </ul>
 </span>
 
@@ -291,7 +288,7 @@
 <span ng-show="tutorial.step === 35">
   <ul>
     <li>You've now seen the nine different changes you can perform in the tool: add word, remove word, trash word, change word order, remove document, delete topic, create topic, merge topic, split topic.</li>
-    <li>Remember you can undo any change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.<li>
+    <li>Remember you can undo any change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.</li>
     <li>It may take many rounds of applying these changes before you are happy with the model.</li>
     </ul>
   </span>

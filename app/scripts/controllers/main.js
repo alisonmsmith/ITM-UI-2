@@ -430,6 +430,10 @@ angular.module('itmUiApp')
           $scope.isDirty = false;
           $scope.stops = [];
 
+          if (!$scope.tutorial.complete) {
+            $scope.$broadcast('tutorial-next');
+          }
+
         }, function() {
           // error saving model
           alert('error saving model - reverting to model prior to save');
@@ -619,7 +623,7 @@ angular.module('itmUiApp')
           if ($scope.tutorial.step === 2) {
             // topic 4
           if (topic.id === 3) {
-            if (topic.topic === 'sports' || topic.topic === 'SPORTS') {
+            if (topic.topic.toLowerCase() === 'sports') {
               $scope.tutorial.nextEnabled = true;
             } else {
               $mdDialog.show(
@@ -776,7 +780,7 @@ angular.module('itmUiApp')
         console.warn('should not be calling this method');
         // we don't support undo creating a new topic in the tuturial
         if (!$scope.tutorial.complete) {
-          return;
+        //  return;
         }
 
         // remove the topic from the list
@@ -803,19 +807,29 @@ angular.module('itmUiApp')
       });
 
       $scope.$on('accept-split', function(event, topic) {
-        // if we're in tutorial mode, only accept the split refinement if it's for topic 7 and the word 'music' is in sub topic B for tutorial step 25
+        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the split operation for ' + topic.id + '; tutorial complet? ' + $scope.tutorial.complete);
+
+        var refinement = {
+          'type': 'splitTopic',
+          'topicId': $scope.selectedTopic.id,
+          'seedWords': _.pluck(topic.words, 'word')
+        };
+        // if we're in tutorial mode, only accept the split refinement if it's for topic 5 and the word 'business' is in sub topic B for tutorial step 31
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step === 25) {
-            if ($scope.selectedTopic.id === 5) {
+          if ($scope.tutorial.step === 31) {
+            if ($scope.selectedTopic.id === 4) {
               var words = _.pluck(topic.words, 'word');
-              if (_.indexOf(words, 'music') === -1) {
-                $scope.tutorial.nextEnabled = true;
+              if (_.indexOf(words, 'business') === -1) {
+                //$scope.tutorial.nextEnabled = true;
+                $scope.refinements.push(refinement);
+                tutorialSave();
+                $scope.totalTopics += 1;
               } else {
                 $mdDialog.show(
                   $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('Oops, you missed a music-related word! Try dragging the word "music" to sub topic B.')
+                  .textContent('Oops, you missed a business-related word! Try dragging the word "business" to sub topic B.')
                   .ariaLabel('tutorial alert')
                   .ok('Got it!')
                 );
@@ -828,7 +842,7 @@ angular.module('itmUiApp')
                 $mdDialog.alert()
                 .parent(angular.element(document.body))
                 .clickOutsideToClose(true)
-                .textContent('Oops, wrong topic! Please select Topic 6 to split.')
+                .textContent('Oops, wrong topic! Please select Topic 5 to split.')
                 .ariaLabel('tutorial alert')
                 .ok('Got it!')
               );
@@ -837,18 +851,16 @@ angular.module('itmUiApp')
           } else {
             return;
           }
+        } else {
+          $scope.refinements.push(refinement);
+          save();
+          $scope.totalTopics += 1;
         }
 
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the split operation for ' + topic.id + '; adding refinement to list');
 
-        var refinement = {
-          'type': 'splitTopic',
-          'topicId': $scope.selectedTopic.id,
-          'seedWords': _.pluck(topic.words, 'word')
-        };
-        $scope.refinements.push(refinement);
-        save();
-        $scope.totalTopics += 1;
+
+
+
       });
 
       /**
@@ -1036,9 +1048,9 @@ angular.module('itmUiApp')
        * Method to go into split 'mode' for the selected topic
        */
       $scope.$on("split", function(event, topic) {
-        // only enter split mode on step 25 of tutorial
+        // only enter split mode on step 31 of tutorial
         if (!$scope.tutorial.complete) {
-          if ($scope.tutorial.step === 25) {
+          if ($scope.tutorial.step === 31) {
 
           } else {
             // shouldn't be merging
@@ -1606,7 +1618,7 @@ angular.module('itmUiApp')
           if ($scope.tutorial.step === 22) {
             if ($scope.selectedTopic.id === 5) {
               // TODO: check the doc id
-              if (doc === 3786) {
+              if (doc === 1695) {
                 //$scope.tutorial.nextEnabled = true;
                 $scope.refinements.push(refinement);
                 tutorialSave();
@@ -1616,7 +1628,7 @@ angular.module('itmUiApp')
                   $mdDialog.alert()
                   .parent(angular.element(document.body))
                   .clickOutsideToClose(true)
-                  .textContent('Oops, wrong document! Please remove the fourth document in the list about music.')
+                  .textContent('Oops, wrong document! Please remove the fourth document in the list, which is about the Grammys.')
                   .ariaLabel('Alert Dialog Demo')
                   .ok('Got it!')
                 );
