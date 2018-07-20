@@ -11,7 +11,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
     templateUrl: 'views/questionnaire.html',
     link: function(scope, element, attrs) {
 
-      var numQuestions = 3;
+      scope.numQuestions = 4;
 
       // append userId to the questionnaire
 
@@ -19,7 +19,8 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
       scope.questionnaire.answers = {
         1:"",
         2:"",
-        3:""
+        3:"",
+        4:""
       };
 
       scope.skipQuestionnaire = function() {
@@ -39,7 +40,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
         // submit the question to the questionnaire service
         TopicService.submitAnswer(id, answer, scope.corpus, scope.topics.length).then(function(response) {
           // go to the next question
-          if (scope.questionnaire.step < numQuestions) {
+          if (scope.questionnaire.step < scope.numQuestions) {
             scope.questionnaire.step += 1;
           } else {
             scope.questionnaire.complete = true;
@@ -49,7 +50,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
         }, function(error) {
         //  console.error('error submitting questionnaire answer');
           // go to the next question
-          if (scope.questionnaire.step < numQuestions) {
+          if (scope.questionnaire.step < scope.numQuestions) {
             scope.questionnaire.step += 1;
           } else {
             scope.questionnaire.complete = true;

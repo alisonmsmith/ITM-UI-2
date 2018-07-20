@@ -1,7 +1,7 @@
 <md-card class='tutorial-message md-body-2'>
   <md-card-title class="md-accent">
       <md-card-title-text layout="row">
-        <span ng-if="questionnaire.step > 0">QUESTION {{questionnaire.step}} OF 3</span>
+        <span ng-if="questionnaire.step > 0">QUESTION {{questionnaire.step}} OF {{numQuestions}}</span>
       </md-card-title-text>
     </md-card-title>
 
@@ -44,11 +44,27 @@
   </span>
 
   <span ng-show="questionnaire.step === 3">
-    <p>Remember that you can change these topics by adding words, removing words from a single topic, trashing words from all topics, changing a word's order in a topic, removing documents from a topic, merging topics, splitting topics, deleting topics, and creating new topics.
+    <p>Remember that you have many different ways to improve the system's organization of the topics.
     <br/>
     <br/>
-    Which of these ways of fixing the topics do you think will be most useful for your task and why?
+    Which of these ways of refining the topics do you think will be most useful for your task?
     </p>
+    <md-radio-group ng-model="questionnaire.answers[questionnaire.step]">
+
+     <md-radio-button value="add">Add word to a topic</md-radio-button>
+     <md-radio-button value="remove_word">Remove word from a topic </md-radio-button>
+     <md-radio-button value="trash_word">Trash word from all topics</md-radio-button>
+     <md-radio-button value="reorder">Change word order in a topic</md-radio-button>
+     <md-radio-button value="remove_doc">Remove document from a topic</md-radio-button>
+     <md-radio-button value="merge">Merge topics</md-radio-button>
+     <md-radio-button value="split">Split topic</md-radio-button>
+     <md-radio-button value="create">Create new topic</md-radio-button>
+     <md-radio-button value="delete">Delete topic</md-radio-button>
+   </md-radio-group>
+ </span>
+
+   <span ng-show="questionnaire.step === 4">
+     <p>Why do you think that refinement will be most useful for your task?</p>
     <md-input-container>
       <input type="text" ng-model="questionnaire.answers[questionnaire.step]"></input>
     </md-input-container>
