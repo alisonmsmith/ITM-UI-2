@@ -50,16 +50,7 @@
     Which of these ways of refining the topics do you think will be most useful for your task?
     </p>
     <md-radio-group ng-model="questionnaire.answers[questionnaire.step]">
-
-     <md-radio-button value="add">Add word to a topic</md-radio-button>
-     <md-radio-button value="remove_word">Remove word from a topic </md-radio-button>
-     <md-radio-button value="trash_word">Trash word from all topics</md-radio-button>
-     <md-radio-button value="reorder">Change word order in a topic</md-radio-button>
-     <md-radio-button value="remove_doc">Remove document from a topic</md-radio-button>
-     <md-radio-button value="merge">Merge topics</md-radio-button>
-     <md-radio-button value="split">Split topic</md-radio-button>
-     <md-radio-button value="create">Create new topic</md-radio-button>
-     <md-radio-button value="delete">Delete topic</md-radio-button>
+      <md-radio-button ng-repeat="refinement in randomRefs" value="{{refinement.value}}">{{refinement.name}}</md-radio-button>
    </md-radio-group>
  </span>
 

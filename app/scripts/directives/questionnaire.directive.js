@@ -23,6 +23,49 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
         4:""
       };
 
+      let refinements = [
+        {
+          'value':'remove_word',
+          'name':'remove word from a topic'
+        },
+        {
+          'value':'trash_word',
+          'name':'remove word from all topics (trash)'
+        },
+        {
+          'value':'reorder',
+          'name':'change word order in a topic'
+        },
+        {
+          'value':'remove_doc',
+          'name':'remove document from a topic'
+        },
+        {
+          'value':'merge',
+          'name':'merge topics'
+        },
+        {
+          'value':'split',
+          'name':'split topic'
+        },
+        {
+          'value':'create',
+          'name':'create new topic'
+        },
+        {
+          'value':'delete',
+          'name':'delete topic'
+        }
+      ];
+
+      let random = function(array) {
+        return array.sort(function() {
+          return .5 - Math.random();
+        });
+      }
+
+      scope.randomRefs = random(refinements);
+
       scope.skipQuestionnaire = function() {
         scope.questionnaire.complete = true;
         scope.startTask();
