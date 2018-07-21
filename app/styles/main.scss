@@ -102,13 +102,26 @@ md-sidenav.md-closed.md-locked-open-add-active {
 
 // tutorial message
 .tutorial-message {
-
+  md-card-title {
+    padding: 5px;
+    .tutorial-title {
+      text-align: center;
+      font-weight: bold;
+    }
+    .tutorial-steps {
+      text-align: center;
+    }
+  }
+  ul {
+    margin-top:0px;
+    padding-left:20px;
+  }
   md-card-content {
     padding:5px;
   }
 
   color: $md-primary-hue2;
-  font-size: 16pt;
+  font-size: 14pt;
 
   .tutorial-command {
 //    font-style: italic;
