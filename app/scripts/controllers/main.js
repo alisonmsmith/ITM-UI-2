@@ -198,8 +198,9 @@ angular.module('itmUiApp')
 
       $scope.finishTask = function() {
         var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
+        console.log(url);
         // only allow the user to click this button after it has been 15 minutes
-        if ($scope.taskTime > 900000) {
+        if ($scope.taskTime < 900000) {
         TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to complete the task with more than 15 minutes remaining.');
           $mdDialog.show(
             $mdDialog.alert()
@@ -222,7 +223,7 @@ angular.module('itmUiApp')
                 $mdDialog.show(
                   $mdDialog.alert()
                   .clickOutsideToClose(false)
-                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/> ' + url)
+                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/><span class="google-url"> ' + url + '</span>')
                   .ok('OK')
                   .ariaLabel('Task finish Dialog')
                 ).then(function() {

@@ -90,18 +90,23 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 
 .tutorial-step {
-//  font-weight: 600;
   text-transform: uppercase;
   border-bottom: solid 2px $md-primary-hue2;
   padding: 10px;
-//  background-color: $md-primary-hue3;
   color: $md-primary-hue2;
   font-size: 18pt;
   text-align: center;
 }
 
+.google-url {
+  font-size: 12pt;
+}
+
 // tutorial message
 .tutorial-message {
+  color: $md-primary-hue2;
+  font-size: 14pt;
+
   md-card-title {
     padding: 5px;
     .tutorial-title {
@@ -120,19 +125,11 @@ md-sidenav.md-closed.md-locked-open-add-active {
     padding:5px;
   }
 
-  color: $md-primary-hue2;
-  font-size: 14pt;
-
   .tutorial-command {
-//    font-style: italic;
     font-weight: bold;
-  //  color: $md-accent;
   }
 
   .tutorial-element {
-  //  color: $md-accent;
-  //  text-decoration: underline;
-  //  cursor: pointer;
     &.toggle-doc {
       font-weight: 600;
       &.highlight {
@@ -177,11 +174,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
           padding: 0px;
         }
       }
-
-
     }
-
-
   }
 }
 
