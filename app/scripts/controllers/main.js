@@ -80,6 +80,10 @@ angular.module('itmUiApp')
       angular.element(document).find('.stop-words').on('drop', dropHandler);
 
 
+      // TRACK THE TASK TIME
+      $scope.$on('timer-tick', function (event, data) {
+        $scope.taskTime = data.millis;
+      });
 
       // Get all corpora
       TopicService.getCorpora().then(function(data) {
@@ -193,19 +197,43 @@ angular.module('itmUiApp')
       };
 
       $scope.finishTask = function() {
-        $mdDialog.show(
-          $mdDialog.alert()
-          .clickOutsideToClose(false)
-          .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. The questionnaire will open in a google form in a new window. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b>')
-          .ariaLabel('Task Start Dialog')
-          .ok('OK')
-        ).then(function() {
-          var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
-          window.open(url, '_blank');
-          console.log('user has completed the task and continued to the post-task questionnaire');
-          $scope.task.started = false;
-          $scope.task.completed = true;
-        });
+        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
+        // only allow the user to click this button after it has been 15 minutes
+        if ($scope.taskTime > 900000) {
+          $mdDialog.show(
+            $mdDialog.alert()
+              .clickOutsideToClose(false)
+              .textContent('Please spend at least 15 minutes refining the topics to better organize the tweets into common air travel complaints.')
+              .ariaLabel('keep working alert')
+              .ok('OK')
+          ).then(function() {
+              // continue task
+          });
+        } else {
+          $mdDialog.show(
+            $mdDialog.confirm()
+              .textContent('Are you sure you are ready to complete the task?')
+              .ariaLabel('Task finish confirmation')
+              .ok('OK')
+              .cancel('cancel')
+              ).then(function() {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                  .clickOutsideToClose(false)
+                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. Click "ok" below and the questionnaire will open in a google form in a new window or click this <a target="_blank" href="' + url + '">link</a>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.')
+                  .ariaLabel('Task finish Dialog')
+                  .ok('OK')
+                ).then(function() {
+                  window.open(url, '_blank');
+                  console.log('user has completed the task and continued to the post-task questionnaire');
+                  $scope.task.started = false;
+                  $scope.task.completed = true;
+                });
+            }, function() {
+              // cancel
+            });
+        }
+
       };
 
       /**
@@ -1091,7 +1119,7 @@ angular.module('itmUiApp')
        */
       $scope.$on("select", function(event, topic) {
         // if we're in the tutorial and on step 5, only select the topic if it's topic 2
-        if ($scope.tutorial.step === 5) {
+      /*  if ($scope.tutorial.step === 5) {
           if (topic.id !== 1) {
             $mdDialog.show(
               $mdDialog.alert()
@@ -1105,7 +1133,9 @@ angular.module('itmUiApp')
           } else {
             $scope.tutorial.nextEnabled = true;
           }
-        } else if ($scope.tutorial.step === 1 && !$scope.tutorial.nextEnabled) {
+        } else */
+
+        if ($scope.tutorial.step === 1 && !$scope.tutorial.nextEnabled) {
           // only select the topic if it's 1 or 8
           if (!$scope.tutorial.flags.topic1Selected) {
             if (topic.id !== 0) {

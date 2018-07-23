@@ -17,7 +17,7 @@ angular.module('itmUiApp').directive('questionnaire', [ 'TopicService', function
 
       // we will need to reuse the response from answer 1 to pass to the google form for the post-task survey
       scope.questionnaire.answers = {
-        1:"",
+        1:4,
         2:"",
         3:"",
         4:""
