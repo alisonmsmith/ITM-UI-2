@@ -200,6 +200,7 @@ angular.module('itmUiApp')
         var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
         // only allow the user to click this button after it has been 15 minutes
         if ($scope.taskTime > 900000) {
+        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to complete the task with more than 15 minutes remaining.');
           $mdDialog.show(
             $mdDialog.alert()
               .clickOutsideToClose(false)
@@ -217,20 +218,22 @@ angular.module('itmUiApp')
               .ok('OK')
               .cancel('cancel')
               ).then(function() {
+                TopicService.log($scope.corpus, $scope.topicNums, 'user confirmed they would like to finish the task.');
                 $mdDialog.show(
                   $mdDialog.alert()
                   .clickOutsideToClose(false)
-                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. Click "ok" below and the questionnaire will open in a google form in a new window or click this <a target="_blank" href="' + url + '">link</a>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.')
-                  .ariaLabel('Task finish Dialog')
+                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/> ' + url)
                   .ok('OK')
+                  .ariaLabel('Task finish Dialog')
                 ).then(function() {
-                  window.open(url, '_blank');
-                  console.log('user has completed the task and continued to the post-task questionnaire');
+                //  window.open(url, '_blank');
+              //    console.log('user has completed the task and continued to the post-task questionnaire');
                   $scope.task.started = false;
                   $scope.task.completed = true;
                 });
             }, function() {
               // cancel
+              TopicService.log($scope.corpus, $scope.topicNums, 'user decided to continue working on the task.');
             });
         }
 
