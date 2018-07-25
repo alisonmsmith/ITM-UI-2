@@ -18,6 +18,7 @@
       <md-card-title-text>
         <div class="tutorial-title">TUTORIAL</div>
         <div class="tutorial-steps">STEP {{tutorial.step+1}} OF {{tutorialSteps+1}}</div>
+          <md-button class="md-raised" ng-click="endTutorial()" ng-if="tutorial.step !== tutorialSteps">skip tutorial</md-button>
       </md-card-title-text>
     </md-card-title>
 
@@ -296,12 +297,18 @@
 
 <md-card-actions class="tutorial-buttons" layout="row" layout-align="center center">
   <!-- ng-disabled="!tutorial.nextEnabled"  -->
-  <md-button ng-hide="tutorial.step === tutorialSteps"
+  <span><md-button ng-hide="tutorial.step === tutorialSteps"
   ng-disabled="!tutorial.nextEnabled"
-  class="md-raised md-primary" ng-click="tutorialNext()">next</md-button>
+  class="md-raised md-primary"
+  ng-click="tutorialNext()">
+  next
+</md-button>
+<md-icon class="information-icon" ng-if="!tutorial.nextEnabled" ng-mouseenter="highlightTutorial()" ng-mouseleave="unhighlightTutorial()" md-font-icon="mdi mdi-help-circle-outline">
+    <md-tooltip>Please perform the actions specified above before moving on to the next step</md-tooltip>
+</md-icon>
+</span>
 
   <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step === tutorialSteps">finish tutorial</md-button>
-    <md-button class="md-raised md-accent" ng-click="endTutorial()" ng-if="tutorial.step !== tutorialSteps">skip tutorial</md-button>
 </md-card-actions>
 
 </md-card>

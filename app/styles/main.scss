@@ -21,6 +21,14 @@ body {
   text-transform:uppercase;
 }
 
+.information-icon {
+  cursor: pointer;
+  color: $md-primary;
+  &:hover {
+    color: $md-accent;
+  }
+}
+
 // Uncomment to use a topic list with width based on parent div
 // for responsive design (messes up the shadowing, though)
 /*md-sidenav,
@@ -127,6 +135,9 @@ md-sidenav.md-closed.md-locked-open-add-active {
 
   .tutorial-command {
     font-weight: bold;
+    &.highlight {
+      color: $md-accent;
+    }
   }
 
   .tutorial-element {

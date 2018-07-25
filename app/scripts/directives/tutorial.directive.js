@@ -14,6 +14,15 @@ angular.module('itmUiApp').directive('tutorial', [ '$document', function($docume
 
       scope.tutorialRange = _.range(0,scope.tutorialSteps+1);
 
+      scope.highlightTutorial = function() {
+        // make the tutorial commands pink
+        angular.element(document.getElementsByClassName('tutorial-command')).addClass('highlight');
+      }
+
+      scope.unhighlightTutorial = function() {
+        angular.element(document.getElementsByClassName('tutorial-command')).removeClass('highlight');
+      }
+
       // set up highlighting and unhighlighting for the tutorial
       function highlight(element) {
         switch (element) {
