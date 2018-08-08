@@ -9,8 +9,14 @@
         ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
         ng-click="undo()">UNDO LAST REFINEMENT</md-button>
         <span flex></span>
+        <md-button ng-if="task.started" ng-click="showTaskHelp()" class="md-icon-button">
+          <md-icon class="mdi mdi-help-circle-outline"></md-icon>
+          <md-tooltip>show task instructions</md-tooltip>
+        </md-button>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">{{mminutes}}:{{sseconds}}</timer>
+        <timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">
+          <md-tooltip>elapsed time for task</md-tooltip>
+          {{mminutes}}:{{sseconds}}</timer>
         <!--<md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
           <md-tooltip>configure model</md-tooltip>
           <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
@@ -54,6 +60,7 @@
     <questionnaire ng-if="tutorial.complete && !questionnaire.complete" flex="25"></questionnaire>
 
 <div layout="row" flex>
+      <span ng-show="loading && !modalShowing" class="loading-message">please wait, the model is updating...</span>
       <md-progress-circular class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
   <!-- SIDE NAV -->
   <!--<div flex="30">-->

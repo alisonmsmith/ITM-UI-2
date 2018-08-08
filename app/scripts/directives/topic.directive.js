@@ -65,9 +65,6 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         console.log("blur!");
       };
 
-      scope.chipsChanged = function($event) {
-        console.log('chips changed', $event);
-      }
 
       /**
        * Method called when a user chooses to delete the topic
