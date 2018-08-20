@@ -220,7 +220,10 @@ angular.module('itmUiApp')
       };
 
       $scope.finishTask = function() {
-        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
+        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform";
+
+        // user and pre-task model quality answers
+        //?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
         console.log(url);
         // only allow the user to click this button after it has been 15 minutes
         if ($scope.taskTime > 900000) {
