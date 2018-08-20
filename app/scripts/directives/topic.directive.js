@@ -151,8 +151,9 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       };*/
 
       scope.addWord = function(chip) {
-        // if we're in create topic mode, don't add a word
-        if (scope.topic.creating) {
+        // if we're in create topic mode or split topic model, don't add a word
+        if (scope.topic.creating || scope.topic.splitting) {
+          TopicService.log(scope.corpus, scope.nums, 'user prevented from adding the word ' + chip.word + ' while they were creating or splitting topic ' + scope.topic.id);
           return;
         }
         // emit a refinement
@@ -170,7 +171,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
             $mdDialog.alert()
             .parent(angular.element(document.body))
             .clickOutsideToClose(true)
-            .textContent('please first click to select one of the topic words to add to the stop words list.')
+            .textContent('please first click to select a topic word before clicking this button to remove it from all topics.')
             .ariaLabel('stop words dialog')
             .ok('Got it!')
           );
@@ -232,6 +233,11 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
 
       scope.removeWord = function(chip, index) {
+        // if we're in split topic mode, don't let the user remove any words
+        if (scope.topic.splitting) {
+          TopicService.log(scope.corpus, scope.nums, 'user prevented from removing the word ' + chip.word + ' while they were splitting topic ' + scope.topic.id);
+          return;
+        }
         // if this a previously added word, then this is an undo add refinement
         if (chip.status === 'added') {
           scope.$emit('undo-add-word', chip.word);

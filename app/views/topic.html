@@ -6,7 +6,9 @@
 			<md-toolbar class="topic-sub-toolbar md-hue-3" layout="row">
 				<span class="md-toolbar-tools" flex="60">top {{topic.words.length}} words for "{{topic.topic}}":</span>
 				<span flex></span>
-				<md-button ng-if="!topic.deleted" class="delete-topic-button md-accent md-raised" ng-click="delete(topic)"><md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
+				<md-button ng-if="!topic.deleted" class="delete-topic-button md-raised" ng-click="delete(topic)">
+					<md-tooltip>delete this topic from the model</md-tooltip>
+					<md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
 			</md-toolbar>
 			<md-toolbar class="topic-toolbar" ng-show="topic.splitting || topic.split || topic.creating || topic.created">
 				<div class="md-toolbar-tools">
@@ -45,7 +47,7 @@
 		<div class="word-holder" layout="row">
 			<span class="topic-a" flex>
 				<span class="sub-topic-name" ng-if="topic.splitting || topic.split">SUB TOPIC A</span>
-			<md-chips id="topicA" ng-if="topic" ng-model="topic.words" md-autocomplete-snap md-on-select="selectWord($chip)" md-on-add="addWord($chip)" md-on-remove="removeWord($chip, $index)" md-transform-chip="transform($chip)">
+			<md-chips id="topicA" ng-if="topic" ng-model="topic.words" md-autocomplete-snap md-on-select="selectWord($chip)" md-on-add="addWord($chip)" md-on-remove="removeWord($chip, $index)" md-transform-chip="transform($chip)" readonly="topic.splitting || topic.split">
 				<md-autocomplete id="topicA_ac" ng-disabled="topic.splitting || topic.split || topic.created" md-no-cache="false" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="selectedItem" md-search-text="searchText" md-items="word in vocabSearch(searchText)"
 				  md-item-text="word" placeholder="add new word...">
 					<span md-highlight-text="searchText">{{word}}</span>

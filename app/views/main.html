@@ -5,10 +5,6 @@
         <!--<h2 flex>
           <span class="title">ITM</span>
         </h2>-->
-        <md-button class="md-accent md-raised"
-        ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
-        ng-click="undo()">UNDO LAST REFINEMENT</md-button>
-        <span flex></span>
         <md-button ng-if="task.started" ng-click="showTaskHelp()" class="md-icon-button">
           <md-icon class="mdi mdi-help-circle-outline"></md-icon>
           <md-tooltip>show task instructions</md-tooltip>
@@ -23,16 +19,24 @@
         </md-button> -->
       <!--  <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START TASK</md-button> -->
         <md-button ng-if="task.started || task.completed" class="md-raised" ng-click="finishTask()">FINISH TASK</md-button>
+        <span flex></span>
+        <md-button class="md-raised"
+        ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
+        ng-click="undo()">
+          <md-tooltip>undo the last change made to the model</md-tooltip>
+        UNDO LAST REFINEMENT</md-button>
+        <span flex></span>
+
 
         <!-- in case for some reason the url doesn't open (pop ups?) the user can try again-->
     <!--  <md-button ng-if="task.completed" class="md-raised" ng-click="finishTask()">OPEN POST TASK QUESTIONNAIRE</md-button> -->
     <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
         </div> -->
-        <md-button class="md-raised md-accent" id="stopWordsButton" ng-click="addStopWord()">
+        <md-button class="md-raised" id="stopWordsButton" ng-click="addStopWord()">
           <!--<md-icon md-font-icon="mdi mdi-delete-forever"></md-icon>-->
           remove selected word from all topics
-          <md-tooltip>add selected word to trash words</md-tooltip>
+          <md-tooltip>remove selected word from all topics</md-tooltip>
         </md-button>
         <!--<span class="username">{{user}}</span>-->
       </div>
@@ -109,7 +113,7 @@ TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpus}}":
           </md-list>
           <div layout="row" layout-align="center center">
             <md-button
-              class="md-raised md-accent"
+              class="md-raised"
               id="createTopicButton"
               ng-click="createNewTopic()">
               <md-tooltip>create a new topic</md-tooltip>
