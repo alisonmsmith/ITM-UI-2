@@ -52,7 +52,7 @@ angular.module('itmUiApp')
           .ariaLabel('Tutorial Dialog')
           .ok('OK')
         ).then(function() {
-          TopicService.log($scope.corpus, $scope.topicNums, '[TUTORIAL, START]: user dismissed modal, tutorial starting now');
+          TopicService.log('twitter', $scope.topicNums, '[TUTORIAL, START]: user dismissed modal, tutorial starting now');
           $scope.modalShowing = false;
         });
       }
@@ -101,7 +101,7 @@ angular.module('itmUiApp')
       */
       var reloadModel = function() {
         console.log('refresh the model for the task');
-        TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, REFRESH]: refreshing the model for the task');
+        TopicService.log('twitter', $scope.topicNums, '[MODEL, REFRESH]: refreshing the model for the task');
         $scope.topics = $scope.topicsCopy;
         $scope.selectedTopic = $scope.topics[0];
         $scope.topics[0].selected = true;
@@ -116,9 +116,9 @@ angular.module('itmUiApp')
       */
       var loadModel = function(index) {
         $scope.loading = true;
-        TopicService.loadModel($scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
+        TopicService.loadModel('twitter', $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           console.log("loaded the model for " + $scope.corpus);
-          TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, LOAD]: loaded the model for the task');
+          TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, LOAD, ' + $scope.corpus + ']: loaded the model for the task');
           processModel(data.data);
 
           // Select to display the first topic in the list
@@ -179,7 +179,7 @@ angular.module('itmUiApp')
           .ariaLabel('Tutorial Complete Dialog')
           .ok('OK')
         ).then(function() {
-          TopicService.log($scope.corpus, $scope.topicNums, '[TUTORIAL, COMPLETE]: user completed the tutorial');
+          TopicService.log('twitter', $scope.topicNums, '[TUTORIAL, COMPLETE]: user completed the tutorial');
           $scope.tutorial.complete = true;
           $scope.iterationCount = 0;
           // load ITM with the task url, but do not yet start the timer
