@@ -52,6 +52,7 @@ angular.module('itmUiApp')
           .ariaLabel('Tutorial Dialog')
           .ok('OK')
         ).then(function() {
+          TopicService.log($scope.corpus, $scope.topicNums, '[TUTORIAL, START]: user dismissed modal, tutorial starting now');
           $scope.modalShowing = false;
         });
       }
@@ -100,6 +101,7 @@ angular.module('itmUiApp')
       */
       var reloadModel = function() {
         console.log('refresh the model for the task');
+        TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, REFRESH]: refreshing the model for the task');
         $scope.topics = $scope.topicsCopy;
         $scope.selectedTopic = $scope.topics[0];
         $scope.topics[0].selected = true;
@@ -116,6 +118,7 @@ angular.module('itmUiApp')
         $scope.loading = true;
         TopicService.loadModel($scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           console.log("loaded the model for " + $scope.corpus);
+          TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, LOAD]: loaded the model for the task');
           processModel(data.data);
 
           // Select to display the first topic in the list
@@ -132,14 +135,17 @@ angular.module('itmUiApp')
         }, function() {
           // on error
           console.error("error loading initial model");
+          TopicService.log($scope.corpus, $scope.topicNums, '[MODEL, ERROR]: error loading the model for the task');
         });
 
         // get the vocabulary
         TopicService.getVocab($scope.corpus).then(function(response) {
           console.log('loaded the vocabulary for ' + $scope.corpus);
+          TopicService.log($scope.corpus, $scope.topicNums, '[VOCAB, LOAD]: loaded the vocab for the task');
           $scope.vocab = response.data;
         }, function(error) {
           console.error('error loading vocabulary');
+          TopicService.log($scope.corpus, $scope.topicNums, '[VOCAB, ERROR]: error loading the vocabulary for the task');
         });
       };
 
@@ -148,7 +154,7 @@ angular.module('itmUiApp')
 
       $scope.showTaskHelp = function() {
         $scope.modalShowing = true;
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to review the task instructions');
+        TopicService.log($scope.corpus, $scope.topicNums, '[VIEW INSTRUCTIONS]: user clicked to review the task instructions');
         $mdDialog.show(
            $mdDialog.alert()
            .clickOutsideToClose(false)
@@ -173,6 +179,7 @@ angular.module('itmUiApp')
           .ariaLabel('Tutorial Complete Dialog')
           .ok('OK')
         ).then(function() {
+          TopicService.log($scope.corpus, $scope.topicNums, '[TUTORIAL, COMPLETE]: user completed the tutorial');
           $scope.tutorial.complete = true;
           $scope.iterationCount = 0;
           // load ITM with the task url, but do not yet start the timer
@@ -222,12 +229,11 @@ angular.module('itmUiApp')
       $scope.finishTask = function() {
         var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform";
 
-        // user and pre-task model quality answers
+        // user id and pre-task model quality answers
         //?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
-        console.log(url);
         // only allow the user to click this button after it has been 15 minutes
         if ($scope.taskTime > 900000) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to complete the task with more than 15 minutes remaining.');
+        TopicService.log($scope.corpus, $scope.topicNums, '[COMPLETE TASK, INVALID]: user clicked to complete the task with more than 15 minutes remaining.');
           $mdDialog.show(
             $mdDialog.alert()
               .clickOutsideToClose(false)
@@ -245,7 +251,7 @@ angular.module('itmUiApp')
               .ok('OK')
               .cancel('cancel')
               ).then(function() {
-                TopicService.log($scope.corpus, $scope.topicNums, 'user confirmed they would like to finish the task.');
+                TopicService.log($scope.corpus, $scope.topicNums, '[COMPLETE TASK, CONFIRMED]: user confirmed they would like to finish the task.');
                 $mdDialog.show(
                   $mdDialog.alert()
                   .clickOutsideToClose(false)
@@ -260,7 +266,7 @@ angular.module('itmUiApp')
                 });
             }, function() {
               // cancel
-              TopicService.log($scope.corpus, $scope.topicNums, 'user decided to continue working on the task.');
+              TopicService.log($scope.corpus, $scope.topicNums, '[COMPLETE TASK, CANCELLED]: user decided to continue working on the task.');
             });
         }
 
@@ -450,6 +456,7 @@ angular.module('itmUiApp')
       * Method to undo the last refinement operation.
       */
       $scope.undo = function() {
+        TopicService.log($scope.corpus, $scope.topicNums, '[UNDO]: user clicked to undo the prior refinement');
         if (!$scope.tutorial.complete) {
           if ($scope.tutorial.step !== 33) {
             $mdDialog.show(
@@ -467,6 +474,7 @@ angular.module('itmUiApp')
         $scope.iterationCount -= 1;
         $scope.loading = true;
         TopicService.undo($scope.corpus, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
+          TopicService.log($scope.corpus, $scope.topicNums, '[UNDO, SUCCESS]: model reverted');
           // process the model
           processModel(data.data);
 
@@ -494,7 +502,8 @@ angular.module('itmUiApp')
 
         }, function() {
           // error saving model
-          alert('error saving model - reverting to model prior to save');
+          alert('unable to undo prior refinement - using current model');
+          TopicService.log($scope.corpus, $scope.topicNums, '[UNDO, ERROR]: error reverting model');
           // increment the iteration count
           $scope.iterationCount += 1;
           $scope.refinements = [];
@@ -642,7 +651,7 @@ angular.module('itmUiApp')
             return;
           }
         }
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to "create a new topic"');
+        TopicService.log($scope.corpus, $scope.topicNums, '[CREATE TOPIC, START]: user clicked to create a new topic');
         // deselect other topics
         _.each($scope.topics, function(topic) {
           topic.selected = false;
@@ -674,7 +683,8 @@ angular.module('itmUiApp')
        * Listen for event from the topic list item to rename a topic. The topic name is stored at topic.topic
        */
       $scope.$on('rename-topic', function(event, topic) {
-          TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to rename topic ' + topic.id + ' with the name ' + topic.topic + '; tutorial complete? ' + $scope.tutorial.complete);
+          // this event logged in topic-list-item.directive
+          //TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[RENAME]: user clicked to rename topic ' + topic.id + ' with the name ' + topic.topic);
 
         // if on step 2, we should be renaming topic 4 to SPORTS
         if (!$scope.tutorial.complete) {
@@ -712,7 +722,7 @@ angular.module('itmUiApp')
        */
       $scope.$on('remove-topic', function(event, topic) {
         if (topic.creating || topic.created) {
-          TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to cancel topic creation for ' + topic.id + '; removing refinement from list');
+          TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[CREATE TOPIC, CANCEL]: user clicked to cancel topic creation for topic ' + topic.id + '; removing refinement from list');
           // only able to remove topics that were in the process of being created
           $scope.topics = _.without($scope.topics, topic);
 
@@ -721,7 +731,7 @@ angular.module('itmUiApp')
           $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
           $scope.selectedTopic.selected = true;
         } else {
-          TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to delete topic ' + topic.id + 'tutorial complete?' + $scope.tutorial.complete);
+          TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[DELETE TOPIC]: user clicked to delete topic ' + topic.id);
 
           // if the topic was not in the process of being created, we need to specify a delete topic refinement to the backend
           var refinement = {
@@ -758,7 +768,7 @@ angular.module('itmUiApp')
       });
 
       $scope.$on('accept-create', function(event, topic) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to complete the topic creation for ' + topic.id + '; tutorial complete? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[CREATE TOPIC, COMPLETE]: user clicked to complete the topic creation for topic ' + topic.id);
 
           // add a create topic refinement and an update name refinement
           var refinement = {
@@ -812,7 +822,7 @@ angular.module('itmUiApp')
           return;
         }
 
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo delete for topic ' + topic.id + '; removing refinement from list');
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[DELETE TOPIC, CANCEL]: user clicked to undo delete for topic ' + topic.id + '; removing refinement from list');
 
         // remove the refinement
         var indexToRemove = -1;
@@ -849,7 +859,7 @@ angular.module('itmUiApp')
         $scope.selectedTopic = $scope.topics[$scope.selectedIndex];
         $scope.selectedTopic.selected = true;
 
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo topic creation for ' + topic.id + '; removing refinement from list');
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[CREATE TOPIC, CANCEL]: user clicked to undo topic creation for topic ' + topic.id + '; removing refinement from list');
 
         // remove the refinement
         var indexToRemove = -1;
@@ -865,7 +875,7 @@ angular.module('itmUiApp')
       });
 
       $scope.$on('accept-split', function(event, topic) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the split operation for ' + topic.id + '; tutorial complet? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[SPLIT TOPIC, COMPLETE]: user clicked to accept the split operation for topic ' + topic.id);
 
         var refinement = {
           'type': 'splitTopic',
@@ -936,7 +946,7 @@ angular.module('itmUiApp')
         topic.subwords = undefined;
         topic.split = false;
 
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo the split operation for ' + topic.id + '; removing refinement from list');
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + topic.id + ')[SPLIT] TOPIC, CANCEL]: user clicked to undo the split operation for topic ' + topic.id + '; removing refinement from list');
 
         // remove the refinement
         var indexToRemove = -1;
@@ -979,19 +989,18 @@ angular.module('itmUiApp')
         // determine selected topics to merge
         var topics = [];
         var pair = [];
+        var pair_names = '{';
         _.each($scope.topics, function(topic) {
           if (topic.merge) {
             topics.push(topic.id);
             pair.push(topic);
             topic.merge = false;
-
+            pair_names += topic.id + ',';
             // merged status is for display in the topic list
             //topic.merged = true;
           }
         });
-
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to accept the merge operation for ' + topics.length + ' topics; tutorial complete? ' + $scope.tutorial.complete);
-        $scope.mode = undefined;
+        pair_names = pair_names.replaceFirst(".$","}");
 
         var refinement = {
           'type': 'mergeTopics',
@@ -1010,6 +1019,9 @@ angular.module('itmUiApp')
           );
           return;
         }
+
+        TopicService.log($scope.corpus, $scope.topicNums, '[MERGE TOPICS, COMPLETE, ' + pair_names + ']: user clicked to accept the merge operation for ' + topics.length + ' topics');
+        $scope.mode = undefined;
 
         // only allowing merge to happen on step 25 between topic 2 and topic 8
         if (!$scope.tutorial.complete) {
@@ -1049,7 +1061,7 @@ angular.module('itmUiApp')
       * Method to cancel the in progress merge
       */
       $scope.cancelMerge = function() {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to cancel the merge operation');
+        TopicService.log($scope.corpus, $scope.topicNums, '[MERGE TOPICS, CANCEL]: user clicked to cancel the merge operation');
         $scope.mode = undefined;
         _.each($scope.topics, function(topic) {
           topic.merge = false;
@@ -1088,7 +1100,7 @@ angular.module('itmUiApp')
           topics.push(p.id);
         });
 
-      TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo the merge operation for ' + topics.length + ' topics; removing refinement from list');
+      TopicService.log($scope.corpus, $scope.topicNums, '[MERGE TOPICS, CANCEL]: user clicked to undo the merge operation for ' + topics.length + ' topics; removing refinement from list');
 
         indexToRemove = -1;
         _.each($scope.refinements, function(refinement, index) {
@@ -1139,6 +1151,10 @@ angular.module('itmUiApp')
             return;
           }
         }
+
+        TopicService.log($scope.corpus, $scope.topicNums, '[MERGE TOPICS, START]: user clicked to start merging with topic ' + topic.id);
+        $scope.mode = undefined;
+
         // enter merge mode
         $scope.mode = 'merge';
         topic.merge = true;
@@ -1284,7 +1300,7 @@ angular.module('itmUiApp')
       */
       $scope.$on('add-stop-word', function(event, word) {
         // log the refinement
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to add ' + word + ' to stop words; tutorial complete? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '[STOP WORD, ' + word + ']: user clicked to add ' + word + ' to stop words');
 
         // create the refinement
         var refinement = {
@@ -1332,7 +1348,7 @@ angular.module('itmUiApp')
         // remove the stop word
         $scope.stops = _.without($scope.stops, word);
 
-       TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo adding ' + word + ' to stop words; removing refinement from list');
+       TopicService.log($scope.corpus, $scope.topicNums, '[STOP WORD, CANCEL]: user clicked to undo adding ' + word + ' to stop words; removing refinement from list');
 
         var indexToRemove = -1;
         _.each($scope.refinements, function(refinement, index) {
@@ -1351,7 +1367,7 @@ angular.module('itmUiApp')
        * Listen for event to remove a word to the currently selected topic
        */
       $scope.$on('remove-word', function(event, word) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to remove ' + word + ' from ' + $scope.selectedTopic.id + '; tutorial complete? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + $scope.selectedTopic.id + ')[REMOVE WORD, ' + word + ']: user clicked to remove ' + word + ' from topic ' + $scope.selectedTopic.id);
 
           var refinement = {
             'type': 'removeWord',
@@ -1450,7 +1466,7 @@ angular.module('itmUiApp')
       // based on the indices prior to the former refinement - this should only affect the backend if
       // refinements are not applied in order
       $scope.$on('reorder-word', function(event, word, to, from) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to reorder ' + word + ' from ' + from + ' to ' + to + ' in topic '+ $scope.selectedTopic.id + '; tutorial complete? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + $scope.selectedTopic.id + ')[REORDER WORD, ' + word + ', ' + from + ', ' + to + ']: user clicked to reorder ' + word + ' from ' + from + ' to ' + to + ' in topic '+ $scope.selectedTopic.id);
 
         var refinement = {
           'type': 'changeWordOrder',
@@ -1583,7 +1599,7 @@ angular.module('itmUiApp')
        * Listen for event to add a word to the currently selected topic
        */
       $scope.$on('add-word', function(event, word) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to add ' + word + ' to topic '+ $scope.selectedTopic.id + '. Tutorial Complete?' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + $scope.selectedTopic.id + ')[ADD WORD, ' + word + ']: user clicked to add ' + word + ' to topic '+ $scope.selectedTopic.id);
 
         var refinement = {
           'type': 'addWord',
@@ -1644,7 +1660,7 @@ angular.module('itmUiApp')
         console.warn('should only be calling this method if the user wants to undo an added word from a created topic');
         return;
 
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to undo adding ' + word + ' to topic '+ $scope.selectedTopic.id + '; removing refinement from list');
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + $scope.selectedTopic.id + ')[ADD WORD, UNDO, ' + word + ']: user clicked to undo adding ' + word + ' to topic '+ $scope.selectedTopic.id + '; removing word');
 
         // AS (4/7/16): there has to be a better way to do this...
         var indexToRemove = -1;
@@ -1665,7 +1681,7 @@ angular.module('itmUiApp')
        * Listen for event to remove a document from the currently selected topic
        */
       $scope.$on('remove-doc', function(event, doc) {
-        TopicService.log($scope.corpus, $scope.topicNums, 'user clicked to remove ' + doc + ' from topic '+ $scope.selectedTopic.id + '; tutorial complete? ' + $scope.tutorial.complete);
+        TopicService.log($scope.corpus, $scope.topicNums, '(' + $scope.selectedTopic.id + ')[REMOVE DOC, ' + doc + ']: user clicked to remove ' + doc + ' from topic '+ $scope.selectedTopic.id);
 
         var refinement = {
         'type': 'removeDocument',

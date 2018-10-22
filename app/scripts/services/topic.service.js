@@ -14,10 +14,11 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// initially set the iteration count to 0
 	//var iterationCount = 0;
 
-	//var backend_head = "http://dna.cs.umd.edu:8080";
+	// var backend_head = "http://dna.cs.umd.edu:8080";
 	// var backend_head = "http://lda.cs.umd.edu:8080";
-	//var backend_head = "http://localhost:8080";
-	var backend_head = "http://35.237.234.44:8080";
+	// var backend_head = "http://localhost:8080";
+	// var backend_head = "http://35.237.234.44:8080";
+	var backend_head = "http://35.227.116.227:5000";
 
 	// default user and corpus
 	var user = null;
