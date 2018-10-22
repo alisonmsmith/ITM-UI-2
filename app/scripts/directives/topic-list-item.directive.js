@@ -19,7 +19,7 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			* Method to select a topic in the list.
 			*/
 			scope.select = function(topic) {
-				TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[SELECT TOPIC]: user selected topic ' + scope.topic.id);
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||SELECT_TOPIC|| user selected topic ' + scope.topic.id);
 				// emit event that the current topic has been selected
 				scope.$emit("select", topic);
 			};
@@ -81,7 +81,7 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 						return;
 					}
 				}
-				TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[RENAME, START]: user clicked to start renaming topic ' + scope.topic.id);
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||RENAME_TOPIC, START|| user clicked to start renaming topic ' + scope.topic.id);
 				topic.name = topic.topic;
 				scope.renaming = true;
 			};
@@ -92,7 +92,7 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			* @param topic - the topic for which to save the name; topic.name is the temporary topic name
 			*/
 			scope.saveName = function(topic) {
-				TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[RENAME, COMPLETE, ' + topic.name + ']: user clicked to save new name of for topic ' + scope.topic.id);
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||RENAME_TOPIC, COMPLETE, ' + topic.name + '|| user clicked to save new name of for topic ' + scope.topic.id);
 
 				topic.topic = topic.name;
 				scope.renaming = false;
@@ -105,7 +105,7 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 			* Method to cancel topic renaming
 			*/
 			scope.cancelName = function(topic) {
-				TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[RENAME, CANCEL]: user clicked to cancel renaming for topic ' + scope.topic.id);
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||RENAME_TOPIC, CANCEL|| user clicked to cancel renaming for topic ' + scope.topic.id);
 				topic.name = "";
 				scope.renaming = false;
 			};

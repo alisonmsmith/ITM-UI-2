@@ -10,7 +10,8 @@
           <md-tooltip>show task instructions</md-tooltip>
         </md-button>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">
+        <!--<timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">-->
+          <timer ng-if="task.started" max-time-unit="'minute'" interval="1000">
           <md-tooltip>elapsed time for task</md-tooltip>
           {{mminutes}}:{{sseconds}}</timer>
         <!--<md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
@@ -61,7 +62,7 @@
 
 <span layout="row">
     <tutorial ng-if="!tutorial.complete" flex="25"></tutorial>
-    <questionnaire ng-if="tutorial.complete && !questionnaire.complete" flex="25"></questionnaire>
+  <!--  <questionnaire ng-if="tutorial.complete && !questionnaire.complete" flex="25"></questionnaire> -->
 
 <div layout="row" flex>
       <span ng-show="loading && !modalShowing" class="loading-message">please wait, the model is updating...</span>

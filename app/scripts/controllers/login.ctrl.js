@@ -36,7 +36,7 @@ angular.module('itmUiApp')
   	$scope.submit = function(user, type) {
   		TopicService.setUser(user);
       TopicService.setModelType(type);
-      TopicService.log('twitter', '10', '[START, ' + user + ', ' + type + ']: loading new user ' + user + ' with model type ' + type);
+      TopicService.log('twitter', '10', '||-1||START_SESSION, ' + user + ', ' + type + '|| loading new session for user ' + user + ' with model type ' + type);
   		$state.go('topics');
   	};
   });

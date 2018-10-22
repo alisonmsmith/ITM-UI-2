@@ -48,6 +48,7 @@
 <ul>
   <li>The panel in the middle shows the 10 topics, each one labeled with the three words that the system thinks are most relevant to that topic.</li>
   <li>When a topic is selected, more detail is shown on the right: the 20 top (most relevant) words and the 20 top (most relevant) documents associated with that topic.</li>
+  <li>The size of the topic word represents its importance to the meaning of the topic.</li>
   <li><span class="tutorial-command">Click Topic 1</span> and read through the words and documents for those topics. <span class="tutorial-command">Do the same for Topic 8.</span></li>
   <li>Take a minute to explore through the topics, words, and documents.</li>
 </ul>
@@ -65,7 +66,7 @@
 
 <span ng-show="tutorial.step === 3" >
   <ul>
-    <li>Hovering over one of the top 20 words will  highlight it in the documents. <span class="tutorial-command">Click Topic 8 and hover over the word 'fashion'</span>.</li>
+    <li>Hovering over one of the top 20 words will highlight it in the documents. <span class="tutorial-command">Click Topic 8 and hover over the word 'fashion'</span>.</li>
     <li>Clicking on a top word will keep it highlighted as you scroll through the documents. <span class="tutorial-command">Click on the word 'art' in Topic 8</span>.
   </ul>
 </span>
@@ -83,8 +84,8 @@
 <span ng-show="tutorial.step === 5">
   <ul>
     <li>This tutorial will take you through nine possible ways to fix these and other problems.</li>
-    <li>These refinements include: add word, remove word, trash word, change word order, remove document, split topic, merge topics, delete topic, and create new topic.</li>
-    <li>It is possible that your refinements will not always be applied exactly as you expect, because the model incorporates them along with its understanding of all of the words and documents in the data.</li>
+    <li>These changes include: add word, remove word, trash word, change word order, remove document, split topic, merge topics, delete topic, and create new topic.</li>
+    <li>It is possible that your changes will not always be applied exactly as you expect, because the model incorporates them along with its understanding of all of the words and documents in the data.</li>
   </ul>
 </span>
 
@@ -102,7 +103,7 @@
 
 <span ng-show="tutorial.step === 8">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
     <li>The word 'oscar' has been added to Topic 2.</li>
     <li>During the task, if you are not happy with the updated model, you can undo your change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.</li>
   </ul>
@@ -121,16 +122,19 @@
 
 <span ng-show="tutorial.step === 11">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
     <li>Topic 7 has been deleted and the model now has one less topic than before.</li>
   </ul>
 </span>
 
 <span ng-show="tutorial.step === 12">
   <ul>
-    <li>ADD WORD TO TRASH: sometimes there are words that don’t belong in any of the topics of the model. You can remove a word from all topics in the model by adding it to the trash, and you do so by selecting a word and then clicking <div><img class="trash tutorial-image" src="../images/trash.png"></img></div> at the top-right of the page.</li>
+    <li>ADD WORD TO TRASH: sometimes there are words that don’t belong in any of the topics of the model. You can remove a word from all topics in the model by adding it to the trash, and you do so by selecting a word and then clicking 
+      <div><img class="trash tutorial-image" src="../images/trash.png"></img></div>
+      at the top-right of the page.</li>
   <li>Add the word 'nbsp' to the trash, since it is a text processing error and is not meaningful for any of the topics in the model. First <span class='tutorial-command'>click Topic 1</span> and then <span class='tutorial-command'>click the word 'nbsp'</span>. Finally, <span class='tutorial-command'>click
-    <div><img class="tutorial-image trash" src="../images/trash.png"></img></div></span></li></ul>
+    <div><img class="tutorial-image trash" src="../images/trash.png"></img></div>
+  </span></li></ul>
 </span>
 
 <span ng-show="tutorial.step === 13">
@@ -139,7 +143,7 @@
 
 <span ng-show="tutorial.step === 14">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
     <li>The word 'nbsp' has been added to the trash and therefore removed from all topics in the model.</li>
   </ul>
 </span>
@@ -158,7 +162,7 @@
 
 <span ng-show="tutorial.step === 17">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
   </ul>
 </span>
 
@@ -177,7 +181,7 @@
 
 <span ng-show="tutorial.step === 20">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
   </ul>
 </span>
 
@@ -210,7 +214,7 @@
 
 <span ng-show="tutorial.step === 24">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
   </ul>
 </span>
 
@@ -229,7 +233,7 @@
 
 <span ng-show="tutorial.step === 27">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
     <li>Topic 2 and Topic 8 have been merged into TOPIC 2_TOPIC 8, and the model now contains one less topic than before.
   </ul>
 </span>
@@ -251,7 +255,7 @@
 
 <span ng-show="tutorial.step === 30">
   <ul>
-    <li>Here is the updated model with your refinement applied.</li>
+    <li>Here is the updated model with your change applied.</li>
     <li>Your new topic is at the end of the list and the model now contains one additional topic than before</li>
   </ul>
 </span>
@@ -273,22 +277,22 @@
 <span ng-show="tutorial.step === 33">
   <ul>
     <li>Here is the updated model.</li>
-    <li>The model has one additional topic than before because the banking and business topic (Topic 5) was split into two separate topics.</li>
-    <li>Sub Topic 'A' remained as Topic 5 and Sub Topic 'B' became SPLIT_FROM_topic 5.</li>
+    <li>The model has one additional topic than before because the banking and business topic (TOPIC 5) was split into two separate topics.</li>
+    <li>Sub Topic 'A' remained as TOPIC 5 and Sub Topic 'B' was added to the bottom of the topic list as SPLIT_FROM_TOPIC 5.</li>
     <li>Let's undo this change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.</li>
   </ul>
 </span>
 
 <span ng-show="tutorial.step === 34">
   <ul>
-    <li>This is the model after undoing the last refinement.</li>
+    <li>This is the model after undoing the last change.</li>
   </ul>
 </span>
 
 <span ng-show="tutorial.step === 35">
   <ul>
-    <li>You've now seen the nine different changes you can perform in the tool: add word, remove word, trash word, change word order, remove document, delete topic, create topic, merge topic, split topic.</li>
-    <li>Remember that the system may not always apply your refinements as you expect, because they are incoporated along with the system's understanding of all of the words and documents in the data.</li>
+    <li>You've now seen the nine different ways you can change the topics in the tool: add word, remove word, trash word, change word order, remove document, delete topic, create topic, merge topic, split topic.</li>
+    <li>Remember that the system may not always apply these changes as you expect, because they are incoporated along with the system's understanding of all of the words and documents in the data.</li>
     <li>And, remember that if you are unhappy with the topics after an update you can undo any change by clicking <img class="tutorial-image" src="../images/undo.png"></img> at the top of the tool.</li>
     <li>It may take many rounds of applying these changes before you are happy with the model.</li>
     </ul>

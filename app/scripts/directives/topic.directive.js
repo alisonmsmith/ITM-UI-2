@@ -51,7 +51,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         if (!chip) {
           return;
         }
-        TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[SELECT WORD, ' + chip.word + ']: user selected ' + chip.word + ' in topic ' + scope.topic.id);
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||SELECT_WORD, ' + chip.word + '|| user selected ' + chip.word + ' in topic ' + scope.topic.id);
         // store the selected word for the trash can
         scope.selected = chip;
 
@@ -93,7 +93,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       };
 
       scope.cancelSplit = function() {
-        TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[SPLIT, CANCEL]: user clicked to cancel split of topic ' + scope.topic.id);
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + ')||SPLIT_TOPIC, CANCEL|| user clicked to cancel split of topic ' + scope.topic.id);
         scope.topic.splitting = false;
         scope.topic.words = scope.topic.wordscopy;
         scope.topic.wordscopy = undefined;
@@ -119,7 +119,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       };
 
       scope.hoverWord = function(chip) {
-        TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[HOVER WORD, ' + chip.word + ']: user hovered over ' + chip.word + ' in topic ' + scope.topic.id);
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER_WORD, ' + chip.word + '|| user hovered over ' + chip.word + ' in topic ' + scope.topic.id);
         // highlight the word in the documents
         scope.hoveredWord = chip.word;
 
@@ -152,8 +152,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
       scope.addWord = function(chip) {
         // if we're in create topic mode or split topic model, don't add a word
-        if (scope.topic.creating || scope.topic.splitting) {
-          TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[ADD WORD, PREVENTED, ' + chip.word + ']: user prevented from adding the word ' + chip.word + ' while they were creating or splitting topic ' + scope.topic.id);
+        if (scope.topic.creating) {
+          TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||CREATE_TOPIC, ADD_WORD, ' + chip.word + '|| user added ' + chip.word + ' to the topic they are creating ' + scope.topic.id);
+          return;
+        }
+        if (scope.topic.splitting) {
+          TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||ADD_WORD, PREVENTED, ' + chip.word + '|| user prevented from adding the word ' + chip.word + ' while they were splitting topic ' + scope.topic.id);
           return;
         }
         // emit a refinement
@@ -203,7 +207,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
             chip.status = 'split';
             chip.orginalIndex = data.from;
             chip.originalTopic = data.fromCollection;
-            TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[SPLIT, DRAG, B, ' + chip.word + ']: user dragged ' + chip.word + ' from sub topic A to sub topic B to split topic ' + scope.topic.id);
+            TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||SPLIT_TOPIC, DRAG, B, ' + chip.word + '|| user dragged ' + chip.word + ' from sub topic A to sub topic B to split topic ' + scope.topic.id);
             // if this is the first chip to be dragged into B, we can remove the hidden chip
             if (scope.topic.subwords.length === 1 && scope.topic.subwords[0].status === 'hidden') {
               scope.topic.subwords = [chip];
@@ -215,7 +219,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
           } else {
             // moving from B to A
             var chip = scope.topic.subwords.splice(data.from, 1)[0];
-            TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[SPLIT, DRAG, A, ' + chip.word + ']: user dragged ' + chip.word + ' from sub topic B to sub topic A to split topic ' + scope.topic.id);
+            TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||SPLIT_TOPIC, DRAG, A, ' + chip.word + '|| user dragged ' + chip.word + ' from sub topic B to sub topic A to split topic ' + scope.topic.id);
             // if B is now empty, we need to add back in the hidden chip
             if (scope.topic.subwords.length === 0) {
               scope.topic.subwords = [{
@@ -235,7 +239,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       scope.removeWord = function(chip, index) {
         // if we're in split topic mode, don't let the user remove any words
         if (scope.topic.splitting) {
-          TopicService.log(scope.corpus, scope.nums, '(' + scope.topic.id + ')[REMOVE WORD, PREVENTED, ' + chip.word + ']: user prevented from removing the word ' + chip.word + ' while they were splitting topic ' + scope.topic.id);
+          TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||REMOVE_WORD, PREVENTED, ' + chip.word + '|| user prevented from removing the word ' + chip.word + ' while they were splitting topic ' + scope.topic.id);
           return;
         }
         // if this a previously added word, then this is an undo add refinement
