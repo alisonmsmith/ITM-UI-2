@@ -294,6 +294,11 @@ md-toolbar.merge-toolbar, md-toolbar.topic-toolbar {
   }
 }
 
+.show-instructions {
+  font-size: 18pt;
+  font-weight: 600;
+}
+
 md-card-title.md-accent {
   background-color: $md-accent;
   color: white;

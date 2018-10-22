@@ -228,7 +228,7 @@ angular.module('itmUiApp')
         // user id and pre-task model quality answers
         //?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
         // only allow the user to click this button after it has been 15 minutes
-        if ($scope.taskTime > 900000) {
+        if ($scope.taskTime < 900000) {
         TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, INVALID|| user clicked to complete the task with more than 15 minutes remaining.');
           $mdDialog.show(
             $mdDialog.alert()

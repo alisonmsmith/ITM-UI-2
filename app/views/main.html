@@ -5,8 +5,8 @@
         <!--<h2 flex>
           <span class="title">ITM</span>
         </h2>-->
-        <md-button ng-if="task.started" ng-click="showTaskHelp()" class="md-icon-button">
-          <md-icon class="mdi mdi-help-circle-outline"></md-icon>
+        <md-button ng-if="task.started" ng-click="showTaskHelp()" class="md-fab md-mini">
+          <span class="show-instructions">?</span>
           <md-tooltip>show task instructions</md-tooltip>
         </md-button>
         <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
