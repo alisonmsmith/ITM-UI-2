@@ -126,7 +126,6 @@ angular.module('mdChipDraggable', [])
           };
 
           var dropHandler = function (event) {
-            console.log("dropped!");
             event.preventDefault();
 
             var droppedData = (event.dataTransfer || event.originalEvent.dataTransfer).getData('text/plain').split('?');
@@ -135,7 +134,6 @@ angular.module('mdChipDraggable', [])
             var currentIndex = $scope.$parent.$mdChipsCtrl.items.indexOf($scope.$parent.$chip);
             var newIndex = null;
 
-            console.log("current index: " + currentIndex);
 
             if (dropPosition === 'before') {
               if (droppedItemIndex < currentIndex) {

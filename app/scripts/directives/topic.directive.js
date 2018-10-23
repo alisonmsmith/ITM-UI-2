@@ -50,7 +50,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         if (scope.chipsCtrl.selectedChip === -1) {
           // deselect the word
           scope.selectedWord = undefined;
-          // if we set the selected word to undefined then we can't succesfully add the word to the stop words list
+          // TODO: if we set the selected word to undefined then we can't succesfully add the word to the stop words list; but doing it this way could cause some unintended effects (perhaps we want to confirm that the user wants to remove the word)
           //scope.selected = undefined;
         }
       });
