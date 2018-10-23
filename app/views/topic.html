@@ -47,9 +47,26 @@
 		<div class="word-holder" layout="row">
 			<span class="topic-a" flex>
 				<span class="sub-topic-name" ng-if="topic.splitting || topic.split">SUB TOPIC A</span>
-			<md-chips id="topicA" ng-if="topic" ng-model="topic.words" md-autocomplete-snap md-on-select="selectWord($chip)" md-on-add="addWord($chip)" md-on-remove="removeWord($chip, $index)" md-transform-chip="transform($chip)" readonly="topic.splitting || topic.split">
-				<md-autocomplete id="topicA_ac" ng-disabled="topic.splitting || topic.split || topic.created" md-no-cache="false" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="selectedItem" md-search-text="searchText" md-items="word in vocabSearch(searchText)"
-				  md-item-text="word" placeholder="add new word...">
+			<md-chips id="topicA"
+				ng-if="topic"
+				ng-model="topic.words"
+				md-autocomplete-snap
+				md-require-match="true"
+			 	md-on-select="selectWord($chip)"
+				md-on-add="addWord($chip)"
+				md-on-remove="removeWord($chip, $index)"
+				md-transform-chip="transform($chip)"
+				readonly="topic.splitting || topic.split">
+				<md-autocomplete id="topicA_ac"
+					ng-disabled="topic.splitting || topic.split || topic.created"
+					md-no-cache="false"
+					md-select-on-match="false"
+					md-match-case-insensitive="true"
+					md-selected-item="selectedItem"
+					md-search-text="searchText"
+					md-items="word in vocabSearch(searchText)"
+				  md-item-text="word"
+					placeholder="add new word...">
 					<span md-highlight-text="searchText">{{word}}</span>
 				</md-autocomplete>
 				<md-chip-template ng-class="$chip.status" ng-mouseenter="hoverWord($chip)" ng-mouseleave="unhoverWord($chip)" class="topic-chip-template">

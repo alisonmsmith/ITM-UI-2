@@ -18,6 +18,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
     templateUrl: 'views/topic.html',
     link: function(scope, element, attrs) {
 
+      scope.chipsCtrl = undefined;
+
       // initialize the view when a new topic is selected
       scope.$watch("topic", function() {
         if (!scope.topic) {
@@ -34,11 +36,17 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
             word.status = 'trashed';
           }
         });
+
+        scope.chipsCtrl = angular.element(document.querySelector( '#topicA' )).controller('mdChips');
       });
 
       scope.$watchCollection('stops', function(value) {
         scope.stops = value;
       });
+
+    /*  scope.$watch("chipsCtrl.selectedWord", function() {
+        console.log('selected word changed', scope.chipsCtrl.selectedWord);
+      }); */
 
       /*scope.$watch('topic.topic', function () {
       	scope.$emit("rename", scope.topic);
@@ -47,6 +55,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
 
       scope.selectWord = function(chip) {
+        // console.log('selectWord', chip);
         // TODO: looks like the chip is autoselected but for some reason the chip object is not passed through to the select method; this is a hacky fix, but might want to figure out what's really going on at some point
         if (!chip) {
           return;
@@ -184,7 +193,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
       // Listen for event that a chip has been dragged within the word list
       scope.$on('mdChipDraggable:change', function(event, data) {
-        console.log(data);
+      //  console.log(data);
         if (data.fromCollection === data.toCollection && !scope.topic.splitting) {
           // Move within the same chip list
           var chip = data.item;
@@ -323,12 +332,29 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
 
       }
 
+      /**
+      * Method to return the proper object when append is called
+      */
       scope.transform = function(chip) {
-        return {
-          word: chip,
-          weight: 'unknown',
-          status: 'added'
-        };
+        // check that the chip is not already in the list
+        var chip_match = undefined;
+        _.each(scope.topic.words, function (w, i) {
+          if (w.word === chip) {
+            chip_match = w;
+            scope.chipsCtrl.selectAndFocusChipSafe(i);
+          }
+        });
+        if (chip_match) {
+          // this will ensure duplicate is not added to the list
+          return chip_match;
+        } else {
+          // otherwise create a new one
+          return {
+            word: chip,
+            weight: 'unknown',
+            status: 'added'
+          };
+        }
       };
     }
   };

@@ -57,8 +57,8 @@
 <span ng-show="tutorial.step === 2">
 <ul>
   <li>We can rename topics to help better remember what they are about, such as Topic 4, which appears to be about sports.</li>
-  <li><span class="tutorial-command">Click Topic 4</span> and then click <md-icon class="topic-icon" aria-label="rename topic" md-font-icon="mdi mdi-pencil">
-  </md-icon></li>
+  <li><span class="tutorial-command">Click Topic 4</span> and then <span class="tutorial-command"click <md-icon class="topic-icon" aria-label="rename topic" md-font-icon="mdi mdi-pencil">
+  </md-icon></span></li>
   <li><span class="tutorial-command">Change the text in the input from TOPIC 4 to SPORTS and click <img class="tutorial-image" src="../images/saveName.png"></img></span></li>
   <li>The name is now updated for the topic in the list.</li>
 </ul>
@@ -91,7 +91,8 @@
 
 <span ng-show="tutorial.step === 6">
   <ul>
-    <li>ADD WORD: you can add a word to the list of top words for a topic by clicking 'add new word' at the end of that list and then typing the word and pressing enter or selecting the match from the drop down menu.</li>
+    <li>ADD WORD: you can add a word to the list of top words for a topic by clicking 'add new word' at the end of that list and then typing the word and selecting the match from the drop down menu.</li>
+    <li>You can only add words that show up at least once in the set of articles.</li>
     <li><span class='tutorial-command'>First, click on Topic 2</span>, which appears to be a topic about films and music.</li>
     <li><span class='tutorial-command'>Let's add the word 'oscar'</span> to Topic 2.</li>
   </ul>
@@ -307,7 +308,7 @@
   ng-click="tutorialNext()">
   next
 </md-button>
-<md-icon class="information-icon" ng-if="!tutorial.nextEnabled" ng-mouseenter="highlightTutorial()" ng-mouseleave="unhighlightTutorial()" md-font-icon="mdi mdi-help-circle-outline">
+<md-icon class="information-icon" ng-if="!tutorial.nextEnabled && tutorial.step !== tutorialSteps" ng-mouseenter="highlightTutorial()" ng-mouseleave="unhighlightTutorial()" md-font-icon="mdi mdi-help-circle-outline">
     <md-tooltip>Please perform the actions specified above before moving on to the next step</md-tooltip>
 </md-icon>
 </span>
