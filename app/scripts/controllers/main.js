@@ -8,7 +8,7 @@
  * Controller of the itmUiApp
  */
 angular.module('itmUiApp')
-  .controller('MainCtrl', function($scope, $state, $http, TopicService, $mdDialog) {
+  .controller('MainCtrl', function($scope, $state, $http, $interval, TopicService, $mdDialog) {
 
     // get the current user
     $scope.user = TopicService.getUser();
@@ -411,8 +411,6 @@ angular.module('itmUiApp')
         TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           // process the model
           processModel(data.data);
-          // TopicService.getDocuments($scope.corpus, $scope.topicNums).then(function(docs) {
-          //    processModel(data.data, docs.data);
 
           // copy the topics
           $scope.topicsCopy = angular.copy($scope.topics);
@@ -427,12 +425,24 @@ angular.module('itmUiApp')
           // reset the merged list
           $scope.merged = [];
 
-          // clear the refinement list
-          $scope.refinements = [];
-          $scope.isDirty = false;
-          $scope.stops = [];
+          // need a timeout to ensure that the appropriate topic is selected/rendered before attempting to highlight the added word
+          var checkLoading = $interval(function() {
+            if (!$scope.loading) {
 
-          //  });
+              // highlight the added word if there was one
+              _.each($scope.refinements, function(r) {
+                if (r.type === 'addWord') {
+                  $scope.$broadcast('highlight-added-word', r.word);
+                }
+              });
+              // clear the refinement list
+              $scope.refinements = [];
+              $scope.isDirty = false;
+              $scope.stops = [];
+              // cancel the interval
+              $interval.cancel(checkLoading);
+            }
+          }, 100);
 
         }, function() {
           // error saving model

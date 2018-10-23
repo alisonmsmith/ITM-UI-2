@@ -191,6 +191,14 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         }
       });
 
+      scope.$on('highlight-added-word', function(event, word) {
+        _.each(scope.topic.words, function (w, i) {
+          if (w.word === word) {
+            scope.chipsCtrl.selectAndFocusChipSafe(i);
+          }
+        });
+      });
+
       // Listen for event that a chip has been dragged within the word list
       scope.$on('mdChipDraggable:change', function(event, data) {
       //  console.log(data);
