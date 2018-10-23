@@ -44,9 +44,13 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         scope.stops = value;
       });
 
-    /*  scope.$watch("chipsCtrl.selectedWord", function() {
-        console.log('selected word changed', scope.chipsCtrl.selectedWord);
-      }); */
+      scope.$watch("chipsCtrl.selectedChip", function() {
+        if (scope.chipsCtrl.selectedChip === -1) {
+          // deselect the word
+          scope.selectedWord = undefined;
+          scope.selected = undefined;
+        }
+      });
 
       /*scope.$watch('topic.topic', function () {
       	scope.$emit("rename", scope.topic);
