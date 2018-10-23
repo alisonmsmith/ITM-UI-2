@@ -38,6 +38,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         });
 
         scope.chipsCtrl = angular.element(document.querySelector( '#topicA' )).controller('mdChips');
+        // no chip should be selected when switching topics
+        scope.chipsCtrl.selectedChip = -1;
       });
 
       scope.$watchCollection('stops', function(value) {
@@ -48,7 +50,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         if (scope.chipsCtrl.selectedChip === -1) {
           // deselect the word
           scope.selectedWord = undefined;
-          scope.selected = undefined;
+          // if we set the selected word to undefined then we can't succesfully add the word to the stop words list
+          //scope.selected = undefined;
         }
       });
 

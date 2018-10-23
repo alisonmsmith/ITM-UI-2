@@ -408,7 +408,9 @@ angular.module('itmUiApp')
         $scope.loading = true;
         // save the refinements
         $scope.iterationCount += 1;
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, START, ' + $scope.iterationCount + '|| automatically saving model');
         TopicService.save($scope.refinements, $scope.corpus, $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
+          TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, COMPLETE, ' + $scope.iterationCount + '|| model saved successfully');
           // process the model
           processModel(data.data);
 
@@ -447,14 +449,17 @@ angular.module('itmUiApp')
         }, function() {
           // error saving model
           alert('error saving model - reverting to model prior to save');
+          TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, ERROR|| error saving model');
           // decrement the iteration count
           $scope.iterationCount -= 1;
-          $scope.refinements = [];
+          reloadModel();
+          $scope.loading = false;
+        /*  $scope.refinements = [];
           $scope.loading = false;
           $scope.isDirty = false;
           $scope.stops = [];
           $scope.merged = [];
-
+          $scope.topics = $scope.topicsCopy;*/
         });
       }
 
@@ -636,6 +641,7 @@ angular.module('itmUiApp')
           }, function() {
             // error saving model
             alert('error saving model - reverting to model prior to save');
+            TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, ERROR|| error saving model');
             $scope.refinements = [];
             $scope.isDirty = false;
             $scope.stops = [];
