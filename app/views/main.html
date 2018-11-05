@@ -5,7 +5,7 @@
         <!--<h2 flex>
           <span class="title">ITM</span>
         </h2>-->
-        <md-button ng-if="task.started" ng-click="showTaskHelp()" class="md-fab md-mini">
+        <md-button ng-if="task.started" ng-mouseleave="hoverShowTaskHelp()" ng-click="showTaskHelp()" class="md-fab md-mini">
           <span class="show-instructions">?</span>
           <md-tooltip>show task instructions</md-tooltip>
         </md-button>
@@ -19,11 +19,13 @@
           <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
         </md-button> -->
       <!--  <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START TASK</md-button> -->
-        <md-button ng-if="task.started || task.completed" class="md-raised" ng-click="finishTask()">FINISH TASK</md-button>
+        <md-button ng-if="task.started || task.completed" class="md-raised"
+        ng-mouseleave="hoverFinishTask()" ng-click="finishTask()">FINISH TASK</md-button>
         <span flex></span>
         <md-button class="md-raised"
         ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
-        ng-click="undo()">
+        ng-click="undo()"
+        ng-mouseleave="hoverUndo()">
           <md-tooltip>undo the last change made to the model</md-tooltip>
         UNDO LAST REFINEMENT</md-button>
         <span flex></span>
@@ -34,7 +36,7 @@
     <!--    <div id="stopWordsButton" class="stop-words mdi mdi-delete-forever" ng-click="addStopWord()">
           <md-tooltip>add selected word to trash words</md-tooltip>
         </div> -->
-        <md-button class="md-raised" id="stopWordsButton" ng-click="addStopWord()">
+        <md-button class="md-raised" id="stopWordsButton" ng-mouseleave="hoverAddStopWord()" ng-click="addStopWord()">
           <!--<md-icon md-font-icon="mdi mdi-delete-forever"></md-icon>-->
           remove selected word from all topics
           <md-tooltip>remove selected word from all topics</md-tooltip>
@@ -115,6 +117,7 @@ TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpus}}":
           <div layout="row" layout-align="center center">
             <md-button
               class="md-raised"
+              ng-mouseleave="hoverCreateNewTopic()"
               id="createTopicButton"
               ng-click="createNewTopic()">
               <md-tooltip>create a new topic</md-tooltip>

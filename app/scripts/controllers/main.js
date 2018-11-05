@@ -10,6 +10,7 @@
 angular.module('itmUiApp')
   .controller('MainCtrl', function($scope, $state, $http, $interval, TopicService, $mdDialog) {
 
+
     // get the current user
     $scope.user = TopicService.getUser();
     $scope.isDirty = false;
@@ -83,6 +84,11 @@ angular.module('itmUiApp')
       angular.element(document).find('.stop-words').on('dragover', dragOverHandler);
       angular.element(document).find('.stop-words').on('drop', dropHandler);
 
+      // monitor when the topic list is scrolled (in this case, the user would likely be trying to view more of the documents)
+      angular.element(document.querySelector('.topic-panel')).bind('scroll', function(){
+        // alert('scrolling is cool!');
+      });
+
 
       // TRACK THE TASK TIME
       $scope.$on('timer-tick', function (event, data) {
@@ -147,6 +153,10 @@ angular.module('itmUiApp')
 
       // Load the intial model
       loadModel(3);
+
+      $scope.hoverShowTaskHelp = function() {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, VIEW_INSTRUCTIONS|| user hovered over button to review the task instructions');
+      }
 
       $scope.showTaskHelp = function() {
         $scope.modalShowing = true;
@@ -221,6 +231,10 @@ angular.module('itmUiApp')
         });
 
       };
+
+      $scope.hoverFinishTask = function () {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, COMPLETE TASK|| user hovered over button to complete the task.');
+      }
 
       $scope.finishTask = function() {
         var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform";
@@ -463,6 +477,10 @@ angular.module('itmUiApp')
         });
       }
 
+      $scope.hoverUndo = function() {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, UNDO|| user hovered over button to undo the prior refinement');
+      }
+
       /**
       * Method to undo the last refinement operation.
       */
@@ -652,6 +670,10 @@ angular.module('itmUiApp')
 
 
       };
+
+      $scope.hoverCreateNewTopic = function () {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, CREATE_TOPIC|| user hovered over button to create new topic.');
+      }
 
       /**
        * Method to create a new topic. Adds a new, empty topic to the list and selects it. Does not add a create refinement until user adds topic words and confirms the created topic
@@ -982,6 +1004,10 @@ angular.module('itmUiApp')
           $scope.refinements.splice(indexToRemove, 1);
         }
       });
+
+      $scope.hoverAddStopWord = function() {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, ADD_STOP_WORD]: user hovered over button to add stop word');
+      }
 
       /**
       * Method to add a stop word
@@ -1324,7 +1350,7 @@ angular.module('itmUiApp')
       */
       $scope.$on('add-stop-word', function(event, word) {
         // log the refinement
-        TopicService.log($scope.corpus, $scope.topicNums, '||-1||STOP_WORD, ' + word + '|| user clicked to add ' + word + ' to stop words');
+        TopicService.log($scope.corpus, $scope.topicNums, '||' + $scope.selectedTopic.id + '||STOP_WORD, ' + word + '|| user clicked to add ' + word + ' to stop words');
 
         // create the refinement
         var refinement = {

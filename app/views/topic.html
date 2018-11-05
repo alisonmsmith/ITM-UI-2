@@ -6,7 +6,7 @@
 			<md-toolbar class="topic-sub-toolbar md-hue-3" layout="row">
 				<span class="md-toolbar-tools" flex="60">top {{topic.words.length}} words for "{{topic.topic}}":</span>
 				<span flex></span>
-				<md-button ng-if="!topic.deleted" class="delete-topic-button md-raised" ng-click="delete(topic)">
+				<md-button ng-if="!topic.deleted" class="delete-topic-button md-raised" ng-click="delete(topic)" ng-mouseleave="hoverDelete(topic)">
 					<md-tooltip>delete this topic from the model</md-tooltip>
 					<md-icon md-font-icon="mdi mdi-delete"></md-icon>DELETE TOPIC</md-button>
 			</md-toolbar>
@@ -23,19 +23,19 @@
 						This topic has been created.
 					</span>
 					<span flex></span>
-					<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()">
+					<md-button ng-if="topic.splitting" aria-label="cancel split" class="md-icon-button" ng-click="cancelSplit()" ng-mouseleave="hoverCancelSplit()">
 						<md-tooltip>cancel splitting; all changes will be discarded</md-tooltip>
 						<md-icon class="save-icon" md-font-icon="mdi mdi-window-close"></md-icon>
 					</md-button>
-					<md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button split-checkmark" ng-click="acceptSplit()">
+					<md-button ng-if="topic.splitting" aria-label="accept split" class="md-icon-button split-checkmark" ng-click="acceptSplit()" ng-mouseleave="hoverAcceptSplit()">
 						<md-tooltip>save the split topic</md-tooltip>
 						<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
 					</md-button>
-					<md-button ng-if="topic.creating" aria-label="delete new topic" class="md-icon-button" ng-click="cancelCreate()">
+					<md-button ng-if="topic.creating" aria-label="delete new topic" class="md-icon-button" ng-click="cancelCreate()" ng-mouseleave="hoverCancelCreate()">
 						<md-tooltip>cancel create topic; all changes will be discarded</md-tooltip>
 						<md-icon class="save-icon" md-font-icon="mdi mdi-close"></md-icon>
 					</md-button>
-					<md-button ng-disabled="topic.words.length === 0" ng-if="topic.creating" aria-label="accept created topic" class="md-icon-button create-checkmark" ng-click="acceptCreate()">
+					<md-button ng-disabled="topic.words.length === 0" ng-if="topic.creating" aria-label="accept created topic" class="md-icon-button create-checkmark" ng-click="acceptCreate()" ng-mouseleave="hoverAcceptCreate()">
 						<md-tooltip>save the created topic after adding some words</md-tooltip>
 						<md-icon class="save-icon" md-font-icon="mdi mdi-check"></md-icon>
 					</md-button>
@@ -73,7 +73,7 @@
 					<strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
 					<!-- <em>({{$chip.weight}})</em> -->
 				</md-chip-template>,
-				<button md-chip-remove class="topic-chip-remove md-icon-button">
+				<button md-chip-remove ng-mouseleave="hoverRemoveWord($chip)" class="topic-chip-remove md-icon-button">
 		          	<md-icon class="undo-word" ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo">
 									<md-tooltip>undo</md-tooltip>
 								</md-icon>
@@ -92,7 +92,7 @@
 					<strong md-chip-draggable ng-style="{{$chip.style}}">{{$chip.word}}</strong>
 					<!-- <em>({{$chip.weight}})</em> -->
 				</md-chip-template>,
-				<button md-chip-remove class="topic-chip-remove md-icon-button">
+				<button md-chip-remove ng-mouseleave="hoverRemoveWord($chip)" class="topic-chip-remove md-icon-button">
 		          	<md-icon ng-if="$chip.status !== 'unevaluated'" md-font-icon="mdi mdi-undo">
 									<md-tooltip>undo</md-tooltip>
 								</md-icon>
@@ -108,7 +108,9 @@
 				<div class="md-toolbar-tools">top {{topic.docs.length}} documents for "{{topic.topic}}":</div>
 			</md-toolbar>
 			<md-list>
-				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs">
+				<md-list-item class="document-list-item" ng-class="document.status" ng-repeat="document in topic.docs"
+				ng-mouseenter="hoverDocumentEnter(document)"
+				ng-mouseleave="hoverDocumentExit(document)">
 					<!--<div class="document-name">
 						{{document.docid}} ({{document.prob}})
 						<span class="document-category">{{document.category}}</span>
@@ -121,7 +123,7 @@
 					<span class="toggle-doc" ng-if="document.more" ng-click="document.more=false">show less</span>
 					</span>
 					</span>
-					<button ng-if="!topic.splitting && !topic.split" class="doc-remove md-secondary" ng-click="removeDocument(document)">
+					<button ng-if="!topic.splitting && !topic.split" class="doc-remove md-secondary" ng-click="removeDocument(document)" ng-mouseleave="hoverRemoveDocument(document)">
 						<md-icon class='remove-doc' ng-if="document.status === 'unevaluated'" aria-label='remove document' md-font-icon='mdi mdi-close'>
 							<md-tooltip>remove this document from this topic</md-tooltip>
 						</md-icon>

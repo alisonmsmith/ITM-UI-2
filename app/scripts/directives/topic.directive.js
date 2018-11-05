@@ -90,6 +90,19 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         scope.$emit('remove-topic', topic);
       };
 
+      scope.hoverDelete = function(topic) {
+        // log
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, DELETE_TOPIC, ' + scope.topic.id + '|| user hovered over button to delete topic ' + scope.topic.id);
+      }
+
+      scope.hoverDocumentEnter = function(document) {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, DOCUMENT, ENTER, ' + document.docid + '|| user hovered over document ' + document.docid);
+      }
+
+      scope.hoverDocumentExit = function(document) {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, DOCUMENT, EXIT, ' + document.docid + '|| user hovered off document ' + document.docid);
+      }
+
       /**
        * Method called when a user chooses to cancel the topic creation process; the topic is removed from the list.
        */
@@ -97,6 +110,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         // remove this topic from the list
         scope.$emit('remove-topic', scope.topic);
       };
+
+      scope.hoverCancelCreate = function() {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, CANCEL_CREATE, ' + scope.topic.id + '|| user hovered over button to cancel the creation of topic ' + scope.topic.id);
+      }
 
       /**
        * Method called when the user accepts the created topic.
@@ -108,13 +125,21 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         scope.$emit('accept-create', scope.topic);
       };
 
+      scope.hoverAcceptCreate = function() {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, ACCEPT_CREATE, ' + scope.topic.id + '|| user hovered over button to accept creation of topic ' + scope.topic.id);
+      }
+
       scope.cancelSplit = function() {
-        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + ')||SPLIT_TOPIC, CANCEL|| user clicked to cancel split of topic ' + scope.topic.id);
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||SPLIT_TOPIC, CANCEL|| user clicked to cancel split of topic ' + scope.topic.id);
         scope.topic.splitting = false;
         scope.topic.words = scope.topic.wordscopy;
         scope.topic.wordscopy = undefined;
         scope.topic.subwords = undefined;
       };
+
+      scope.hoverCancelSplit = function() {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, CANCEL_SPLIT_TOPIC|| user hovered over button to cancel split of topic ' + scope.topic.id);
+      }
 
       scope.acceptSplit = function() {
         // only allow the user to split if the subwords have been modified
@@ -134,8 +159,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         scope.$emit('accept-split', scope.topic);
       };
 
+      scope.hoverAcceptSplit = function() {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + ')||HOVER, ACCEPT_SPLIT_TOPIC|| user hovered over button to accept split of topic ' + scope.topic.id);
+      }
+
       scope.hoverWord = function(chip) {
-        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER_WORD, ' + chip.word + '|| user hovered over ' + chip.word + ' in topic ' + scope.topic.id);
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, WORD, ' + chip.word + '|| user hovered over ' + chip.word + ' in topic ' + scope.topic.id);
         // highlight the word in the documents
         scope.hoveredWord = chip.word;
 
@@ -187,6 +216,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
           scope.selected.status = 'trashed';
           scope.selected = undefined;
         } else {
+          // log
+          TopicService.log(scope.corpus, scope.topicNums, '||' + scope.topic.id + '||STOP_WORD, ERROR|| user clicked to add word to stop words, but no word selected');
           $mdDialog.show(
             $mdDialog.alert()
             .parent(angular.element(document.body))
@@ -299,6 +330,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         }
       };
 
+      scope.hoverRemoveWord = function(chip) {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, REMOVE_WORD, ' + chip.word + '|| user hovered over button to remove word ' + chip.word + ' in topic ' + scope.topic.id);
+      }
+
       scope.removeDocument = function(doc) {
         // only allow removing documents on tutorial step 22
         if (!scope.tutorial.complete) {
@@ -321,6 +356,10 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
         }
 
       };
+
+      scope.hoverRemoveDocument = function(doc) {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, REMOVE_DOC, ' + doc.docid + '|| user hovered over button to remove document ' + doc.docid + ' in topic ' + scope.topic.id);
+      }
 
       scope.moreDocuments = function() {
         console.warn('more documents button hidden in UI');

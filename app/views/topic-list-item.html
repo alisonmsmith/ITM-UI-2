@@ -20,15 +20,16 @@
 	<md-input-container md-no-float ng-focus="true" class="md-block">
     	<input ng-attr-autofocus=true class="topic-name-input" ng-model="topic.name" placeholder="Topic Name">
      </md-input-container>
-		 <md-button ng-click="saveName(topic)" class="md-secondary md-raised">SAVE</md-button>
-		 <md-button ng-click="cancelName(topic)" class="md-secondary md-raised">CANCEL</md-button>
+		 <md-button ng-mouseleave="hoverSaveName(topic)" ng-click="saveName(topic)" class="md-secondary md-raised">SAVE</md-button>
+		 <md-button ng-mouseleave="hoverCancelName(topic)" ng-click="cancelName(topic)" class="md-secondary md-raised">CANCEL</md-button>
 </md-list-item>
 
 <!-- normal topic list item view -->
-<md-list-item ng-if="!renaming" class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge, split:topic.split, deleted:topic.deleted}" ng-click="select(topic)">
+<md-list-item ng-if="!renaming" class="topic-list-item noright" ng-class="{selected:topic.selected, merge:topic.merge, split:topic.split, deleted:topic.deleted}" ng-mouseenter="hoverTopicEnter(topic)"
+ng-mouseleave="hoverTopicExit(topic)" ng-click="select(topic)">
 
 	<p>
-		<md-icon class="topic-icon md-secondary" ng-if="topic.selected && !topic.deleted" aria-label="rename topic" ng-click="rename(topic)" md-font-icon="mdi mdi-pencil">
+		<md-icon class="topic-icon md-secondary" ng-if="topic.selected && !topic.deleted" aria-label="rename topic" ng-click="rename(topic)" ng-mouseleave="hoverRename(topic)" md-font-icon="mdi mdi-pencil">
 			<md-tooltip>rename topic</md-tooltip>
 		</md-icon>
 		<span class="topic-label">{{topic.topic}}</span>:
@@ -38,6 +39,7 @@
 	<md-button ng-if="(topic.selected && !topic.split && !(topic.deleted || topic.created || topic.creating)) || topic.merged" ng-class="{highlight:topic.merged}" class="md-secondary merge-button md-raised"
 		aria-label="merge topic"
 		ng-click="merge(topic)"
+		ng-mouseleave="hoverMerge(topic)"
 		ng-disabled="topic.merged || topic.splitting || topic.merge">
 		<span ng-if="topic.merged">TOPIC MERGED</span>
 		<span ng-if="!topic.merged">MERGE</span>
@@ -49,6 +51,7 @@
 	<!-- show the split button if the topic has been split or if it is selected but not merged or deleted or in create mode -->
 		<md-button ng-if="(topic.selected && !topic.merged && !(topic.deleted || topic.created || topic.creating)) || topic.split" ng-class="{highlight:topic.split}" class=" md-secondary split-button md-raised"
 		ng-click="split(topic)"  aria-label="split-topic"
+		ng-mouseleave="hoverSplit(topic)"
 		ng-disabled="topic.split || topic.merge || topic.splitting">
 		<span ng-if="topic.split">TOPIC SPLIT</span>
 		<span ng-if="!topic.split">SPLIT</span>

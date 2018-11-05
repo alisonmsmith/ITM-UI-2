@@ -24,6 +24,14 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 				scope.$emit("select", topic);
 			};
 
+			scope.hoverTopicEnter = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, TOPIC, ENTER|| user hovered over topic ' + scope.topic.id);
+			}
+
+			scope.hoverTopicExit = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, TOPIC, EXIT|| user hovered off topic ' + scope.topic.id);
+			}
+
 			/**
 			* Method to start merging with the selected topic
 			*/
@@ -34,6 +42,10 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 				}
 			};
 
+			scope.hoverMerge = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, MERGE|| user hovered over button to merge topic ' + scope.topic.id);
+			}
+
 			/**
 			* Method to start splitting the selected topic
 			*/
@@ -43,6 +55,10 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 					scope.$emit("split", topic);
 				}
 			};
+
+			scope.hoverSplit = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, SPLIT|| user hovered over button to split topic ' + scope.topic.id);
+			}
 
 			/**
 			* Method to undo the split topic progress for the given topic
@@ -86,6 +102,10 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 				scope.renaming = true;
 			};
 
+			scope.hoverRename = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, RENAME_TOPIC|| user hovered over button to rename topic ' + scope.topic.id);
+			}
+
 			/**
 			* Method to save the updated name
 			*
@@ -101,6 +121,10 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 				scope.$emit("rename-topic", topic);
 			};
 
+			scope.hoverSaveName = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, SAVE_RENAME, ' + topic.name + '|| user hovered over button to save new name of for topic ' + scope.topic.id);
+			};
+
 			/**
 			* Method to cancel topic renaming
 			*/
@@ -108,6 +132,10 @@ angular.module('itmUiApp').directive('topicListItem', [ 'TopicService', function
 				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||RENAME_TOPIC, CANCEL|| user clicked to cancel renaming for topic ' + scope.topic.id);
 				topic.name = "";
 				scope.renaming = false;
+			};
+
+			scope.hoverCancelName = function(topic) {
+				TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||HOVER, CANCEL_RENAME, ' + topic.name + '|| user hovered over button to cancel saving new name of for topic ' + scope.topic.id);
 			};
 
 		}
