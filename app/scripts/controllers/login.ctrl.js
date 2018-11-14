@@ -10,7 +10,7 @@
 angular.module('itmUiApp')
   .controller('LoginCtrl', function($scope, $state, TopicService) {
     // generate a unique user id
-    $scope.user = TopicService.guid();
+    // $scope.user = TopicService.guid();
 
     $scope.modelTypes = [
       {
