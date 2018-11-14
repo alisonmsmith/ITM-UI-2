@@ -9,8 +9,6 @@
  */
 angular.module('itmUiApp')
   .controller('MainCtrl', function($scope, $state, $http, $interval, TopicService, $mdDialog) {
-
-
     // get the current user
     $scope.user = TopicService.getUser();
     $scope.isDirty = false;
@@ -85,7 +83,8 @@ angular.module('itmUiApp')
       angular.element(document).find('.stop-words').on('drop', dropHandler);
 
       // monitor when the topic list is scrolled (in this case, the user would likely be trying to view more of the documents)
-      angular.element(document.querySelector('.topic-panel')).bind('scroll', function(){
+      angular.element(document.querySelector('.topic-panel')).bind('scroll', function(e){
+        // console.log(e);
         // alert('scrolling is cool!');
       });
 
@@ -124,6 +123,16 @@ angular.module('itmUiApp')
         $scope.loading = true;
         TopicService.loadModel('twitter', $scope.topicNums, $scope.iterationCount, $scope.tutorial.complete).then(function(data) {
           TopicService.log($scope.corpus, $scope.topicNums, '||-1||MODEL, LOAD, ' + $scope.corpus + '|| loaded the model for the task');
+          // get window size
+          var width = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+          var height = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+
+          TopicService.log($scope.corpus, $scope.topicNums, '||-1||SCREEN_SIZE||WIDTH, ' + width + '||HEIGHT, ' + height + '||screen size is ' + width + ' x ' + height);
           processModel(data.data);
 
           // Select to display the first topic in the list

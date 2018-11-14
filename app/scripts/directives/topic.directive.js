@@ -370,6 +370,7 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       };
 
       scope.vocabSearch = function(query) {
+        TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||INPUT, ADD_WORD, ' + query + '|| user typed ' + query + ' in topic word input for topic ' + scope.topic.id);
         var results = query ? scope.vocab.filter(createFilterFor(query)) : [];
         return results;
       };
