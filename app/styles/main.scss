@@ -304,6 +304,11 @@ md-card-title.md-accent {
   color: white;
 }
 
+.task-goal-header {
+  font-weight: 600;
+  font-size: 16pt;
+}
+
 .tutorial-image {
   height:25px;
 //  width:75%;
@@ -537,6 +542,7 @@ md-toolbar.topic-list-header {
     color: $md-primary-hue2;
     border-bottom: solid 1px $md-primary;
     font-size:16pt;
+    padding: 0px 5px;
   }
 }
 

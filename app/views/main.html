@@ -22,6 +22,8 @@
         <md-button ng-if="task.started || task.completed" class="md-raised"
         ng-mouseleave="hoverFinishTask()" ng-click="finishTask()">FINISH TASK</md-button>
         <span flex></span>
+        <span class="task-goal-header" ng-if="task.started">GOAL: blog post about common air travel complaints from 9,000 tweets</span>
+        <span flex></span>
         <md-button class="md-raised"
         ng-if="(tutorial.complete && iterationCount > 0) || (!tutorial.complete && iterationCount > 10)"
         ng-click="undo()"
@@ -80,7 +82,7 @@
         aria-label="topic list">
         <md-toolbar class="md-hue-1 topic-list-header">
           <div class="md-toolbar-tools">
-TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpus}}":
+TOPIC LIST OF {{topics.length}} TOPICS FOR "{{corpusDescriptor}}":
           </div>
         </md-toolbar>
         <md-toolbar ng-if="mode === 'merge'" class="merge-toolbar">

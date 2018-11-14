@@ -68,6 +68,7 @@ angular.module('itmUiApp')
 
       // DEFAULT VALUES FOR CORPORA AND TOPIC NUMBERS
       $scope.corpus = "bbc_news";
+      $scope.corpusDescriptor = $scope.corpus;
       $scope.topicNums = 10;
 
       // METHODS REQUIRED FOR DROPPABLE TRASH CAN
@@ -170,15 +171,32 @@ angular.module('itmUiApp')
       $scope.showTaskHelp = function() {
         $scope.modalShowing = true;
         TopicService.log($scope.corpus, $scope.topicNums, '||-1||VIEW_INSTRUCTIONS|| user clicked to review the task instructions');
-        $mdDialog.show(
-           $mdDialog.alert()
-           .clickOutsideToClose(false)
-           .htmlContent('For your task, assume that you are <b>writing a travel blog post about the common complaints that travelers have when flying</b>. <br/><br/> To help you with your task, the system has gathered 9000 tweets of people complaining about their air travel experience directed at various popular airlines and has generated an <b>initial set of 10 topics to organize these air travel complaint tweets</b>. <br/><br/> Your task is to use the tool to <b>improve these topics, so that you can use them to write a blog post about common air travel complaints with a few example tweets from each</b>. <br/><br/> Remember that you can add words to a topic, remove words from a single topic, remove words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, delete topics, and create new topics. If you are not happy with the model after an update, you can click to "UNDO LAST REFINEMENT" in the middle of the top toolbar. <br/></br/> You should spend about 30 minutes refining these categories. <b>When you are satisfied with the organization of tweets by the types of complaints, press the "FINISH TASK" button on the left of the top toolbar.</b><br/><br/>You can revisit these instructions at any time by clicking the ? in the top left of the toolbar.')
-           .ariaLabel('Task Help Dialog')
-           .ok('OK')
-         ).then(function() {
-           $scope.modalShowing = false;
-         });
+        // pop up message with instructions
+       $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(false)
+          .htmlContent('Imagine you have been asked to <b>write a travel blog post about the common complaints that travelers have when flying</b>.')
+          .ariaLabel('Task Start Dialog')
+          .ok('NEXT')
+        ).then(function() {
+          $mdDialog.show(
+             $mdDialog.alert()
+             .clickOutsideToClose(false)
+             .htmlContent('To help you with this task, the system has gathered 9000 tweets of people complaining about their air travel experience directed at various popular airlines and has generated an <b>initial set of 10 topics to organize these air travel complaint tweets</b>. <br/><br/> You should use the tool to <b>improve these topics, so that you can write a blog post about common air travel complaints with a few example tweets from each</b>. You do not need to write the actual blog post as part of this task.')
+             .ariaLabel('Task Start Dialog')
+             .ok('NEXT')
+           ).then(function() {
+             $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(false)
+                .htmlContent('Remember that you can add words to a topic, remove words from a single topic, remove words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, delete topics, and create new topics. If you are not happy with the model after an update, you can click to "UNDO LAST REFINEMENT" in the middle of the top toolbar. <br/></br/> You should spend about 30 minutes refining these categories. <b>When you are satisfied with the organization of tweets by the types of complaints, press the "FINISH TASK" button on the left of top toolbar.</b><br/><br/>You can revisit these instructions at any time by clicking the ? in the top left of the toolbar.')
+                .ariaLabel('Task Start Dialog')
+                .ok('RESUME TASK')
+              ).then(function() {
+                $scope.modalShowing = false;
+              });
+           });
+        });
       }
 
       /**
@@ -199,23 +217,37 @@ angular.module('itmUiApp')
           $scope.iterationCount = 0;
           // load ITM with the task url, but do not yet start the timer
           $scope.corpus = "twitter";
+          $scope.corpusDescriptor = "travel tweets";
           $scope.topicNums = 10;
           loadModel();
           // pop up message with instructions
          $mdDialog.show(
             $mdDialog.alert()
             .clickOutsideToClose(false)
-            /*.htmlContent('For your task, assume that you are <b>writing a travel blog post about the common complaints that travelers have when flying</b>. <br/><br/> To help you with your task, the system has gathered 9000 tweets of people complaining about their air travel experience directed at various popular airlines and has generated an <b>initial set of 10 topics to organize these air travel complaint tweets</b>. <br/><br/> Your task is to use the tool to <b>improve these topics, so that you can use them to write a blog post about common air travel complaints with a few example tweets from each</b>. You should improve the topics using the refinements explained in the study. <br/><br/> To start we would like you to answer a few questions related to this initial set of topics. <b>Please spend a minute or so reviewing these initial topics and then click "START QUESTIONNAIRE" in the left panel.</b>')
-            .ariaLabel('Questionnaire Start Dialog') */
-            .htmlContent('For your task, assume that you are <b>writing a travel blog post about the common complaints that travelers have when flying</b>. <br/><br/> To help you with your task, the system has gathered 9000 tweets of people complaining about their air travel experience directed at various popular airlines and has generated an <b>initial set of 10 topics to organize these air travel complaint tweets</b>. <br/><br/> Your task is to use the tool to <b>improve these topics, so that you can use them to write a blog post about common air travel complaints with a few example tweets from each</b>. <br/><br/> Remember that you can add words to a topic, remove words from a single topic, remove words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, delete topics, and create new topics. If you are not happy with the model after an update, you can click to "UNDO LAST REFINEMENT" in the middle of the top toolbar. <br/></br/> You should spend about 30 minutes refining these categories. <b>When you are satisfied with the organization of tweets by the types of complaints, press the "FINISH TASK" button on the left of top toolbar.</b><br/><br/>You can revisit these instructions at any time by clicking the ? in the top left of the toolbar.')
+            .htmlContent('Imagine you have been asked to <b>write a travel blog post about the common complaints that travelers have when flying</b>.')
             .ariaLabel('Task Start Dialog')
-            .ok('OK')
+            .ok('NEXT')
           ).then(function() {
-            $scope.modalShowing = false;
-            // now the user can look around at the model and answer the questions but we don't want them to be able to make any changes
-            $scope.questionnaire.complete = true;
-            $scope.task.started = true;
-            //reloadModel();
+            $mdDialog.show(
+               $mdDialog.alert()
+               .clickOutsideToClose(false)
+               .htmlContent('To help you with this task, the system has gathered 9000 tweets of people complaining about their air travel experience directed at various popular airlines and has generated an <b>initial set of 10 topics to organize these air travel complaint tweets</b>. <br/><br/> You should use the tool to <b>improve these topics, so that you can write a blog post about common air travel complaints with a few example tweets from each</b>. You do not need to write the actual blog post as part of this task.')
+               .ariaLabel('Task Start Dialog')
+               .ok('NEXT')
+             ).then(function() {
+               $mdDialog.show(
+                  $mdDialog.alert()
+                  .clickOutsideToClose(false)
+                  .htmlContent('Remember that you can add words to a topic, remove words from a single topic, remove words from all topics, change word order in a topic, remove documents from a topic, merge topics, split topics, delete topics, and create new topics. If you are not happy with the model after an update, you can click to "UNDO LAST REFINEMENT" in the middle of the top toolbar. <br/></br/> You should spend about 30 minutes refining these categories. <b>When you are satisfied with the organization of tweets by the types of complaints, press the "FINISH TASK" button on the left of top toolbar.</b><br/><br/>You can revisit these instructions at any time by clicking the ? in the top left of the toolbar.')
+                  .ariaLabel('Task Start Dialog')
+                  .ok('START TASK')
+                ).then(function() {
+                  $scope.modalShowing = false;
+                  // now the user can look around at the model and answer the questions but we don't want them to be able to make any changes
+                  $scope.questionnaire.complete = true;
+                  $scope.task.started = true;
+                });
+             });
           });
         });
       };
@@ -251,12 +283,12 @@ angular.module('itmUiApp')
         // user id and pre-task model quality answers
         //?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
         // only allow the user to click this button after it has been 15 minutes
-        if ($scope.taskTime < 900000) {
-        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, INVALID|| user clicked to complete the task with more than 15 minutes remaining.');
+        if ($scope.taskTime < 12000000) {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, INVALID, ' + $scope.taskTime + '|| user clicked to complete the task before 20 minutes.');
           $mdDialog.show(
             $mdDialog.alert()
               .clickOutsideToClose(false)
-              .textContent('Please spend at least 15 minutes refining the topics to better organize the tweets into common air travel complaints.')
+              .textContent('Please spend at least 20 minutes refining the topics to better organize the tweets into common air travel complaints.')
               .ariaLabel('keep working alert')
               .ok('OK')
           ).then(function() {
