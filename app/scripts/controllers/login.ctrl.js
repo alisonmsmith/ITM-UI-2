@@ -15,20 +15,22 @@ angular.module('itmUiApp')
     $scope.modelTypes = [
       {
         value: 0,
-        modelName: 'Variational Bayes ITM'
+        modelName: 'Asymmetric/Informed Prior ITM'
+      //  modelName: 'Variational Bayes ITM'
       },
       {
         value: 1,
-        modelName: 'Asymmetric/Informed Prior ITM'
+        modelName: 'Constrained ITM'
+      //  modelName: 'Asymmetric/Informed Prior ITM'
       },
       {
         value: 2,
-        modelName: 'Constrained ITM'
+      //  modelName: 'Constrained ITM'
       }
     ];
 
     // default the model type to a random model of the three options
-    $scope.modelType = Math.floor(Math.random() * 3);
+    $scope.modelType = Math.floor(Math.random() * 2);
 
     /*
     * When the user clicks accept, we set the user and go to the topics view.
