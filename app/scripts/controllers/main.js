@@ -306,7 +306,7 @@ angular.module('itmUiApp')
                 $mdDialog.show(
                   $mdDialog.alert()
                   .clickOutsideToClose(false)
-                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/><span class="google-url"> ' + url + '</span>')
+                  .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. Please leave this browser window open as you may wish to review your topics when answering the questions. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire in a new window</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/><span class="google-url"> ' + url + '</span>')
                   .ok('OK')
                   .ariaLabel('Task finish Dialog')
                 ).then(function() {
