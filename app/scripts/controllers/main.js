@@ -1110,7 +1110,7 @@ angular.module('itmUiApp')
           return;
         }
 
-        TopicService.log($scope.corpus, $scope.topicNums, '||' + pair_names + '||MERGE_TOPICS, COMPLETE]: user clicked to accept the merge operation for ' + topics.length + ' topics');
+        TopicService.log($scope.corpus, $scope.topicNums, '||' + pair_names + '||MERGE_TOPICS, COMPLETE|| user clicked to accept the merge operation for ' + topics.length + ' topics');
         $scope.mode = undefined;
 
         // only allowing merge to happen on step 25 between topic 2 and topic 8
