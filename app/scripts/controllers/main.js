@@ -246,6 +246,7 @@ angular.module('itmUiApp')
                   // now the user can look around at the model and answer the questions but we don't want them to be able to make any changes
                   $scope.questionnaire.complete = true;
                   $scope.task.started = true;
+                  TopicService.log('twitter', $scope.topicNums, '||-1||TASK, START|| user started the task');
                 });
              });
           });
