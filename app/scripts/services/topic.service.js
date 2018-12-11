@@ -47,6 +47,18 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 		modelType = t;
 	}
 
+	this.getModelType = function() {
+		//itm-backend/rest/assignmodel?corpus=twitter&topicNums=10
+		return $http({
+			method: 'GET',
+			url: backend_head + '/itm-backend/rest/assignmodel',
+			params: {
+				corpus: 'twitter',
+				topicNums: 10
+			}
+		});
+	}
+
 	this.getNumDocuments = function() {
 		return docNums;
 	}

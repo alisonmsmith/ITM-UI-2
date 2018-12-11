@@ -92,7 +92,10 @@ angular.module('itmUiApp')
 
       // TRACK THE TASK TIME
       $scope.$on('timer-tick', function (event, data) {
-        $scope.taskTime = data.millis;
+        // only use the task time from the counter set with max-time-unit as minute
+        if (event.targetScope.maxTimeUnit === 'minute') {
+          $scope.taskTime = data.millis;
+        }
       });
 
       // Get all corpora
@@ -253,7 +256,7 @@ angular.module('itmUiApp')
         });
       };
 
-      $scope.startTask = function() {
+  /*    $scope.startTask = function() {
         // pop up message with instructions
         $mdDialog.show(
           $mdDialog.alert()
@@ -272,24 +275,54 @@ angular.module('itmUiApp')
           //loadModel();
         });
 
-      };
+      }; */
+
+      $scope.timeWarning = function () {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, WARNING, ' + $scope.taskTime + '|| user alerted at 40 minute warning.');
+          $mdDialog.show(
+            $mdDialog.alert()
+              .clickOutsideToClose(false)
+              .textContent('You have been working on refining the topic organization for 40 minutes, please wrap up your refinements in the next 5 minutes and click the "FINISH TASK" button on the left of the top toolbar.')
+              .ariaLabel('time warning alert')
+              .ok('OK')
+          ).then(function() {
+            // continue task
+            $scope.task.warning = true;
+          });
+      }
+
+      $scope.timeUp = function() {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, LIMIT, ' + $scope.taskTime + '|| user hit upper limit of 45 minutes; forcing end of task.');
+
+        var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform";
+
+        // hide the timer
+        $scope.task.started = false;
+        $scope.task.completed = true;
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(false)
+          .htmlContent('Thank you for changing the topics to better organize the tweets. To finish up, we would like you to answer a few questions related to the final topics that you have generated. Please leave this browser window open as you may wish to review your topics when answering the questions. <b><a target="_blank" href="' + url + '">Click here to open the final questionnaire in a new window</a></b>. <br/><br/> <b>Note: you may have to enable popups in your browser for the questionnaire to open.</b> <br/><br/> If the link above does not work, please copy and paste the following URL into a new browser window: <br/><span class="google-url"> ' + url + '</span>')
+          .ok('OK')
+          .ariaLabel('Task finish Dialog')
+        ).then(function() {
+        });
+      }
 
       $scope.hoverFinishTask = function () {
-        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, COMPLETE TASK|| user hovered over button to complete the task.');
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||HOVER, COMPLETE TASK, ' + $scope.taskTime + '|| user hovered over button to complete the task.');
       }
 
       $scope.finishTask = function() {
         var url = "https://docs.google.com/forms/d/e/1FAIpQLSeP7mF6oNDMYIEkBAepFqlfYcPcmDC1oLtwxEF1fn0xOiHmgw/viewform";
 
-        // user id and pre-task model quality answers
-        //?usp=pp_url&entry.1909515008=" + $scope.user + "&entry.822203201=" + $scope.questionnaire.answers[1] + "&entry.298976279&entry.1930377152";
-        // only allow the user to click this button after it has been 15 minutes
-        if ($scope.taskTime < 1200000) {
-        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, INVALID, ' + $scope.taskTime + '|| user clicked to complete the task before 20 minutes.');
+        // only allow the user to click this button after it has been 25 minutes
+        if ($scope.taskTime < 1500000) {
+        TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, INVALID, ' + $scope.taskTime + '|| user clicked to complete the task before 25 minute lower limit.');
           $mdDialog.show(
             $mdDialog.alert()
               .clickOutsideToClose(false)
-              .textContent('Please spend at least 20 minutes refining the topics to better organize the tweets into common air travel complaints.')
+              .textContent('Please spend at least 25 minutes refining the topics to better organize the tweets into common air travel complaints.')
               .ariaLabel('keep working alert')
               .ok('OK')
           ).then(function() {
@@ -303,7 +336,9 @@ angular.module('itmUiApp')
               .ok('OK')
               .cancel('cancel')
               ).then(function() {
-                TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, CONFIRMED|| user confirmed they would like to finish the task.');
+                TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, CONFIRMED, ' + $scope.taskTime + '|| user confirmed they would like to finish the task.');
+                $scope.task.started = false;
+                $scope.task.completed = true;
                 $mdDialog.show(
                   $mdDialog.alert()
                   .clickOutsideToClose(false)
@@ -313,12 +348,10 @@ angular.module('itmUiApp')
                 ).then(function() {
                 //  window.open(url, '_blank');
               //    console.log('user has completed the task and continued to the post-task questionnaire');
-                  $scope.task.started = false;
-                  $scope.task.completed = true;
                 });
             }, function() {
               // cancel
-              TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, CANCELLED|| user decided to continue working on the task.');
+              TopicService.log($scope.corpus, $scope.topicNums, '||-1||COMPLETE TASK, CANCELLED, ' + $scope.taskTime + '|| user decided to continue working on the task.');
             });
         }
 

@@ -9,16 +9,22 @@
           <span class="show-instructions">?</span>
           <md-tooltip>show task instructions</md-tooltip>
         </md-button>
-        <!--<timer countdown="1200" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>-->
-        <!--<timer ng-if="task.started" countdown="1800" max-time-unit="'minute'" interval="1000">-->
+
+          <!-- timer counting up to display elapsed task time to user -->
           <timer ng-if="task.started" max-time-unit="'minute'" interval="1000">
           <md-tooltip>elapsed time for task</md-tooltip>
           {{mminutes}}:{{sseconds}}</timer>
+          <!-- hidden countdown from 40 minutes (2400 seconds) until the user is warned that they only have 5 minutes left -->
+          <timer ng-if="task.started" max-time-unit="hour" finish-callback="timeWarning()" countdown="2400" interval="1000" ng-show="false">{{mminutes}}:{{sseconds}}</timer>
+          <!-- if the user hits the warning, give them 5 more minutes (300 seconds) to finish the task before forcing them on to the survey -->
+          <timer ng-if="task.warning" max-time-unit="hour" finish-callback="timeUp()" countdown="300" interval="1000" ng-show="false">{{mminutes}}:{{sseconds}}</timer>
+
         <!--<md-button aria-label="configure model" class="md-icon-button" ng-click="configureModel()">
           <md-tooltip>configure model</md-tooltip>
           <md-icon class="configure-icon" md-font-icon="mdi mdi-settings"></md-icon>
         </md-button> -->
       <!--  <md-button ng-if="tutorial.complete && !task.started" class="md-raised" ng-click="startTask()">START TASK</md-button> -->
+
         <md-button ng-if="task.started || task.completed" class="md-raised"
         ng-mouseleave="hoverFinishTask()" ng-click="finishTask()">FINISH TASK</md-button>
         <span flex></span>

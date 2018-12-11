@@ -25,12 +25,19 @@ angular.module('itmUiApp')
       },
       {
         value: 2,
+        modelName: 'Variational Bayes'
       //  modelName: 'Constrained ITM'
       }
     ];
 
     // default the model type to a random model of the three options
-    $scope.modelType = Math.floor(Math.random() * 2);
+    //$scope.modelType = Math.floor(Math.random() * 2);
+    TopicService.getModelType().then(function(data) {
+      $scope.modelType = data.data['model id'];
+    }, function(error) {
+      console.error('error retrieving model type');
+      $scope.modelType = Math.floor(Math.random() * 2);
+    });
 
     /*
     * When the user clicks accept, we set the user and go to the topics view.
