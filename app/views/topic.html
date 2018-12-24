@@ -54,7 +54,7 @@
 				md-require-match="true"
 			 	md-on-select="selectWord($chip)"
 				md-on-add="addWord($chip)"
-				md-on-remove="removeWord($chip, $index)"
+				md-on-remove="removeWord($chip, $index, $event)"
 				md-transform-chip="transform($chip)"
 				readonly="topic.splitting || topic.split">
 				<md-autocomplete id="topicA_ac"

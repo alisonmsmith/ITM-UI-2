@@ -13,7 +13,8 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       vocab: '=',
       corpus: '=',
       nums: '=',
-      tutorial: '='
+      tutorial: '=',
+      loading: '='
     },
     templateUrl: 'views/topic.html',
     link: function(scope, element, attrs) {
@@ -291,7 +292,12 @@ angular.module('itmUiApp').directive('topic', ['$sce', '$mdDialog', 'TopicServic
       });
 
 
-      scope.removeWord = function(chip, index) {
+      scope.removeWord = function(chip, index, e) {
+        // TODO: for some reason $event not being passed in, but should be able to use that to check if delete key was used to remove word
+        if (scope.loading) {
+          // don't allow user to remove word if loading (this could happen if delete key is pressed repeatedly)
+          return;
+        }
         // if we're in split topic mode, don't let the user remove any words
         if (scope.topic.splitting) {
           TopicService.log(scope.corpus, scope.nums, '||' + scope.topic.id + '||REMOVE_WORD, PREVENTED, ' + chip.word + '|| user prevented from removing the word ' + chip.word + ' while they were splitting topic ' + scope.topic.id);

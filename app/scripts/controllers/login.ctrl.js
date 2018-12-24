@@ -39,6 +39,10 @@ angular.module('itmUiApp')
       $scope.modelType = Math.floor(Math.random() * 2);
     });
 
+    // FOR DEBUGGING 12/24
+  //  $scope.modelType = 0;
+
+
     /*
     * When the user clicks accept, we set the user and go to the topics view.
     */

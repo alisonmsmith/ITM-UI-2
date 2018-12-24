@@ -538,7 +538,7 @@ angular.module('itmUiApp')
         }, function() {
           // error saving model
           alert('error saving model - reverting to model prior to save');
-          TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, ERROR|| error saving model');
+          TopicService.log($scope.corpus, $scope.topicNums, '||-1||SAVE, ERROR, ' + $scope.iterationCount + '|| error saving model ' + $scope.iterationCount);
           // decrement the iteration count
           $scope.iterationCount -= 1;
           reloadModel();
