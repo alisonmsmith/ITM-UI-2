@@ -19,7 +19,8 @@ angular.module('itmUiApp').service('TopicService', function($http) {
 	// var backend_head = "http://localhost:8080";
 	// var backend_head = "http://35.237.234.44:8080";
 	//var backend_head = "http://35.227.116.227:5000";
-	var backend_head = "http://35.243.142.134:5000";
+	// var backend_head = "http://35.243.142.134:5000";
+	var backend_head = "http://35.231.186.36:8080";
 
 	// FOR DEBUGGING 12/24
 //	var backend_head = "http://35.243.230.203:5000";

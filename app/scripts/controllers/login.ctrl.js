@@ -32,12 +32,14 @@ angular.module('itmUiApp')
 
     // default the model type to a random model of the three options
     //$scope.modelType = Math.floor(Math.random() * 2);
-    TopicService.getModelType().then(function(data) {
+/*    TopicService.getModelType().then(function(data) {
       $scope.modelType = data.data['model id'];
     }, function(error) {
       console.error('error retrieving model type');
       $scope.modelType = Math.floor(Math.random() * 2);
-    });
+    }); */
+
+    $scope.modelType = 0;
 
     // FOR DEBUGGING 12/24
   //  $scope.modelType = 0;
